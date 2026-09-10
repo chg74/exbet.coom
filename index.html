@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EXBET</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;background:#070a10;color:#fff;
+font-family:Tahoma,Arial,sans-serif
+}
+button,input{font-family:inherit}
+.hidden{display:none!important}
+
+header{
+height:65px;background:#111722;border-bottom:1px solid #293241;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 15px;position:sticky;top:0;z-index:10
+}
+.logo{color:#ff8a00;font-size:27px;font-weight:900}
+.demo{
+background:#ff8a00;color:#111;padding:5px 10px;
+border-radius:20px;font-size:11px;font-weight:bold
+}
+.balance{
+background:#1b222d;border:1px solid #343d4b;
+padding:9px 12px;border-radius:8px;font-size:12px
+}
+.balance b{color:#ff9b22}
+
+.container{width:min(1050px,94%);margin:18px auto}
+
+.auth{
+width:min(420px,92%);margin:70px auto;background:#111722;
+border:1px solid #293241;border-radius:15px;padding:25px
+}
+.auth h1{color:#ff8a00;text-align:center;margin:0 0 5px}
+.sub{text-align:center;color:#9da6b5;font-size:12px;margin-bottom:20px}
+
+input{
+width:100%;padding:13px;margin-bottom:11px;background:#080c12;
+border:1px solid #303947;color:white;border-radius:8px;outline:0
+}
+.main{
+width:100%;border:0;padding:13px;background:#ff8a00;color:#111;
+font-weight:bold;border-radius:8px;cursor:pointer
+}
+.main:disabled{opacity:.6;cursor:not-allowed}
+
+.switch{
+color:#ff9b22;text-align:center;margin-top:15px;
+font-size:13px;cursor:pointer
+}
+
+.card{
+background:#111722;border:1px solid #293241;
+border-radius:14px;overflow:hidden;margin-bottom:15px
+}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.action{
+padding:13px;border:0;background:#1c2430;color:#fff;
+font-weight:bold;border-radius:8px;cursor:pointer
+}
+.action:first-child{background:#ff8a00;color:#111}
+
+.game-head{
+padding:14px;display:flex;justify-content:space-between;
+border-bottom:1px solid #293241
+}
+.orange{color:#ff8a00}
+
+.arena{
+height:330px;position:relative;overflow:hidden;
+background:radial-gradient(circle at 50% 90%,#2b2020,#10151f 48%,#070a10)
+}
+.grid{
+position:absolute;inset:0;opacity:.16;
+background-image:linear-gradient(#aaa 1px,transparent 1px),
+linear-gradient(90deg,#aaa 1px,transparent 1px);
+background-size:45px 45px;
+transform:perspective(400px) rotateX(55deg) scale(1.5);
+transform-origin:bottom
+}
+.mult{
+position:absolute;left:50%;top:48%;
+transform:translate(-50%,-50%);
+font-size:57px;font-weight:900;
+text-shadow:0 0 25px #ff8a00
+}
+.status{
+position:absolute;left:50%;top:17px;transform:translateX(-50%);
+background:#171e29;padding:8px 17px;border-radius:20px;
+color:#aab3c1;font-size:13px;white-space:nowrap;z-index:3
+}
+.countdown{
+position:absolute;left:50%;top:48%;
+transform:translate(-50%,-50%);
+font-size:70px;font-weight:900;color:#ff8a00;
+text-shadow:0 0 25px #ff8a00;z-index:4
+}
+.plane{
+position:absolute;left:8%;bottom:25px;font-size:45px;
+filter:drop-shadow(0 0 12px #ff8a00);display:none;z-index:5
+}
+.controls{
+padding:14px;display:grid;grid-template-columns:1fr 150px;gap:10px
+}
+.start,.cashout{
+border:0;border-radius:8px;font-weight:bold;cursor:pointer
+}
+.start{background:#ff8a00}
+.cashout{display:none;background:#19bd69;color:#fff}
+.players h3{
+margin:0;padding:14px;border-bottom:1px solid #293241
+}
+.player{
+padding:11px 14px;border-bottom:1px solid #202733;
+display:flex;justify-content:space-between;font-size:12px
+}
+.win{color:#21c978}.loss{color:#ff4e59}
+.playing{color:#ffb52e}.waiting{color:#8994a4}
+
+.modal-bg{
+display:none;position:fixed;inset:0;background:#000c;
+align-items:center;justify-content:center;padding:20px;z-index:30
+}
+.modal{
+width:min(430px,100%);background:#111722;
+border:1px solid #343d4b;border-radius:14px;padding:20px;
+max-height:90vh;overflow:auto
+}
+.modal h2{color:#ff8a00;margin-top:0}
+.close{
+float:left;background:none;border:0;color:#aaa;font-size:22px;cursor:pointer
+}
+.methods{
+display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0
+}
+.method{
+padding:10px 3px;background:#202733;border:1px solid #394252;
+color:#fff;border-radius:7px;font-size:11px;cursor:pointer
+}
+.method.active{border-color:#ff8a00;color:#ff9b22}
+.info{
+background:#090d13;padding:12px;border-radius:8px;color:#9fa8b6;
+font-size:12px;margin-bottom:12px;line-height:1.8
+}
+.info b{color:#ff9b22}
+
+.file-box{
+background:#090d13;border:1px dashed #394252;
+border-radius:8px;padding:12px;margin-bottom:11px;
+font-size:12px;color:#9fa8b6
+}
+.file-box input{
+padding:0;margin:8px 0 0;border:0;background:transparent
+}
+.preview{
+display:none;width:100%;max-height:180px;object-fit:contain;
+border-radius:8px;margin-top:8px;border:1px solid #343d4b
+}
+
+.toast{
+display:none;position:fixed;bottom:20px;left:50%;
+transform:translateX(-50%);background:#202733;
+border:1px solid #3a4453;padding:12px 18px;
+border-radius:9px;z-index:50;font-size:12px;
+max-width:90%;text-align:center
+}
+.loading{opacity:.6;pointer-events:none}
+
+@media(max-width:600px){
+.controls{grid-template-columns:1fr}
+.arena{height:280px}
+.mult{font-size:46px}
+.countdown{font-size:60px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="login" class="auth">
+<h1>EXBET</h1>
+<div class="sub">تسجيل الدخول — </div>
+
+<input id="loginId" placeholder="ID" autocomplete="username">
+<input id="loginPass" type="password" placeholder="كلمة المرور">
+
+<button id="loginBtn" class="main" onclick="login()">
+تسجيل الدخول
+</button>
+
+<div class="switch" onclick="showRegister()">إنشاء حساب جديد</div>
+</div>
+
+<div id="register" class="auth hidden">
+<h1>EXBET</h1>
+<div class="sub">إنشاء حساب جديد</div>
+
+<input id="newId" placeholder="ID">
+<input id="newPass" type="password" placeholder="كلمة المرور">
+<input id="newPass2" type="password" placeholder="تأكيد كلمة المرور">
+
+<button id="registerBtn" class="main" onclick="createAccount()">
+إنشاء الحساب
+</button>
+
+<div class="switch" onclick="showLogin()">تسجيل الدخول</div>
+</div>
+
+<div id="app" class="hidden">
+
+<header>
+<div class="logo">EXBET</div>
+<div class="demo">2026</div>
+
+<div class="balance">
+الرصيد:
+<b><span id="balance">0.00</span> ج</b>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<div class="actions">
+<button class="action" onclick="openDeposit()">إيداع</button>
+<button class="action" onclick="openWithdraw()">سحب</button>
+</div>
+</div>
+
+<div class="card">
+
+<div class="game-head">
+<b>✈️ <span class="orange">CRASH</span></b>
+<small>ID: <span id="userShow"></span></small>
+</div>
+
+<div class="arena">
+
+<div class="grid"></div>
+
+<div id="status" class="status">
+الجولة القادمة
+</div>
+
+<div id="countdown" class="countdown">6</div>
+
+<div id="mult" class="mult">1.00x</div>
+
+<div id="plane" class="plane">✈️</div>
+
+</div>
+
+<div class="controls">
+
+<input
+id="bet"
+type="number"
+min="1"
+step="1"
+placeholder="قيمة الرهان"
+>
+
+<button id="start" class="start" onclick="joinRound()">
+دخول الجولة
+</button>
+
+<button id="cashout" class="cashout" onclick="cashOut()">
+سحب الآن
+</button>
+
+</div>
+</div>
+
+<div class="card players">
+
+<h3>اللاعبون في الجولة</h3>
+
+<div id="players"></div>
+
+</div>
+
+</div>
+</div>
+
+<div id="depositModal" class="modal-bg">
+
+<div class="modal">
+
+<button class="close" onclick="closeModal('depositModal')">×</button>
+
+<h2>إيداع اموال</h2>
+
+<div class="info">
+
+قم بتحويل الأموال في غضون 10 دقيقة قبل إنشاء طلب باستخدام تفاصيل الدفع المقدمة أدناه.
+
+<br>
+
+الرجاء التحويل على هذا الرقم من محفظة
+
+<br>
+
+<b id="depositNumber">جاري التحميل...</b>
+
+</div>
+
+<div class="methods">
+
+<button class="method" onclick="chooseMethod(this)">Orange Cash</button>
+<button class="method" onclick="chooseMethod(this)">Vodafone Cash</button>
+<button class="method" onclick="chooseMethod(this)">Etisalat Cash</button>
+
+</div>
+
+<input id="depositAmount" type="number" min="1" placeholder="المبلغ (الحد اﻷدنى 150 EGP">
+
+<input
+id="fromNumber"
+type="tel"
+inputmode="numeric"
+maxlength="11"
+placeholder="رقم هاتفك الذي تم منه التحويل"
+>
+
+<div class="file-box">
+
+من فضلك قم بتحميل لقطة شاشة للرسالة النصية :
+
+<input
+id="depositImage"
+type="file"
+accept="image/*"
+onchange="previewDepositImage(event)"
+>
+
+<img id="depositPreview" class="preview">
+
+</div>
+
+<button id="depositBtn" class="main" onclick="sendDeposit()">
+إرسال طلب الإيداع
+</button>
+
+</div>
+</div>
+
+<div id="withdrawModal" class="modal-bg">
+
+<div class="modal">
+
+<button class="close" onclick="closeModal('withdrawModal')">×</button>
+
+<h2>سحب اموال</h2>
+
+<div class="info">
+
+الرصيد:
+
+<b><span id="withdrawBalance">0.00</span> ج</b>
+
+<br><br>
+
+الحد الادنى للسحب:
+
+<b>200 ج</b>
+
+</div>
+
+<input id="withdrawAmount" type="number" min="200" placeholder="المبلغ">
+
+<input
+id="withdrawNumber"
+type="tel"
+inputmode="numeric"
+maxlength="11"
+placeholder="رقم الهاتف"
+>
+
+<button id="withdrawBtn" class="main" onclick="sendWithdraw()">
+إرسال طلب السحب
+</button>
+
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+update,
+push,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAUc2C9hG9VE7RECiW19QXjNZqVH96sFE",
+
+authDomain:"zezo-59a8d.firebaseapp.com",
+
+databaseURL:"https://zezo-59a8d-default-rtdb.firebaseio.com",
+
+projectId:"zezo-59a8d",
+
+storageBucket:"zezo-59a8d.firebasestorage.app",
+
+messagingSenderId:"49183098248",
+
+appId:"1:49183098248:web:37e3fb16744042a1bb263d",
+
+measurementId:"G-Q6TLZ6GJTV"
+
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
+let user=null;
+let balance=0;
+
+let roundState="countdown";
+
+let roundTimer=null;
+let countdownTimer=null;
+
+let playing=false;
+let userBet=0;
+
+let multiplier=1;
+let crashPoint=0;
+
+let currentRoundId="";
+
+let balanceListenerStarted=false;
+
+let depositNumberValue="";
+
+const botNames=[
+"Ahmed","Mido","Kimo","Zeko","Player77",
+"Hassan","Jako","Gamer22","Mohamed","VIP_Player"
+];
+
+let botPlayers=[];
+
+function toast(text){
+
+const t=document.getElementById("toast");
+
+t.textContent=text;
+t.style.display="block";
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+t.style.display="none";
+},3000);
+
+}
+
+function setButtonLoading(id,loading){
+
+const btn=document.getElementById(id);
+
+if(!btn)return;
+
+btn.classList.toggle("loading",loading);
+btn.disabled=loading;
+
+}
+
+function cleanId(id){
+return id.trim().replace(/\s+/g,"");
+}
+
+function validId(id){
+return /^[A-Za-z0-9_-]{3,30}$/.test(id);
+}
+
+function showRegister(){
+
+document.getElementById("login").classList.add("hidden");
+document.getElementById("register").classList.remove("hidden");
+
+}
+
+function showLogin(){
+
+document.getElementById("register").classList.add("hidden");
+document.getElementById("login").classList.remove("hidden");
+
+}
+
+async function createAccount(){
+
+if(document.getElementById("registerBtn").disabled)return;
+
+const id=cleanId(document.getElementById("newId").value);
+
+const p=document.getElementById("newPass").value;
+const p2=document.getElementById("newPass2").value;
+
+if(!id||!p||!p2){
+toast("اكتب ID وكلمة المرور وتأكيد كلمة المرور");
+return;
+}
+
+if(!validId(id)){
+toast("الـ ID يجب أن يكون 3 إلى 30 حرفًا أو رقمًا");
+return;
+}
+
+if(p.length<4){
+toast("كلمة المرور يجب أن تكون 4 أحرف على الأقل");
+return;
+}
+
+if(p!==p2){
+toast("كلمتا المرور غير متطابقتين");
+return;
+}
+
+setButtonLoading("registerBtn",true);
+
+try{
+
+const userRef=ref(db,"users/"+id);
+
+const snap=await get(userRef);
+
+if(snap.exists()){
+
+toast("الـ ID موجود بالفعل");
+setButtonLoading("registerBtn",false);
+return;
+
+}
+
+const now=Date.now();
+
+await set(userRef,{
+
+password:p,
+balance:0,
+createdAt:now,
+updatedAt:now
+
+});
+
+document.getElementById("loginId").value=id;
+document.getElementById("loginPass").value=p;
+
+document.getElementById("newId").value="";
+document.getElementById("newPass").value="";
+document.getElementById("newPass2").value="";
+
+toast("تم إنشاء الحساب بنجاح ✅");
+
+setTimeout(()=>{
+
+showLogin();
+setButtonLoading("registerBtn",false);
+
+},700);
+
+}catch(error){
+
+console.error(error);
+
+toast(
+error.code==="PERMISSION_DENIED"
+?"Firebase رفض العملية. راجع Rules"
+:"فشل إنشاء الحساب"
+);
+
+setButtonLoading("registerBtn",false);
+
+}
+
+}
+
+async function login(){
+
+if(document.getElementById("loginBtn").disabled)return;
+
+const id=cleanId(document.getElementById("loginId").value);
+
+const pass=document.getElementById("loginPass").value;
+
+if(!id||!pass){
+toast("اكتب ID وكلمة المرور");
+return;
+}
+
+setButtonLoading("loginBtn",true);
+
+try{
+
+const snap=await get(ref(db,"users/"+id));
+
+if(!snap.exists()){
+
+toast("الحساب غير موجود");
+setButtonLoading("loginBtn",false);
+return;
+
+}
+
+const data=snap.val()||{};
+
+if(String(data.password||"")!==String(pass)){
+
+toast("كلمة المرور غير صحيحة");
+setButtonLoading("loginBtn",false);
+return;
+
+}
+
+user=id;
+balance=Number(data.balance||0);
+
+document.getElementById("login").classList.add("hidden");
+document.getElementById("register").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+
+document.getElementById("userShow").textContent=user;
+
+updateScreenBalance(false);
+
+if(!balanceListenerStarted){
+
+balanceListenerStarted=true;
+
+onValue(
+ref(db,"users/"+user+"/balance"),
+snap=>{
+
+if(snap.exists()){
+
+balance=Number(snap.val()||0);
+
+updateScreenBalance(false);
+
+}
+
+});
+
+}
+
+toast("تم تسجيل الدخول ✅");
+
+setButtonLoading("loginBtn",false);
+
+}catch(error){
+
+console.error(error);
+
+toast(
+error.code==="PERMISSION_DENIED"
+?"Firebase رفض قراءة الحساب"
+:"خطأ Firebase"
+);
+
+setButtonLoading("loginBtn",false);
+
+}
+
+}
+
+function updateScreenBalance(save=false){
+
+const b=document.getElementById("balance");
+const wb=document.getElementById("withdrawBalance");
+
+if(b)
+b.textContent=Number(balance||0).toFixed(2);
+
+if(wb)
+wb.textContent=Number(balance||0).toFixed(2);
+
+if(save&&user){
+
+update(
+ref(db,"users/"+user),
+{
+balance:Number(balance),
+updatedAt:Date.now()
+}
+).catch(console.error);
+
+}
+
+}
+
+onValue(
+ref(db,"settings/depositNumber"),
+snap=>{
+
+depositNumberValue=
+snap.exists()
+?String(snap.val()||"")
+:"لم يتم تحديد الرقم";
+
+const el=document.getElementById("depositNumber");
+
+if(el)
+el.textContent=depositNumberValue||"غير محدد";
+
+}
+);
+
+function previewDepositImage(event){
+
+const file=event.target.files?.[0];
+
+const preview=document.getElementById("depositPreview");
+
+if(!file){
+
+preview.style.display="none";
+preview.removeAttribute("src");
+
+return;
+
+}
+
+if(!file.type.startsWith("image/")){
+
+toast("اختار صورة فقط");
+
+event.target.value="";
+preview.style.display="none";
+
+return;
+
+}
+
+if(file.size>2*1024*1024){
+
+toast("حجم الصورة يجب ألا يتجاوز 2MB");
+
+event.target.value="";
+preview.style.display="none";
+
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=()=>{
+
+preview.src=reader.result;
+preview.style.display="block";
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+function fileToBase64(file){
+
+return new Promise((resolve,reject)=>{
+
+const reader=new FileReader();
+
+reader.onload=()=>resolve(reader.result);
+reader.onerror=reject;
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+async function sendDeposit(){
+
+if(!user){
+
+toast("سجل الدخول أولًا");
+return;
+
+}
+
+const amount=Number(
+document.getElementById("depositAmount").value
+);
+
+const from=document.getElementById("fromNumber")
+.value.replace(/\D/g,"");
+
+const active=document.querySelector(".method.active");
+
+const file=document.getElementById("depositImage")
+.files?.[0];
+
+if(!amount||amount<=0){
+
+toast("اكتب مبلغًا صحيحًا");
+return;
+
+}
+
+if(!active){
+
+toast("اختار طريقة الإيداع");
+return;
+
+}
+
+if(!/^\d{11}$/.test(from)){
+
+toast("رقم التحويل يجب أن يكون 11 رقمًا");
+return;
+
+}
+
+setButtonLoading("depositBtn",true);
+
+try{
+
+let imageData="";
+
+if(file)
+imageData=await fileToBase64(file);
+
+await push(
+ref(db,"requests"),
+{
+
+type:"deposit",
+user:user,
+amount:amount,
+method:active.textContent.trim(),
+depositNumber:depositNumberValue,
+fromNumber:from,
+image:imageData,
+status:"pending",
+date:new Date().toLocaleString("ar-EG"),
+createdAt:Date.now()
+
+}
+);
+
+document.getElementById("depositAmount").value="";
+document.getElementById("fromNumber").value="";
+document.getElementById("depositImage").value="";
+document.getElementById("depositPreview").style.display="none";
+
+document.querySelectorAll(".method")
+.forEach(x=>x.classList.remove("active"));
+
+closeModal("depositModal");
+
+toast("تم إرسال طلب الإيداع ✅");
+
+}catch(error){
+
+console.error(error);
+toast("فشل الطلب: "+(error.code||error.message));
+
+}
+
+setButtonLoading("depositBtn",false);
+
+}
+
+async function sendWithdraw(){
+
+if(!user){
+
+toast("سجل الدخول أولًا");
+return;
+
+}
+
+const amount=Number(
+document.getElementById("withdrawAmount").value
+);
+
+const number=document.getElementById("withdrawNumber")
+.value.replace(/\D/g,"");
+
+if(!amount||amount<200){
+
+toast("أقل سحب هو 200ج");
+return;
+
+}
+
+if(amount>balance){
+
+toast("الرصيد غير كافٍ");
+return;
+
+}
+
+if(!/^\d{11}$/.test(number)){
+
+toast("رقم الاستلام يجب أن يكون 11 رقمًا");
+return;
+
+}
+
+setButtonLoading("withdrawBtn",true);
+
+try{
+
+await push(
+ref(db,"requests"),
+{
+
+type:"withdraw",
+user:user,
+amount:amount,
+method:"",
+withdrawNumber:number,
+status:"pending",
+date:new Date().toLocaleString("ar-EG"),
+createdAt:Date.now()
+
+}
+);
+
+document.getElementById("withdrawAmount").value="";
+document.getElementById("withdrawNumber").value="";
+
+closeModal("withdrawModal");
+
+toast("تم إرسال طلب السحب ✅");
+
+}catch(error){
+
+console.error(error);
+toast("فشل الطلب: "+(error.code||error.message));
+
+}
+
+setButtonLoading("withdrawBtn",false);
+
+}
+
+function openDeposit(){
+
+if(!user){
+toast("سجل الدخول أولًا");
+return;
+}
+
+document.getElementById("depositModal").style.display="flex";
+
+}
+
+function openWithdraw(){
+
+if(!user){
+toast("سجل الدخول أولًا");
+return;
+}
+
+document.getElementById("withdrawBalance").textContent=
+Number(balance||0).toFixed(2);
+
+document.getElementById("withdrawModal").style.display="flex";
+
+}
+
+function closeModal(id){
+document.getElementById(id).style.display="none";
+}
+
+function chooseMethod(btn){
+
+document.querySelectorAll(".method")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+}
+
+
+/* =========================
+   PLAYERS
+========================= */
+
+function createPlayers(){
+
+botPlayers=[];
+
+botNames.forEach(name=>{
+
+let cashout;
+
+const r=Math.random();
+
+if(r<.25){
+
+cashout=Number(
+(1.3+Math.random()*.7).toFixed(2)
+);
+
+}else if(r<.6){
+
+cashout=Number(
+(2+Math.random()*1.5).toFixed(2)
+);
+
+}else if(r<.85){
+
+cashout=Number(
+(3.5+Math.random()*2.5).toFixed(2)
+);
+
+}else{
+
+cashout=Number(
+(6+Math.random()*1).toFixed(2)
+);
+
+}
+
+botPlayers.push({
+name:name,
+cashout:cashout,
+state:"waiting"
+});
+
+});
+
+renderPlayers();
+
+}
+
+function renderPlayers(){
+
+const box=document.getElementById("players");
+
+box.innerHTML="";
+
+botPlayers.forEach(player=>{
+
+let status="";
+let cls="";
+
+if(player.state==="waiting"){
+status="ينتظر الجولة";
+cls="waiting";
+}
+
+if(player.state==="playing"){
+status="يلعب الآن";
+cls="playing";
+}
+
+if(player.state==="cashed"){
+status="سحب عند "+player.cashout.toFixed(2)+"x";
+cls="win";
+}
+
+if(player.state==="lost"){
+status="💥 خسر";
+cls="loss";
+}
+
+const row=document.createElement("div");
+row.className="player";
+
+const name=document.createElement("span");
+name.textContent=player.name;
+
+const state=document.createElement("span");
+state.className=cls;
+state.textContent=status;
+
+row.appendChild(name);
+row.appendChild(state);
+
+box.appendChild(row);
+
+});
+
+}
+
+
+/* =========================
+   PREPARE ROUND
+========================= */
+
+async function prepareRound(){
+
+const newRoundId=String(Date.now());
+
+const newCrashPoint=
+Number(
+(1.2+Math.random()*5.8).toFixed(2)
+);
+
+currentRoundId=newRoundId;
+crashPoint=newCrashPoint;
+
+await set(
+ref(db,"demoRounds/current"),
+{
+
+roundId:newRoundId,
+
+crashPoint:newCrashPoint,
+
+prediction:newCrashPoint,
+
+result:null,
+
+status:"waiting",
+
+createdAt:Date.now()
+
+}
+);
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+async function startCountdown(){
+
+clearInterval(roundTimer);
+clearInterval(countdownTimer);
+
+roundState="countdown";
+playing=false;
+multiplier=1;
+
+document.getElementById("mult").textContent="1.00x";
+document.getElementById("plane").style.display="none";
+document.getElementById("countdown").style.display="block";
+
+document.getElementById("start").style.display="block";
+document.getElementById("cashout").style.display="none";
+
+createPlayers();
+
+try{
+
+await prepareRound();
+
+}catch(error){
+
+console.error(error);
+
+toast("تعذر تجهيز الجولة في Firebase");
+
+return;
+
+}
+
+let seconds=6;
+
+document.getElementById("countdown").textContent=seconds;
+
+document.getElementById("status").textContent=
+"يمكنك دخول الجولة";
+
+countdownTimer=setInterval(()=>{
+
+seconds--;
+
+if(seconds<0)return;
+
+document.getElementById("countdown").textContent=seconds;
+
+if(seconds<=0){
+
+clearInterval(countdownTimer);
+
+startRound();
+
+}
+
+},1000);
+
+}
+
+
+/* =========================
+   START ROUND
+========================= */
+
+async function startRound(){
+
+clearInterval(roundTimer);
+
+roundState="running";
+multiplier=1;
+
+document.getElementById("countdown").style.display="none";
+document.getElementById("plane").style.display="block";
+
+document.getElementById("status").textContent=
+"الطيارة بدأت 🚀";
+
+document.getElementById("mult").textContent="1.00x";
+
+botPlayers.forEach(
+p=>p.state="playing"
+);
+
+renderPlayers();
+
+await update(
+ref(db,"demoRounds/current"),
+{
+status:"running",
+startedAt:Date.now()
+}
+);
+
+const startTime=Date.now();
+
+roundTimer=setInterval(()=>{
+
+const elapsed=
+(Date.now()-startTime)/1000;
+
+multiplier=
+1+
+elapsed*.32+
+elapsed*elapsed*.025;
+
+document.getElementById("mult").textContent=
+multiplier.toFixed(2)+"x";
+
+const x=Math.min(
+87,
+8+elapsed*11
+);
+
+const y=Math.min(
+76,
+8+elapsed*5.5
+);
+
+document.getElementById("plane").style.left=x+"%";
+document.getElementById("plane").style.bottom=y+"%";
+
+botPlayers.forEach(player=>{
+
+if(
+player.state==="playing" &&
+multiplier>=player.cashout
+){
+
+player.state="cashed";
+
+}
+
+});
+
+renderPlayers();
+
+if(multiplier>=crashPoint){
+
+crash();
+
+}
+
+},50);
+
+}
+
+
+/* =========================
+   JOIN
+========================= */
+
+function joinRound(){
+
+if(roundState!=="countdown"){
+
+toast("انتظر الجولة القادمة");
+return;
+
+}
+
+if(playing){
+
+toast("أنت داخل الجولة بالفعل");
+return;
+
+}
+
+const amount=
+Number(document.getElementById("bet").value);
+
+if(!amount||amount<=0){
+
+toast("اكتب قيمة الرهان");
+return;
+
+}
+
+if(amount>balance){
+
+toast("الرصيد غير كافٍ");
+return;
+
+}
+
+userBet=amount;
+
+balance-=amount;
+
+updateScreenBalance(true);
+
+playing=true;
+
+document.getElementById("start").style.display="none";
+document.getElementById("cashout").style.display="block";
+
+toast("تم دخول الجولة");
+
+}
+
+
+/* =========================
+   CASH OUT
+========================= */
+
+function cashOut(){
+
+if(!playing)return;
+
+if(roundState!=="running"){
+
+toast("الطيارة لم تبدأ بعد");
+return;
+
+}
+
+const win=userBet*multiplier;
+
+balance+=win;
+
+updateScreenBalance(true);
+
+playing=false;
+
+document.getElementById("cashout").style.display="none";
+document.getElementById("start").style.display="block";
+
+document.getElementById("status").textContent=
+"تم السحب عند "+multiplier.toFixed(2)+"x";
+
+toast("ربحت "+win.toFixed(2)+" ج");
+
+}
+
+
+/* =========================
+   CRASH
+========================= */
+
+async function crash(){
+
+clearInterval(roundTimer);
+
+roundState="crashed";
+
+multiplier=crashPoint;
+
+document.getElementById("mult").textContent=
+crashPoint.toFixed(2)+"x";
+
+document.getElementById("status").textContent=
+"💥 انفجرت الطائرة";
+
+document.getElementById("plane").style.display="none";
+
+botPlayers.forEach(player=>{
+
+if(player.state==="playing")
+player.state="lost";
+
+});
+
+renderPlayers();
+
+try{
+
+await update(
+ref(db,"demoRounds/current"),
+{
+
+status:"crashed",
+
+result:crashPoint,
+
+crashedAt:Date.now()
+
+}
+);
+
+}catch(error){
+
+console.error("RESULT UPDATE:",error);
+
+}
+
+if(playing){
+
+playing=false;
+
+document.getElementById("cashout").style.display="none";
+document.getElementById("start").style.display="block";
+
+toast("💥 خسرت الجولة");
+
+}
+
+setTimeout(
+startCountdown,
+1500
+);
+
+}
+
+
+/* =========================
+   WINDOW
+========================= */
+
+window.showRegister=showRegister;
+window.showLogin=showLogin;
+
+window.createAccount=createAccount;
+window.login=login;
+
+window.openDeposit=openDeposit;
+window.openWithdraw=openWithdraw;
+
+window.closeModal=closeModal;
+window.chooseMethod=chooseMethod;
+
+window.sendDeposit=sendDeposit;
+window.sendWithdraw=sendWithdraw;
+
+window.previewDepositImage=previewDepositImage;
+
+window.joinRound=joinRound;
+window.cashOut=cashOut;
+
+
+/* =========================
+   START
+========================= */
+
+startCountdown();
+
+</script>
+
+
+<!-- ==================================================
+     EXBET PROTECTION
+     حماية ضد الطرق السهلة لعرض ونسخ الصفحة
+     ================================================== -->
+
+<script>
+(function(){
+
+"use strict";
+
+/* منع كليك يمين */
+document.addEventListener("contextmenu",function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+},true);
+
+
+/* منع تحديد النص */
+document.addEventListener("selectstart",function(e){
+    e.preventDefault();
+    return false;
+},true);
+
+
+/* منع النسخ */
+document.addEventListener("copy",function(e){
+    e.preventDefault();
+    return false;
+},true);
+
+
+/* منع القص */
+document.addEventListener("cut",function(e){
+    e.preventDefault();
+    return false;
+},true);
+
+
+/* منع السحب */
+document.addEventListener("dragstart",function(e){
+    e.preventDefault();
+    return false;
+},true);
+
+
+/* منع بعض اختصارات المتصفح */
+document.addEventListener("keydown",function(e){
+
+    const key=String(e.key||"").toLowerCase();
+
+    /* F12 */
+    if(e.key==="F12"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + U */
+    if(e.ctrlKey && key==="u"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + Shift + I */
+    if(e.ctrlKey && e.shiftKey && key==="i"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + Shift + J */
+    if(e.ctrlKey && e.shiftKey && key==="j"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + Shift + C */
+    if(e.ctrlKey && e.shiftKey && key==="c"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + S */
+    if(e.ctrlKey && key==="s"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    /* Ctrl + P */
+    if(e.ctrlKey && key==="p"){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+},true);
+
+
+/* منع السحب من الصور */
+document.addEventListener("mousedown",function(e){
+
+    if(e.target && e.target.tagName==="IMG"){
+        e.preventDefault();
+    }
+
+},true);
+
+
+/* تعطيل بعض طرق الطباعة */
+window.addEventListener("beforeprint",function(){
+    document.body.style.visibility="hidden";
+});
+
+window.addEventListener("afterprint",function(){
+    document.body.style.visibility="visible";
+});
+
+})();
+</script>
+
+</body>
+</html>
