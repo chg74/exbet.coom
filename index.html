@@ -38,10 +38,10 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .dash-top{padding:10px 12px;display:flex;align-items:stretch;gap:10px;background:#fff}
 .side-btns{display:flex;flex-direction:column;gap:6px;justify-content:center}
 .side-btns button{background:#2D9CDB;color:#fff;border:none;border-radius:18px;padding:8px 22px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 5px rgba(45,156,219,.25);min-width:100px}
-.balance-box{flex:1;background:#2c3e50;border-radius:12px;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;color:#fff;min-height:70px}
-.balance-label{font-size:11px;color:#b0b8c4;margin-bottom:3px}
-.balance-value{font-size:22px;font-weight:bold;direction:rtl;line-height:1.1}
-.balance-value span{font-size:13px;font-weight:400;margin-right:4px}
+.balance-box{flex:1;background:#2c3e50;border-radius:12px;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;color:#fff;min-height:70px;text-align:right;direction:rtl}
+.balance-label{font-size:12px;color:#b0b8c4;margin-bottom:3px;font-weight:300;text-align:right;width:100%}
+.balance-value{font-size:20px;font-weight:300;direction:rtl;line-height:1.15;text-align:right;width:100%;letter-spacing:.5px}
+.balance-value span{font-size:13px;font-weight:300;margin-right:2px}
 .crash-image-wrap{padding:12px;position:relative}
 .crash-image-wrap img{width:100%;display:block;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15)}
 .crash-click-zone{position:absolute;top:14%;left:50%;transform:translateX(-50%);width:70%;height:22%;cursor:pointer;z-index:5;border-radius:16px;transition:.15s}
@@ -50,49 +50,57 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .apple-click-zone:active{background:rgba(46,204,113,.25)}
 
 /* CRASH GAME */
-#crashScreen{background:#1a2332;color:#fff;position:fixed;inset:0;z-index:100;display:none;flex-direction:column}
+#crashScreen{background:#1a2332;color:#fff;position:fixed;inset:0;z-index:100;display:none;flex-direction:column;transition:background .4s ease}
 #crashScreen.active{display:flex}
-.crash-top{padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+#crashScreen.won{background:#2e7d32}
+.crash-top{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;transition:background .4s ease}
 .back-btn{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;padding:4px 8px}
-.crash-balance{background:#2a3547;color:#fff;padding:9px 20px;border-radius:20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+.crash-balance{background:#2a3547;color:#fff;padding:9px 20px;border-radius:20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;transition:background .4s ease}
+#crashScreen.won .crash-balance{background:rgba(0,0,0,.25)}
 .crash-balance .plus{color:#2ecc71;font-weight:800}
+#crashScreen.won .crash-balance .plus{color:#fff}
 .crash-arena{margin:0 12px;background:#1e2a3d;border-radius:14px;position:relative;height:300px;overflow:hidden;border:1px solid #2a3a55}
 .crash-arena .label-top{position:absolute;top:14px;right:14px;background:transparent;border:1.5px solid #f0c419;color:#f0c419;padding:7px 16px;border-radius:22px;font-size:13px;font-weight:600;z-index:15}
 .crash-arena .label-top.crashed{border-color:#e74c3c;color:#e74c3c}
 .crash-arena .big-text{position:absolute;bottom:20px;right:20px;font-size:42px;font-weight:900;color:#fff;direction:ltr;z-index:5}
-.crash-arena .big-text.crashed{color:#e74c3c;font-size:38px}
+.crash-arena .big-text.crashed{color:#e74c3c;font-size:22px}
 .crash-arena .plane{position:absolute;width:70px;height:70px;display:none;filter:drop-shadow(0 0 12px rgba(240,196,25,.9));z-index:10}
 .crash-arena .plane img{width:100%;height:100%;object-fit:contain}
 .crash-arena .trail{position:absolute;height:4px;background:linear-gradient(90deg,rgba(240,196,25,0) 0%,#f0c419 100%);border-radius:2px;display:none;transform-origin:left center;box-shadow:0 0 10px rgba(240,196,25,.8);z-index:8}
 .crash-arena .start-count{position:absolute;top:50%;right:20px;transform:translateY(-50%);font-size:32px;font-weight:900;color:#fff;display:none;z-index:12}
 .crash-arena .start-count.show{display:block}
 
-.win-banner{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(46,204,113,.95);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;z-index:20;display:none;box-shadow:0 3px 10px rgba(46,204,113,.5);white-space:nowrap}
+.win-banner{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.4);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:700;z-index:20;display:none;box-shadow:0 3px 10px rgba(0,0,0,.3);white-space:nowrap;backdrop-filter:blur(4px)}
 .win-banner.show{display:block;animation:popIn .25s ease}
 @keyframes popIn{from{transform:translateX(-50%) scale(.7);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
 
-.crash-controls{padding:14px}
+.crash-controls{padding:14px;transition:background .4s ease}
 .crash-controls .row{display:flex;gap:10px;align-items:center}
-.bet-input{flex:1;background:#1e2a3d;border:none;border-radius:10px;padding:15px;color:#fff;font-size:18px;font-weight:700;text-align:center;outline:none}
+.bet-input{flex:1;background:#1e2a3d;border:none;border-radius:10px;padding:15px;color:#fff;font-size:18px;font-weight:700;text-align:center;outline:none;transition:background .4s ease}
+#crashScreen.won .bet-input{background:rgba(0,0,0,.25)}
 .place-btn{flex:1.4;background:#ff8c00;color:#fff;border:none;border-radius:26px;padding:15px;font-size:14px;font-weight:800;cursor:pointer}
 .place-btn.accepted{background:#ff8c00;opacity:.7}
 .place-btn.cashout{background:#2ecc71;color:#fff;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
 .place-btn.cashout small{font-size:12px;font-weight:600}
-.players-table{padding:6px 14px 20px;overflow-y:auto;flex:1}
-.players-head{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:11px;color:#7a879b;padding:8px 4px;font-weight:700;text-align:center}
-.players-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:13px;padding:9px 4px;color:#c8d0e0;text-align:center;border-bottom:1px solid rgba(255,255,255,.04)}
+.players-table{padding:6px 14px 20px;overflow-y:auto;flex:1;transition:background .4s ease}
+.players-head{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:11px;color:#7a879b;padding:8px 4px;font-weight:700;text-align:center;transition:color .4s}
+#crashScreen.won .players-head{color:rgba(255,255,255,.65)}
+.players-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:13px;padding:9px 4px;color:#c8d0e0;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);transition:border-color .4s}
+#crashScreen.won .players-row{border-bottom-color:rgba(255,255,255,.15)}
 .players-row .col-user{color:#fff;text-align:right;padding-right:6px}
 .players-row .col-odds.win{color:#2ecc71;font-weight:700}
+#crashScreen.won .players-row .col-odds.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.6)}
 .players-row .col-odds.lose{color:#e74c3c;font-weight:700}
 .players-row .col-win{color:#f0c419;font-weight:700}
+#crashScreen.won .players-row .col-win{color:#fff}
 
 /* APPLE */
 #appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
 #appleScreen.active{display:flex}
 .apple-inner{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(0,20,10,.3) 0%,rgba(0,20,10,.1) 40%,rgba(0,20,10,.5) 100%)}
 .apple-top{padding:10px 12px 6px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative}
-.apple-balance-box{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(20,30,50,.85);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.1);direction:ltr}
-.apple-balance-box .plus{color:#2ecc71;font-weight:800}
+.apple-balance-box{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(30,40,60,.9);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:400;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.12);direction:rtl}
+.apple-balance-box .cur{font-size:12px;color:#fff;font-weight:400}
 .apple-back-btn{background:rgba(20,30,50,.8);border:none;color:#fff;font-size:16px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:auto}
 .apple-main{flex:1;display:flex;justify-content:center;align-items:center;padding:6px 14px;min-height:0;overflow:hidden}
 .apple-grid-wrap{display:flex;flex-direction:row;gap:6px;height:100%;max-height:100%}
@@ -245,7 +253,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     <div class="apple-inner">
         <div class="apple-top">
             <button class="apple-back-btn" onclick="closeApple()">→</button>
-            <div class="apple-balance-box"><span id="appleBalance">0.00</span> <span class="plus">💰</span></div>
+            <div class="apple-balance-box"><span id="appleBalance">0.00</span> <span class="cur">ج.م</span></div>
         </div>
         <div class="apple-main">
             <div class="apple-grid-wrap">
@@ -340,70 +348,59 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 
 <script>
 /* ============================================================
-   🛡️ حماية اختصارات المطورين (بدون شاشة قفل)
+   🛡️ حماية اختصارات المطورين
    ============================================================ */
 (function(){
     'use strict';
 
-    // 1) منع القائمة اليمنى (Right Click)
     document.addEventListener('contextmenu', function(e){
         e.preventDefault();
         return false;
     });
 
-    // 2) منع اختصارات لوحة المفاتيح
     document.addEventListener('keydown', function(e){
         const k = (e.key || '').toLowerCase();
 
-        // F12
         if(e.key === 'F12' || e.keyCode === 123){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Ctrl+Shift+I / J / C  (DevTools)
         if(e.ctrlKey && e.shiftKey && (k === 'i' || k === 'j' || k === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Ctrl+U  (View Source)
         if(e.ctrlKey && (k === 'u' || e.keyCode === 85)){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Ctrl+S  (Save)
         if(e.ctrlKey && (k === 's' || e.keyCode === 83)){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Ctrl+P  (Print)
         if(e.ctrlKey && (k === 'p' || e.keyCode === 80)){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Ctrl+Shift+E / K
         if(e.ctrlKey && e.shiftKey && (k === 'e' || k === 'k')){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
 
-        // Cmd+Option+I / J / C على Mac
         if(e.metaKey && e.altKey && (k === 'i' || k === 'j' || k === 'c')){
             e.preventDefault(); e.stopPropagation();
             return false;
         }
     }, true);
 
-    // 3) منع السحب / النسخ / القص
     document.addEventListener('dragstart', e => e.preventDefault());
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('cut', e => e.preventDefault());
 
-    // 4) تعطيل console
     const noop = function(){};
     try{
         const methods = ['log','warn','error','info','debug','trace','dir','table','clear','group','groupEnd','groupCollapsed','count','assert','profile','profileEnd','time','timeEnd'];
@@ -473,18 +470,8 @@ function startBalanceListener(uname){
     balanceListener = onValue(ref(db,'users/'+uname+'/balance'), (s)=>{
         if(!s.exists()) return;
         if(kicked) return;
-        const newBal = Number(s.val()||0);
-        const diff = newBal - balance;
-        balance = newBal;
+        balance = Number(s.val()||0);
         updateBalanceUI();
-
-        if(!suppressBalanceNotify && Math.abs(diff) >= 0.01){
-            if(diff > 0){
-                toast(`💰 تم إضافة ${diff.toFixed(2)} ج.م لرصيدك`);
-            } else {
-                toast(`⚠️ تم خصم ${Math.abs(diff).toFixed(2)} ج.م من رصيدك`);
-            }
-        }
     });
 }
 function stopBalanceListener(){
@@ -558,7 +545,6 @@ async function doLogin(){
         startBalanceListener(user);
         startKickListener(user);
         showScreen('dashboardScreen');
-        toast('✅ مرحباً بعودتك');
     }catch(e){
         toast('فشل الاتصال');
     }
@@ -598,7 +584,6 @@ async function doSignup(){
         startBalanceListener(user);
         startKickListener(user);
         showScreen('dashboardScreen');
-        toast('✅ تم إنشاء الحساب');
     }catch(e){
         toast('فشل إنشاء الحساب');
     }
@@ -715,6 +700,7 @@ function openCrash(){
 }
 function closeCrash(){
     document.getElementById('crashScreen').classList.remove('active');
+    document.getElementById('crashScreen').classList.remove('won');
     showScreen('dashboardScreen');
     clearInterval(roundTimer);clearInterval(countdownTimer);
 }
@@ -763,16 +749,17 @@ function addUserRow(isWin,fair,betAmt,winAmt){
     body.insertBefore(row,body.firstChild);
 }
 function generateCrashPoint(){
-    const presets=[1.06,1.12,1.20,1.35,1.48,1.72,2.05,2.35,2.80,3.20,3.75,4.50,5.00,6.10,6.29,7.20,8.00,8.89,9.21,9.50,11.00,12.00,15.30];
+    const presets=[4.10,4.50,5.00,5.50,6.00,6.50,7.20,8.00,8.89,9.50,10.00,11.00,12.00,13.50,14.50,15.00,16.00];
     let p = presets[Math.floor(Math.random()*presets.length)];
-    if(Math.random()<.25) p += Number((Math.random()*.4).toFixed(2));
-    if(Math.random()<.08) p = Number((10+Math.random()*8).toFixed(2));
-    return Number(p.toFixed(2));
+    if(Math.random()<.30) p += Number((Math.random()*.6).toFixed(2));
+    return Number(Math.min(16, p).toFixed(2));
 }
 function startCountdown(){
     clearInterval(roundTimer);clearInterval(countdownTimer);
     roundState='countdown';multiplier=1;bet={amount:0,active:false,cashed:false};
     crashPoint = generateCrashPoint();
+    const crashScreen = document.getElementById('crashScreen');
+    crashScreen.classList.remove('won');
     document.getElementById('crashLabel').textContent='انتظار الجولة...';
     document.getElementById('crashLabel').className='label-top';
     document.getElementById('bigText').style.display='none';
@@ -817,13 +804,13 @@ function startRound(){
     const maxY = H - PLANE - 60;
     roundTimer = setInterval(()=>{
         const el = (Date.now()-START)/1000;
-        multiplier = 1 + el*0.35;
+        multiplier = 1 + el*0.75;
         if(multiplier >= crashPoint){
             multiplier = crashPoint;
             document.getElementById('bigText').textContent = multiplier.toFixed(2)+'x';
             crashNow();return;
         }
-        const progress = Math.min(1, el/15);
+        const progress = Math.min(1, (multiplier - 1) / 15);
         const px = startX + (maxX - startX)*progress;
         const py = startY + (maxY - startY)*progress;
         const plane = document.getElementById('plane');
@@ -866,7 +853,6 @@ function placeBet(){
     const pb = document.getElementById('placeBtn');
     pb.textContent='تم الرهان';pb.classList.add('accepted');
     addUserRow(false,0,amt,0);
-    toast('تم قبول الرهان ✅');
 }
 function cashOut(){
     if(!bet.active || bet.cashed)return;
@@ -876,10 +862,12 @@ function cashOut(){
     const pb = document.getElementById('placeBtn');
     pb.classList.remove('cashout');
     pb.innerHTML = 'PLACE A BET';
+    const crashScreen = document.getElementById('crashScreen');
+    crashScreen.classList.add('won');
     const wb = document.getElementById('winBanner');
     wb.textContent = `فزت بـ ${win.toFixed(2)} ج.م`;
     wb.classList.add('show');
-    setTimeout(()=>{wb.classList.remove('show');},3000);
+    setTimeout(()=>{wb.classList.remove('show');},3500);
     addUserRow(true,multiplier,bet.amount,win);
 }
 function crashNow(){
@@ -890,10 +878,12 @@ function crashNow(){
     document.getElementById('bigText').textContent='CRASHED!';
     document.getElementById('plane').style.display='none';
     document.getElementById('trail').style.display='none';
+    const crashScreen = document.getElementById('crashScreen');
+    crashScreen.classList.remove('won');
+    document.getElementById('winBanner').className='win-banner';
     botPlayers.forEach(p=>{if(p.state==='playing'){p.state='lost';updateBotRow(p.id,false,0,0);}});
     if(bet.active && !bet.cashed){
         addUserRow(false,0,bet.amount,0);
-        toast('💥 خسرت الجولة');
     }
     bet.active=false;bet.cashed=false;
     const pb = document.getElementById('placeBtn');
@@ -1008,7 +998,6 @@ function appleClick(gameRow, col){
         setTimeout(()=>{
             appleState.revealAll = true;
             renderApple();
-            toast('💥 خسرت! التفاحة كانت فاسدة');
         }, 600);
         return;
     }
@@ -1023,7 +1012,6 @@ function appleClick(gameRow, col){
         appleState.revealAll = true;
         renderApple();
         updateAppleActionBtn();
-        toast(`🎉 وصلت للقمة! ربحت ${win.toFixed(2)} ج.م`);
         return;
     }
 
@@ -1085,7 +1073,6 @@ function appleAction(){
     appleState.revealAll = true;
     renderApple();
     updateAppleActionBtn();
-    toast(`✅ سحبت ${win.toFixed(2)} ج.م`);
     setTimeout(resetApple, 2000);
 }
 function resetApple(){
