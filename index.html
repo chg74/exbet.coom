@@ -296,8 +296,8 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
                 <button onclick="copyNum()">نسخ</button>
                 <div class="num" id="depNumber">01286028671</div>
             </div>
-            <div class="min-note">أقل مبلغ للإيداع 150 ج.م :</div>
-            <input class="amount-input" id="depAmount" type="number" placeholder="أدخل المبلغ" min="150">
+            <div class="min-note">أقل مبلغ للإيداع 200 ج.م :</div>
+            <input class="amount-input" id="depAmount" type="number" placeholder="أدخل المبلغ" min="200">
             <input class="amount-input" id="depFrom" type="tel" placeholder="رقم هاتفك الذي تم منه التحويل" maxlength="11">
             <div class="file-box">
                 <label for="depImage">📷 اضغط لرفع صورة التحويل</label>
@@ -650,7 +650,7 @@ async function sendDeposit(){
     if(!currentMethod){toast('اختر وسيلة الإيداع أولاً');return;}
     const amt = Number(document.getElementById('depAmount').value);
     const from = document.getElementById('depFrom').value.replace(/\D/g,'');
-    if(!amt || amt<150){toast('أقل مبلغ 150 ج.م');return;}
+    if(!amt || amt<200){toast('أقل مبلغ 200 ج.م');return;}
     if(from.length!==11){toast('رقم التحويل 11 رقم');return;}
     if(!currentImageData){toast('من فضلك ارفع صورة التحويل');return;}
     try{
