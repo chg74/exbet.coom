@@ -67,7 +67,6 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .crash-arena .start-count{position:absolute;top:50%;right:20px;transform:translateY(-50%);font-size:32px;font-weight:900;color:#fff;display:none;z-index:12}
 .crash-arena .start-count.show{display:block}
 
-/* ✅ إشعار الفوز - صغير وتحت */
 .win-banner{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(46,204,113,.95);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;z-index:20;display:none;box-shadow:0 3px 10px rgba(46,204,113,.5);white-space:nowrap}
 .win-banner.show{display:block;animation:popIn .25s ease}
 @keyframes popIn{from{transform:translateX(-50%) scale(.7);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
@@ -339,6 +338,84 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 
 <div id="toast" class="toast"></div>
 
+<script>
+/* ============================================================
+   🛡️ حماية اختصارات المطورين (بدون شاشة قفل)
+   ============================================================ */
+(function(){
+    'use strict';
+
+    // 1) منع القائمة اليمنى (Right Click)
+    document.addEventListener('contextmenu', function(e){
+        e.preventDefault();
+        return false;
+    });
+
+    // 2) منع اختصارات لوحة المفاتيح
+    document.addEventListener('keydown', function(e){
+        const k = (e.key || '').toLowerCase();
+
+        // F12
+        if(e.key === 'F12' || e.keyCode === 123){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl+Shift+I / J / C  (DevTools)
+        if(e.ctrlKey && e.shiftKey && (k === 'i' || k === 'j' || k === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl+U  (View Source)
+        if(e.ctrlKey && (k === 'u' || e.keyCode === 85)){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl+S  (Save)
+        if(e.ctrlKey && (k === 's' || e.keyCode === 83)){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl+P  (Print)
+        if(e.ctrlKey && (k === 'p' || e.keyCode === 80)){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Ctrl+Shift+E / K
+        if(e.ctrlKey && e.shiftKey && (k === 'e' || k === 'k')){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+
+        // Cmd+Option+I / J / C على Mac
+        if(e.metaKey && e.altKey && (k === 'i' || k === 'j' || k === 'c')){
+            e.preventDefault(); e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // 3) منع السحب / النسخ / القص
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+
+    // 4) تعطيل console
+    const noop = function(){};
+    try{
+        const methods = ['log','warn','error','info','debug','trace','dir','table','clear','group','groupEnd','groupCollapsed','count','assert','profile','profileEnd','time','timeEnd'];
+        methods.forEach(m => { if(console[m]) console[m] = noop; });
+        Object.defineProperty(window, 'console', {
+            get: function(){ return {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop}; },
+            set: noop
+        });
+    }catch(e){}
+})();
+</script>
+
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {getDatabase, ref, get, set, update, push, onValue, remove} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
@@ -483,7 +560,6 @@ async function doLogin(){
         showScreen('dashboardScreen');
         toast('✅ مرحباً بعودتك');
     }catch(e){
-        console.error(e);
         toast('فشل الاتصال');
     }
 }
@@ -524,7 +600,6 @@ async function doSignup(){
         showScreen('dashboardScreen');
         toast('✅ تم إنشاء الحساب');
     }catch(e){
-        console.error(e);
         toast('فشل إنشاء الحساب');
     }
 }
@@ -541,7 +616,7 @@ function saveBalance(){
     suppressBalanceNotify = true;
     update(ref(db,'users/'+user),{balance:Number(balance),updatedAt:Date.now()})
         .then(()=>{ setTimeout(()=>{ suppressBalanceNotify = false; }, 800); })
-        .catch((e)=>{ console.error(e); suppressBalanceNotify = false; });
+        .catch((e)=>{ suppressBalanceNotify = false; });
 }
 
 /* ===== Deposit ===== */
@@ -605,7 +680,7 @@ async function sendDeposit(){
         currentImageData='';
         closeModal('depositModal');
         showAlert('تم الإرسال','تم إرسال طلب الإيداع بنجاح برجاء الانتظار');
-    }catch(e){console.error(e);toast('فشل الطلب');}
+    }catch(e){toast('فشل الطلب');}
 }
 
 /* ===== Withdraw ===== */
@@ -628,7 +703,7 @@ async function sendWithdraw(){
         document.getElementById('wdNumber').value='';
         closeModal('withdrawModal');
         showAlert('تم الإرسال','تم إرسال طلب السحب برجاء الانتظار');
-    }catch(e){console.error(e);toast('فشل الطلب');}
+    }catch(e){toast('فشل الطلب');}
 }
 
 /* ===== CRASH GAME ===== */
@@ -754,7 +829,6 @@ function startRound(){
         const plane = document.getElementById('plane');
         plane.style.left = px + 'px';
         plane.style.bottom = py + 'px';
-        // ✅ الطيارة ما بتميلش - محافظين عليها مظبوطة
         plane.style.transform = 'none';
         const pcX = px + PLANE/2, pcY = py + PLANE/2;
         const dx = pcX - startX, dy = pcY - startY;
@@ -802,7 +876,6 @@ function cashOut(){
     const pb = document.getElementById('placeBtn');
     pb.classList.remove('cashout');
     pb.innerHTML = 'PLACE A BET';
-    // ✅ إشعار صغير تحت
     const wb = document.getElementById('winBanner');
     wb.textContent = `فزت بـ ${win.toFixed(2)} ج.م`;
     wb.classList.add('show');
