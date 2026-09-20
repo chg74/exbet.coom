@@ -2,1129 +2,295 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>1xBet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التحديث الجديد</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
-.screen{display:none;width:100%;min-height:100vh;flex-direction:column}
-.screen.active{display:flex}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-/* LOGIN */
-#loginScreen{background:#fff}
-.login-hero{position:relative;height:280px;overflow:hidden;background:linear-gradient(135deg,#f0f4f8,#e8eef5)}
-.login-hero::before{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,#e74c3c,#c0392b);opacity:.9}
-.login-hero::after{content:'';position:absolute;top:-30px;left:-60px;width:230px;height:230px;border-radius:50%;background:linear-gradient(135deg,#2980b9,#1e6fa8);opacity:.85}
-.ball{position:absolute;top:55px;left:50%;transform:translateX(-50%);width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#e8eef3 45%,#b8c4cf);box-shadow:0 8px 30px rgba(0,0,0,.18),inset -8px -8px 20px rgba(0,0,0,.1);z-index:5}
-.ball::before,.ball::after{content:'';position:absolute;top:0;bottom:0;width:2px;background:rgba(120,140,160,.45);left:50%;transform:translateX(-50%) rotate(-20deg)}
-.ball::after{transform:translateX(-50%) rotate(20deg)}
-.login-form{padding:30px 30px 20px;flex:1;display:flex;flex-direction:column}
-.login-title{font-size:30px;font-weight:700;color:#0A3D62;text-align:center;margin-bottom:35px}
-.field{padding:14px 4px;margin-bottom:10px;border-bottom:1px solid #ccc;position:relative}
-.field input{width:100%;border:none;outline:none;font-size:16px;background:transparent;color:#333;text-align:right}
-.field input::placeholder{color:#999}
-.eye-btn{position:absolute;left:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:#555}
-.login-btn{margin-top:30px;width:100%;padding:16px;border:none;border-radius:30px;background:#4a90c4;color:#fff;font-size:19px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(74,144,196,.4)}
-.register-link{text-align:center;margin-top:auto;padding:30px 0 40px;color:#4a90c4;font-size:16px;font-weight:600;cursor:pointer}
+body {
+    min-height: 100vh;
+    font-family: Tahoma, Arial, sans-serif;
+    overflow: hidden;
+    background: #050505;
+    color: white;
+}
 
-/* SIGNUP */
-#signupScreen{background:#fff}
-.signup-form{padding:50px 30px 20px;flex:1;display:flex;flex-direction:column}
-.signup-title{font-size:30px;font-weight:700;color:#0A3D62;text-align:center;margin-bottom:50px}
-.signup-btn{margin-top:40px;width:100%;padding:16px;border:none;border-radius:30px;background:#4a90c4;color:#fff;font-size:18px;font-weight:600;cursor:pointer}
+/* الخلفية */
+.bg {
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.75)),
+        url("https://thanosx.icu/kotev2/IMG/MAFYA.GIF") center/cover no-repeat;
+    filter: brightness(.75);
+    transform: scale(1.03);
+    z-index: -2;
+}
 
-/* DASHBOARD */
-#dashboardScreen{background:#f5f7fa}
-.dash-top{padding:10px 12px;display:flex;align-items:stretch;gap:10px;background:#fff}
-.side-btns{display:flex;flex-direction:column;gap:6px;justify-content:center}
-.side-btns button{background:#2D9CDB;color:#fff;border:none;border-radius:18px;padding:8px 22px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 5px rgba(45,156,219,.25);min-width:100px}
-.balance-box{flex:1;background:#2c3e50;border-radius:12px;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;color:#fff;min-height:70px;text-align:right;direction:rtl}
-.balance-label{font-size:12px;color:#b0b8c4;margin-bottom:3px;font-weight:300;text-align:right;width:100%}
-.balance-value{font-size:20px;font-weight:300;direction:rtl;line-height:1.15;text-align:right;width:100%;letter-spacing:.5px}
-.balance-value span{font-size:13px;font-weight:300;margin-right:2px}
-.crash-image-wrap{padding:12px;position:relative}
-.crash-image-wrap img{width:100%;display:block;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.15)}
-.crash-click-zone{position:absolute;top:14%;left:50%;transform:translateX(-50%);width:70%;height:22%;cursor:pointer;z-index:5;border-radius:16px;transition:.15s}
-.crash-click-zone:active{background:rgba(240,196,25,.25)}
-.apple-click-zone{position:absolute;top:48%;left:50%;transform:translateX(-50%);width:85%;height:40%;cursor:pointer;z-index:5;border-radius:16px;transition:.15s}
-.apple-click-zone:active{background:rgba(46,204,113,.25)}
+/* تأثير داكن */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.82)
+    );
+    z-index: -1;
+}
 
-/* CRASH GAME */
-#crashScreen{background:#1a2332;color:#fff;position:fixed;inset:0;z-index:100;display:none;flex-direction:column;transition:background .4s ease}
-#crashScreen.active{display:flex}
-#crashScreen.won{background:#2e7d32}
-.crash-top{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;transition:background .4s ease}
-.back-btn{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;padding:4px 8px}
-.crash-balance{background:#2a3547;color:#fff;padding:9px 20px;border-radius:20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;transition:background .4s ease}
-#crashScreen.won .crash-balance{background:rgba(0,0,0,.25)}
-.crash-balance .plus{color:#2ecc71;font-weight:800}
-#crashScreen.won .crash-balance .plus{color:#fff}
-.crash-arena{margin:0 12px;background:#1e2a3d;border-radius:14px;position:relative;height:300px;overflow:hidden;border:1px solid #2a3a55}
-.crash-arena .label-top{position:absolute;top:14px;right:14px;background:transparent;border:1.5px solid #f0c419;color:#f0c419;padding:7px 16px;border-radius:22px;font-size:13px;font-weight:600;z-index:15}
-.crash-arena .label-top.crashed{border-color:#e74c3c;color:#e74c3c}
-.crash-arena .big-text{position:absolute;bottom:20px;right:20px;font-size:42px;font-weight:900;color:#fff;direction:ltr;z-index:5}
-.crash-arena .big-text.crashed{color:#e74c3c;font-size:22px}
-.crash-arena .plane{position:absolute;width:70px;height:70px;display:none;filter:drop-shadow(0 0 12px rgba(240,196,25,.9));z-index:10}
-.crash-arena .plane img{width:100%;height:100%;object-fit:contain}
-.crash-arena .trail{position:absolute;height:4px;background:linear-gradient(90deg,rgba(240,196,25,0) 0%,#f0c419 100%);border-radius:2px;display:none;transform-origin:left center;box-shadow:0 0 10px rgba(240,196,25,.8);z-index:8}
-.crash-arena .start-count{position:absolute;top:50%;right:20px;transform:translateY(-50%);font-size:32px;font-weight:900;color:#fff;display:none;z-index:12}
-.crash-arena .start-count.show{display:block}
+/* المحتوى */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
-.win-banner{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.4);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:700;z-index:20;display:none;box-shadow:0 3px 10px rgba(0,0,0,.3);white-space:nowrap;backdrop-filter:blur(4px)}
-.win-banner.show{display:block;animation:popIn .25s ease}
-@keyframes popIn{from{transform:translateX(-50%) scale(.7);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+.box {
+    width: min(430px, 94vw);
+    padding: 35px 25px;
+    text-align: center;
+    border-radius: 22px;
 
-.crash-controls{padding:14px;transition:background .4s ease}
-.crash-controls .row{display:flex;gap:10px;align-items:center}
-.bet-input{flex:1;background:#1e2a3d;border:none;border-radius:10px;padding:15px;color:#fff;font-size:18px;font-weight:700;text-align:center;outline:none;transition:background .4s ease}
-#crashScreen.won .bet-input{background:rgba(0,0,0,.25)}
-.place-btn{flex:1.4;background:#ff8c00;color:#fff;border:none;border-radius:26px;padding:15px;font-size:14px;font-weight:800;cursor:pointer}
-.place-btn.accepted{background:#ff8c00;opacity:.7}
-.place-btn.cashout{background:#2ecc71;color:#fff;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
-.place-btn.cashout small{font-size:12px;font-weight:600}
-.players-table{padding:6px 14px 20px;overflow-y:auto;flex:1;transition:background .4s ease}
-.players-head{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:11px;color:#7a879b;padding:8px 4px;font-weight:700;text-align:center;transition:color .4s}
-#crashScreen.won .players-head{color:rgba(255,255,255,.65)}
-.players-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:13px;padding:9px 4px;color:#c8d0e0;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);transition:border-color .4s}
-#crashScreen.won .players-row{border-bottom-color:rgba(255,255,255,.15)}
-.players-row .col-user{color:#fff;text-align:right;padding-right:6px}
-.players-row .col-odds.win{color:#2ecc71;font-weight:700}
-#crashScreen.won .players-row .col-odds.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.6)}
-.players-row .col-odds.lose{color:#e74c3c;font-weight:700}
-.players-row .col-win{color:#f0c419;font-weight:700}
-#crashScreen.won .players-row .col-win{color:#fff}
+    background: rgba(12,12,12,.78);
+    border: 1px solid rgba(255,255,255,.12);
 
-/* APPLE */
-#appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
-#appleScreen.active{display:flex}
-.apple-inner{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(0,20,10,.3) 0%,rgba(0,20,10,.1) 40%,rgba(0,20,10,.5) 100%)}
-.apple-top{padding:10px 12px 6px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative}
-.apple-balance-box{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(30,40,60,.9);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:400;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.12);direction:rtl}
-.apple-balance-box .cur{font-size:12px;color:#fff;font-weight:400}
-.apple-back-btn{background:rgba(20,30,50,.8);border:none;color:#fff;font-size:16px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:auto}
-.apple-main{flex:1;display:flex;justify-content:center;align-items:center;padding:6px 14px;min-height:0;overflow:hidden}
-.apple-grid-wrap{display:flex;flex-direction:row;gap:6px;height:100%;max-height:100%}
-.apple-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(10,1fr);gap:3px;aspect-ratio:5/10;height:100%;max-height:100%}
-.apple-cell{position:relative;display:flex;align-items:center;justify-content:center}
-.apple-cell img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
-.apple-cell.clickable{cursor:pointer}
-.apple-cell.clickable:active img{transform:scale(.88);transition:.1s}
-.apple-mults{display:grid;grid-template-rows:repeat(10,1fr);gap:3px;width:56px;flex-shrink:0}
-.apple-mult{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);color:#c8d0e0;font-size:10px;font-weight:700;border-radius:8px;direction:ltr;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(3px)}
-.apple-mult.current{background:#8bc34a;color:#fff;font-weight:900;box-shadow:0 0 12px rgba(139,195,74,.8);border-color:rgba(255,255,255,.3)}
-.apple-mult.done{background:rgba(255,255,255,.04);opacity:.4}
-.apple-bottom{padding:10px 14px 14px;flex-shrink:0}
-.apple-ctrl-row{display:flex;gap:8px;margin-bottom:10px}
-.apple-ctrl-row button{flex:1;background:rgba(100,140,220,.7);color:#fff;border:none;padding:11px;border-radius:22px;font-weight:800;font-size:13px;cursor:pointer;letter-spacing:.5px;backdrop-filter:blur(4px)}
-.apple-ctrl-row button:disabled{opacity:.35;cursor:default}
-.apple-stake-row{display:flex;align-items:center;gap:10px;flex-direction:row-reverse}
-.apple-action-btn{background:#5a78e5;color:#fff;border:none;border-radius:26px;padding:14px 28px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.5px;min-width:110px;transition:.2s;line-height:1.1}
-.apple-action-btn.cashout{background:#2ecc71;display:flex;flex-direction:column;align-items:center;font-size:16px}
-.apple-action-btn.cashout small{font-size:11px;font-weight:700;opacity:.95}
-.apple-stake-display{flex:1;background:rgba(20,30,50,.7);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 18px;color:#fff;font-size:17px;font-weight:700;display:flex;justify-content:flex-end;gap:6px;align-items:center;direction:ltr}
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.7),
+        inset 0 0 30px rgba(255,255,255,.025);
 
-/* MODALS */
-.modal{display:none;position:fixed;inset:0;background:#fff;z-index:200;flex-direction:column;overflow-y:auto}
-.modal.show{display:flex}
-.modal-head{padding:18px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between}
-.modal-head h2{font-size:22px;color:#0A3D62}
-.modal-head .back{background:none;border:none;font-size:16px;color:#0A3D62;cursor:pointer;font-weight:600}
-.modal-body{padding:20px;flex:1}
-.methods-list{background:#fff;border-radius:14px;box-shadow:0 1px 6px rgba(0,0,0,.08);overflow:hidden;margin-bottom:20px}
-.method-item{padding:20px;font-size:16px;color:#2c3e50;cursor:pointer;border-bottom:1px solid #f0f0f0;text-align:right}
-.method-item:last-child{border-bottom:none}
-.method-item.active{background:#eaf4fb;color:#0A3D62;font-weight:700}
-.deposit-info{background:#fff;border-radius:14px;box-shadow:0 1px 6px rgba(0,0,0,.08);padding:20px;margin-bottom:16px;display:none}
-.deposit-info.show{display:block}
-.deposit-info h3{color:#0A3D62;font-size:16px;margin-bottom:10px}
-.deposit-info p{color:#666;font-size:13px;margin-bottom:14px}
-.number-row{background:#eef3f8;border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between;direction:ltr;margin-bottom:16px}
-.number-row .num{font-size:22px;font-weight:800;color:#0A3D62;letter-spacing:1px}
-.number-row button{background:#0A3D62;color:#fff;border:none;padding:9px 22px;border-radius:22px;font-size:14px;font-weight:700;cursor:pointer}
-.min-note{text-align:right;color:#e74c3c;font-size:14px;font-weight:600;margin-bottom:10px}
-.amount-input{width:100%;padding:15px;border:1.5px solid #ddd;border-radius:10px;font-size:16px;outline:none;text-align:right;background:#fff;margin-bottom:10px}
-.file-box{background:#f9f9f9;border:1.5px dashed #ccc;border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;cursor:pointer}
-.file-box label{display:block;cursor:pointer;color:#0A3D62;font-weight:600;font-size:14px}
-.file-box input[type=file]{display:none}
-.file-box .filename{font-size:12px;color:#666;margin-top:6px}
-.preview-img{display:none;width:100%;max-height:200px;object-fit:contain;border-radius:8px;margin-top:10px;border:1px solid #ddd}
-.confirm-btn{width:100%;padding:16px;border:none;border-radius:28px;color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-top:18px}
-.confirm-btn.green{background:#2e7d32}
-.confirm-btn.purple{background:#5A3FA0}
-.balance-green{background:linear-gradient(135deg,#4caf50,#388e3c);border-radius:14px;padding:25px;color:#fff;text-align:center;margin-bottom:20px}
-.balance-green .lbl{font-size:14px;margin-bottom:6px}
-.balance-green .val{font-size:36px;font-weight:800}
-.balance-green .val span{font-size:18px;font-weight:600;margin-right:4px}
-.wd-field{margin-bottom:16px}
-.wd-field label{display:block;font-size:14px;color:#2c3e50;font-weight:600;margin-bottom:8px}
-.wd-field input{width:100%;padding:15px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;outline:none;text-align:right}
-.wd-note{text-align:center;font-size:12px;color:#888;margin-top:14px}
-.alert-box{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:30px}
-.alert-box.show{display:flex}
-.alert-card{background:#fff;border-radius:16px;padding:28px 22px;max-width:340px;width:100%;text-align:center}
-.alert-card h3{color:#0A3D62;font-size:18px;margin-bottom:12px}
-.alert-card p{color:#555;font-size:14px;margin-bottom:20px;line-height:1.6}
-.alert-card button{background:#2D9CDB;color:#fff;border:none;padding:13px 40px;border-radius:25px;font-size:15px;font-weight:700;cursor:pointer}
-.toast{display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:13px 24px;border-radius:10px;z-index:9000;font-size:13px;max-width:90%;text-align:center}
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    animation: boxIn .8s ease;
+}
+
+@keyframes boxIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* دائرة التحميل */
+.loader {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+
+    border: 4px solid rgba(255,255,255,.12);
+    border-top-color: #fff;
+    border-right-color: #777;
+
+    animation: spin 1s linear infinite;
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.15);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.title {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    letter-spacing: .3px;
+}
+
+.message {
+    color: #cfcfcf;
+    font-size: 15px;
+    line-height: 1.8;
+    min-height: 55px;
+}
+
+/* النقاط */
+.dots {
+    display: inline-flex;
+    gap: 5px;
+    margin-right: 4px;
+}
+
+.dots span {
+    width: 5px;
+    height: 5px;
+    background: #fff;
+    border-radius: 50%;
+    animation: dots 1.2s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.dots span:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes dots {
+    0%, 80%, 100% {
+        opacity: .25;
+        transform: translateY(0);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+}
+
+/* خط التحميل */
+.progress {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,.1);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 27px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #777, #fff);
+    border-radius: 20px;
+    animation: loading 8s infinite;
+}
+
+@keyframes loading {
+    0% {
+        width: 0%;
+    }
+
+    50% {
+        width: 65%;
+    }
+
+    80% {
+        width: 88%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.status {
+    margin-top: 17px;
+    font-size: 12px;
+    color: #888;
+}
+
+/* موبايل */
+@media (max-width: 480px) {
+    .box {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .message {
+        font-size: 14px;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="screen active">
-    <div class="login-hero"><div class="ball"></div></div>
-    <div class="login-form">
-        <div class="login-title">تسجيل الدخول</div>
-        <div class="field"><input id="loginUser" type="text" placeholder="البريد الإلكتروني أو اسم المستخدم"></div>
-        <div class="field">
-            <input id="loginPass" type="password" placeholder="كلمة المرور">
-            <button class="eye-btn" onclick="toggleEye('loginPass',this)">👁</button>
-        </div>
-        <button class="login-btn" onclick="doLogin()">دخول</button>
-        <div class="register-link" onclick="showScreen('signupScreen')">إنشاء حساب جديد</div>
-    </div>
-</div>
+<div class="bg"></div>
+<div class="overlay"></div>
 
-<!-- SIGNUP -->
-<div id="signupScreen" class="screen">
-    <div class="signup-form">
-        <div class="signup-title">إنشاء حساب جديد</div>
-        <div class="field"><input id="regPhone" type="tel" placeholder="رقم الهاتف" inputmode="numeric"></div>
-        <div class="field">
-            <input id="regPass" type="password" placeholder="كلمة المرور">
-            <button class="eye-btn" onclick="toggleEye('regPass',this)">👁</button>
-        </div>
-        <div class="field">
-            <input id="regPass2" type="password" placeholder="تأكيد كلمة المرور">
-            <button class="eye-btn" onclick="toggleEye('regPass2',this)">👁</button>
-        </div>
-        <button class="signup-btn" onclick="doSignup()">إنشاء الحساب ودخول</button>
-    </div>
-</div>
+<div class="container">
 
-<!-- DASHBOARD -->
-<div id="dashboardScreen" class="screen">
-    <div class="dash-top">
-        <div class="balance-box">
-            <div class="balance-label">الرصيد الحالي</div>
-            <div class="balance-value"><span id="balance">0.00</span> <span>جنيه</span></div>
-        </div>
-        <div class="side-btns">
-            <button onclick="openWithdraw()">سحب</button>
-            <button onclick="openDeposit()">إيداع</button>
-        </div>
-    </div>
-    <div class="crash-image-wrap">
-        <img src="https://raw.githubusercontent.com/turbo1-2/Swar/refs/heads/main/Screenshot_%D9%A2%D9%A0%D9%A2%D9%A6%D9%A0%D9%A9%D9%A1%D9%A7-%D9%A1%D9%A7%D9%A2%D9%A9%D9%A2%D9%A7_1xBet.jpg" alt="Games">
-        <div class="crash-click-zone" onclick="openCrash()"></div>
-        <div class="apple-click-zone" onclick="openApple()"></div>
-    </div>
-</div>
+    <div class="box">
 
-<!-- CRASH GAME -->
-<div id="crashScreen">
-    <div class="crash-top">
-        <button class="back-btn" onclick="closeCrash()">←</button>
-        <div class="crash-balance"><span id="crashBalance">0.00</span> ج.م <span class="plus">+</span></div>
-        <div style="width:40px"></div>
-    </div>
-    <div class="crash-arena" id="crashArena">
-        <div class="label-top" id="crashLabel">انتظار الجولة...</div>
-        <div class="trail" id="trail"></div>
-        <div class="plane" id="plane"><img src="https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/file_00000000e84881f4ae05c0fdf3f58f1b.png" alt="plane"></div>
-        <div class="start-count" id="startCount">تبدأ خلال: 6</div>
-        <div class="big-text" id="bigText" style="display:none">1.00x</div>
-        <div class="win-banner" id="winBanner"></div>
-    </div>
-    <div class="crash-controls">
-        <div class="row">
-            <button class="place-btn" id="placeBtn" onclick="placeBet()">PLACE A BET</button>
-            <input class="bet-input" id="betInput" type="number" value="20">
-        </div>
-    </div>
-    <div class="players-table">
-        <div class="players-head"><div>USER</div><div>ODDS</div><div>BET</div><div>WIN</div></div>
-        <div id="playersBody"></div>
-    </div>
-</div>
+        <div class="loader"></div>
 
-<!-- APPLE -->
-<div id="appleScreen">
-    <div class="apple-inner">
-        <div class="apple-top">
-            <button class="apple-back-btn" onclick="closeApple()">→</button>
-            <div class="apple-balance-box"><span id="appleBalance">0.00</span> <span class="cur">ج.م</span></div>
+        <div class="title">
+            برجاء الانتظار
         </div>
-        <div class="apple-main">
-            <div class="apple-grid-wrap">
-                <div class="apple-mults" id="appleMults"></div>
-                <div class="apple-grid" id="appleGrid"></div>
-            </div>
-        </div>
-        <div class="apple-bottom">
-            <div class="apple-ctrl-row">
-                <button id="ctrlMin" onclick="appleCtrl('min')">MIN</button>
-                <button id="ctrlDouble" onclick="appleCtrl('double')">X2</button>
-                <button id="ctrlHalf" onclick="appleCtrl('half')">X/2</button>
-                <button id="ctrlMax" onclick="appleCtrl('max')">MAX</button>
-            </div>
-            <div class="apple-stake-row">
-                <button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button>
-                <div class="apple-stake-display"><span id="appleStakeVal">20</span></div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- DEPOSIT -->
-<div id="depositModal" class="modal">
-    <div class="modal-head">
-        <button class="back" onclick="closeModal('depositModal')">← رجوع</button>
-        <h2>إيداع أموال</h2>
-    </div>
-    <div class="modal-body">
-        <div style="color:#2c3e50;font-weight:700;font-size:15px;margin-bottom:12px">اختر وسيلة الإيداع:</div>
-        <div class="methods-list">
-            <div class="method-item" data-m="vodafone" onclick="selectMethod(this,'vodafone')">فودافون كاش</div>
-            <div class="method-item" data-m="etisalat" onclick="selectMethod(this,'etisalat')">اتصالات كاش</div>
-            <div class="method-item" data-m="orange" onclick="selectMethod(this,'orange')">أورنج كاش</div>
+        <div class="message">
+            يتم الآن تحميل التحديث الجديد
+            <span class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
         </div>
-        <div class="deposit-info" id="depositInfo">
-            <h3 id="depMethodName">فودافون كاش</h3>
-            <p>حول المبلغ إلى الرقم التالي:</p>
-            <div class="number-row">
-                <button onclick="copyNum()">نسخ</button>
-                <div class="num" id="depNumber">01286028671</div>
-            </div>
-            <div class="min-note">أقل مبلغ للإيداع 200 ج.م :</div>
-            <input class="amount-input" id="depAmount" type="number" placeholder="أدخل المبلغ" min="200">
-            <input class="amount-input" id="depFrom" type="tel" placeholder="رقم هاتفك الذي تم منه التحويل" maxlength="11">
-            <div class="file-box">
-                <label for="depImage">📷 اضغط لرفع صورة التحويل</label>
-                <input type="file" id="depImage" accept="image/*" onchange="previewDepositImage(event)">
-                <div class="filename" id="depFilename">لم يتم اختيار صورة</div>
-                <img class="preview-img" id="depPreview" alt="preview">
-            </div>
-        </div>
-        <button class="confirm-btn green" id="depConfirmBtn" style="display:none" onclick="sendDeposit()">تأكيد الإيداع</button>
-    </div>
-</div>
 
-<!-- WITHDRAW -->
-<div id="withdrawModal" class="modal">
-    <div class="modal-head">
-        <button class="back" onclick="closeModal('withdrawModal')">← رجوع</button>
-        <h2>طلب سحب أموال</h2>
-    </div>
-    <div class="modal-body">
-        <div class="balance-green">
-            <div class="lbl">الرصيد المتاح حالياً</div>
-            <div class="val"><span id="wdBalance">0.00</span> جنيه</div>
+        <div class="progress">
+            <div class="progress-bar"></div>
         </div>
-        <div class="wd-field">
-            <label>المبلغ المطلوب سحبه</label>
-            <input id="wdAmount" type="number" placeholder="أدخل المبلغ بالجنيه" min="50">
-        </div>
-        <div class="wd-field">
-            <label>رقم المحفظة (فودافون كاش، إلخ)</label>
-            <input id="wdNumber" type="tel" placeholder="أدخل رقم الهاتف للسحب" maxlength="11">
-            <div class="wd-note">الحد الأدنى للسحب: 50 جنيه</div>
-        </div>
-        <button class="confirm-btn purple" onclick="sendWithdraw()">تأكيد طلب السحب</button>
-        <div class="wd-note">ملاحظة: يتم مراجعة طلبات السحب يدوياً للأمان</div>
-    </div>
-</div>
 
-<!-- ALERT -->
-<div id="alertBox" class="alert-box">
-    <div class="alert-card">
-        <h3 id="alertTitle">تم الإرسال</h3>
-        <p id="alertMsg">سيتم مراجعة طلبك</p>
-        <button onclick="closeAlert()">حسناً</button>
-    </div>
-</div>
+        <div class="status">
+            جاري التحقق من آخر إصدار...
+        </div>
 
-<div id="toast" class="toast"></div>
+    </div>
+
+</div>
 
 <script>
-/* ============================================================
-   🛡️ حماية اختصارات المطورين
-   ============================================================ */
-(function(){
-    'use strict';
 
-    document.addEventListener('contextmenu', function(e){
-        e.preventDefault();
-        return false;
-    });
+const messages = [
+    "يتم الآن تحميل التحديث الجديد",
+    "برجاء الانتظار حتى يكتمل التحديث",
+    "جاري تجهيز الملفات الجديدة",
+    "جاري التحقق من آخر إصدار",
+    "جاري تطبيق التحديثات الجديدة"
+];
 
-    document.addEventListener('keydown', function(e){
-        const k = (e.key || '').toLowerCase();
+let index = 0;
 
-        if(e.key === 'F12' || e.keyCode === 123){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+const message = document.querySelector(".message");
 
-        if(e.ctrlKey && e.shiftKey && (k === 'i' || k === 'j' || k === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+setInterval(() => {
 
-        if(e.ctrlKey && (k === 'u' || e.keyCode === 85)){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+    index++;
 
-        if(e.ctrlKey && (k === 's' || e.keyCode === 83)){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+    if (index >= messages.length) {
+        index = 0;
+    }
 
-        if(e.ctrlKey && (k === 'p' || e.keyCode === 80)){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+    message.style.opacity = "0";
 
-        if(e.ctrlKey && e.shiftKey && (k === 'e' || k === 'k')){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
+    setTimeout(() => {
 
-        if(e.metaKey && e.altKey && (k === 'i' || k === 'j' || k === 'c')){
-            e.preventDefault(); e.stopPropagation();
-            return false;
-        }
-    }, true);
+        message.innerHTML =
+            messages[index] +
+            ` <span class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>`;
 
-    document.addEventListener('dragstart', e => e.preventDefault());
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('cut', e => e.preventDefault());
+        message.style.opacity = "1";
 
-    const noop = function(){};
-    try{
-        const methods = ['log','warn','error','info','debug','trace','dir','table','clear','group','groupEnd','groupCollapsed','count','assert','profile','profileEnd','time','timeEnd'];
-        methods.forEach(m => { if(console[m]) console[m] = noop; });
-        Object.defineProperty(window, 'console', {
-            get: function(){ return {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop}; },
-            set: noop
-        });
-    }catch(e){}
-})();
+    }, 300);
+
+}, 3000);
+
 </script>
 
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getDatabase, ref, get, set, update, push, onValue, remove} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAUc2C9hG9VE7RECiW19QXjNZqVH96sFE",
-    authDomain: "zezo-59a8d.firebaseapp.com",
-    databaseURL: "https://zezo-59a8d-default-rtdb.firebaseio.com",
-    projectId: "zezo-59a8d",
-    storageBucket: "zezo-59a8d.firebasestorage.app",
-    messagingSenderId: "49183098248",
-    appId: "1:49183098248:web:37e3fb16744042a1bb263d"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let user = "";
-let balance = 0;
-let balanceListener = null;
-let listenerStarted = false;
-let kickListener = null;
-let kicked = false;
-let suppressBalanceNotify = false;
-let depositNumbers = {vodafone:"01286028671", etisalat:"01186028671", orange:"01086028671"};
-let currentMethod = null;
-let currentImageData = "";
-
-let roundState = "idle";
-let roundTimer = null, countdownTimer = null;
-let multiplier = 1, crashPoint = 0;
-let bet = {amount:0, active:false, cashed:false};
-
-const botNames = ["King_99","User01","Ahmed123","Lion_99","User77","User2024","Star77","AhmedPro","DevVIP","LionPro","Eagle2024","StarPro","MidoVIP","UserVIP","Shadow01","Shadow_99","Lion77","King_sh","EagleX","CaptVIP","Mido123","AhmedX","King2024","Capt123","Dev77"];
-let botPlayers = [];
-
-/* ===== Helpers ===== */
-function showScreen(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    const cs = document.getElementById('crashScreen'); if(cs) cs.classList.remove('active');
-}
-function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>el.style.display='none',2500);}
-function toggleEye(id,btn){const inp=document.getElementById(id);if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}else{inp.type='password';btn.textContent='👁';}}
-function showAlert(title,msg){document.getElementById('alertTitle').textContent=title;document.getElementById('alertMsg').textContent=msg;document.getElementById('alertBox').classList.add('show');}
-function closeAlert(){document.getElementById('alertBox').classList.remove('show');}
-function openModal(id){document.getElementById(id).classList.add('show');}
-function closeModal(id){document.getElementById(id).classList.remove('show');}
-function sanitizeUname(u){return String(u||'').trim().replace(/[.#$/\[\]]/g,'_');}
-
-/* ===== 💰 Balance Live Listener ===== */
-function startBalanceListener(uname){
-    stopBalanceListener();
-    listenerStarted = true;
-    balanceListener = onValue(ref(db,'users/'+uname+'/balance'), (s)=>{
-        if(!s.exists()) return;
-        if(kicked) return;
-        balance = Number(s.val()||0);
-        updateBalanceUI();
-    });
-}
-function stopBalanceListener(){
-    if(balanceListener){
-        try{ balanceListener(); }catch(e){}
-        balanceListener = null;
-    }
-    listenerStarted = false;
-}
-
-/* ===== 🛡️ Kick Listener ===== */
-function startKickListener(uname){
-    if(kickListener){ kickListener(); kickListener = null; }
-    kicked = false;
-    kickListener = onValue(ref(db,'deletedUsers/'+uname), (snap)=>{
-        if(!snap.exists()) return;
-        if(kicked) return;
-        kicked = true;
-
-        stopBalanceListener();
-
-        try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
-
-        const cs = document.getElementById('crashScreen'); if(cs) cs.classList.remove('active');
-        const aps = document.getElementById('appleScreen'); if(aps) aps.classList.remove('active');
-        document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));
-
-        clearInterval(roundTimer); clearInterval(countdownTimer);
-
-        user = "";
-        balance = 0;
-        updateBalanceUI();
-
-        showAlert('⚠️ تم حذف حسابك','تم حذف حسابك من قِبل الإدارة. سيتم تسجيل خروجك الآن، الرجاء التسجيل من جديد.');
-        setTimeout(()=>{
-            closeAlert();
-            showScreen('loginScreen');
-        }, 1500);
-    });
-}
-
-/* ===== AUTH ===== */
-async function doLogin(){
-    const u = document.getElementById('loginUser').value.trim();
-    const p = document.getElementById('loginPass').value.trim();
-    if(!u || !p){toast('من فضلك أدخل البيانات');return;}
-
-    const uname = sanitizeUname(u);
-
-    try{
-        const bannedSnap = await get(ref(db,'bannedUsers/'+uname));
-        if(bannedSnap.exists()){
-            showAlert('حساب محذوف','هذا الحساب تم حذفه من قِبل الإدارة. لا يمكن تسجيل الدخول به.');
-            return;
-        }
-        const delSnap = await get(ref(db,'deletedUsers/'+uname));
-        if(delSnap.exists()){
-            showAlert('حساب محذوف','هذا الحساب تم حذفه من قِبل الإدارة.');
-            return;
-        }
-        const uSnap = await get(ref(db,'users/'+uname));
-        if(!uSnap.exists()){
-            showAlert('حساب غير موجود','هذا الحساب غير موجود. من فضلك أنشئ حساباً جديداً.');
-            return;
-        }
-
-        user = uname;
-        balance = Number(uSnap.val().balance||0);
-        updateBalanceUI();
-
-        startBalanceListener(user);
-        startKickListener(user);
-        showScreen('dashboardScreen');
-    }catch(e){
-        toast('فشل الاتصال');
-    }
-}
-
-async function doSignup(){
-    const phone = document.getElementById('regPhone').value.trim();
-    const p1 = document.getElementById('regPass').value.trim();
-    const p2 = document.getElementById('regPass2').value.trim();
-    if(!phone || !p1){toast('من فضلك أكمل البيانات');return;}
-    if(p1 !== p2){toast('كلمتا المرور غير متطابقتين');return;}
-
-    const uname = sanitizeUname(phone);
-
-    try{
-        const bannedSnap = await get(ref(db,'bannedUsers/'+uname));
-        if(bannedSnap.exists()){
-            showAlert('لا يمكن التسجيل','هذا الحساب محذوف من قِبل الإدارة. لا يمكن التسجيل بنفس الاسم مرة أخرى.');
-            return;
-        }
-        const uSnap = await get(ref(db,'users/'+uname));
-        if(uSnap.exists()){
-            showAlert('الحساب موجود','هذا الحساب موجود بالفعل، من فضلك سجّل الدخول.');
-            return;
-        }
-
-        try{ await remove(ref(db,'deletedUsers/'+uname)); }catch(e){}
-
-        user = uname;
-        await set(ref(db,'users/'+user),{
-            password: p1,
-            balance: 0,
-            createdAt: Date.now()
-        });
-        balance = 0;
-        updateBalanceUI();
-        startBalanceListener(user);
-        startKickListener(user);
-        showScreen('dashboardScreen');
-    }catch(e){
-        toast('فشل إنشاء الحساب');
-    }
-}
-
-function updateBalanceUI(){
-    const f = Number(balance||0).toFixed(2);
-    const b = document.getElementById('balance'); if(b) b.textContent=f;
-    const cb = document.getElementById('crashBalance'); if(cb) cb.textContent=f;
-    const wb = document.getElementById('wdBalance'); if(wb) wb.textContent=f;
-    const ab = document.getElementById('appleBalance'); if(ab) ab.textContent=f;
-}
-function saveBalance(){
-    if(!user || kicked) return;
-    suppressBalanceNotify = true;
-    update(ref(db,'users/'+user),{balance:Number(balance),updatedAt:Date.now()})
-        .then(()=>{ setTimeout(()=>{ suppressBalanceNotify = false; }, 800); })
-        .catch((e)=>{ suppressBalanceNotify = false; });
-}
-
-/* ===== Deposit ===== */
-function openDeposit(){
-    currentMethod = null; currentImageData = "";
-    document.querySelectorAll('.method-item').forEach(x=>x.classList.remove('active'));
-    document.getElementById('depositInfo').classList.remove('show');
-    document.getElementById('depConfirmBtn').style.display = 'none';
-    document.getElementById('depFilename').textContent = 'لم يتم اختيار صورة';
-    document.getElementById('depPreview').style.display = 'none';
-    document.getElementById('depImage').value = '';
-    onValue(ref(db,'settings/vodafoneNumber'),s=>{if(s.exists())depositNumbers.vodafone=s.val();},{onlyOnce:true});
-    onValue(ref(db,'settings/etisalatNumber'),s=>{if(s.exists())depositNumbers.etisalat=s.val();},{onlyOnce:true});
-    onValue(ref(db,'settings/orangeNumber'),s=>{if(s.exists())depositNumbers.orange=s.val();},{onlyOnce:true});
-    openModal('depositModal');
-}
-function selectMethod(el,method){
-    document.querySelectorAll('.method-item').forEach(x=>x.classList.remove('active'));
-    el.classList.add('active');
-    currentMethod = method;
-    const names = {vodafone:'فودافون كاش',etisalat:'اتصالات كاش',orange:'أورنج كاش'};
-    document.getElementById('depMethodName').textContent = names[method];
-    document.getElementById('depNumber').textContent = depositNumbers[method];
-    document.getElementById('depositInfo').classList.add('show');
-    document.getElementById('depConfirmBtn').style.display = 'block';
-}
-function copyNum(){
-    const n = document.getElementById('depNumber').textContent;
-    navigator.clipboard.writeText(n).then(()=>toast('تم نسخ الرقم ✅')).catch(()=>toast('فشل النسخ'));
-}
-function previewDepositImage(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    if(!file.type.startsWith('image/')){toast('اختار صورة فقط');return;}
-    if(file.size > 2*1024*1024){toast('حجم الصورة يجب أن يكون أقل من 2MB');return;}
-    const reader = new FileReader();
-    reader.onload = (ev)=>{
-        currentImageData = ev.target.result;
-        document.getElementById('depPreview').src = ev.target.result;
-        document.getElementById('depPreview').style.display = 'block';
-        document.getElementById('depFilename').textContent = file.name;
-    };
-    reader.readAsDataURL(file);
-}
-async function sendDeposit(){
-    if(!currentMethod){toast('اختر وسيلة الإيداع أولاً');return;}
-    const amt = Number(document.getElementById('depAmount').value);
-    const from = document.getElementById('depFrom').value.replace(/\D/g,'');
-    if(!amt || amt<200){toast('أقل مبلغ 200 ج.م');return;}
-    if(from.length!==11){toast('رقم التحويل 11 رقم');return;}
-    if(!currentImageData){toast('من فضلك ارفع صورة التحويل');return;}
-    try{
-        await push(ref(db,'requests'),{
-            type:'deposit',user:user,amount:amt,method:currentMethod,
-            depositNumber:depositNumbers[currentMethod],fromNumber:from,
-            image:currentImageData,status:'pending',
-            date:new Date().toLocaleString('ar-EG'),createdAt:Date.now()
-        });
-        document.getElementById('depAmount').value='';
-        document.getElementById('depFrom').value='';
-        currentImageData='';
-        closeModal('depositModal');
-        showAlert('تم الإرسال','تم إرسال طلب الإيداع بنجاح برجاء الانتظار');
-    }catch(e){toast('فشل الطلب');}
-}
-
-/* ===== Withdraw ===== */
-function openWithdraw(){
-    document.getElementById('wdBalance').textContent = Number(balance||0).toFixed(2);
-    openModal('withdrawModal');
-}
-async function sendWithdraw(){
-    const amt = Number(document.getElementById('wdAmount').value);
-    const num = document.getElementById('wdNumber').value.replace(/\D/g,'');
-    if(!amt || amt<50){toast('أقل سحب 50 ج.م');return;}
-    if(amt>balance){toast('الرصيد غير كافٍ');return;}
-    if(num.length!==11){toast('رقم المحفظة 11 رقم');return;}
-    try{
-        await push(ref(db,'requests'),{
-            type:'withdraw',user:user,amount:amt,withdrawNumber:num,
-            status:'pending',date:new Date().toLocaleString('ar-EG'),createdAt:Date.now()
-        });
-        document.getElementById('wdAmount').value='';
-        document.getElementById('wdNumber').value='';
-        closeModal('withdrawModal');
-        showAlert('تم الإرسال','تم إرسال طلب السحب برجاء الانتظار');
-    }catch(e){toast('فشل الطلب');}
-}
-
-/* ===== CRASH GAME ===== */
-function openCrash(){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById('crashScreen').classList.add('active');
-    updateBalanceUI();
-    setTimeout(startCountdown,150);
-}
-function closeCrash(){
-    document.getElementById('crashScreen').classList.remove('active');
-    document.getElementById('crashScreen').classList.remove('won');
-    showScreen('dashboardScreen');
-    clearInterval(roundTimer);clearInterval(countdownTimer);
-}
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-
-function createBots(){
-    botPlayers = [];
-    const count = rand(10,14);
-    const picked = shuffle(botNames).slice(0,count);
-    picked.forEach((name,i)=>{
-        let cashout, r=Math.random();
-        if(r<.30) cashout=Number((1.15+Math.random()*.5).toFixed(2));
-        else if(r<.60) cashout=Number((1.8+Math.random()*1.2).toFixed(2));
-        else if(r<.85) cashout=Number((3+Math.random()*3).toFixed(2));
-        else cashout=Number((6+Math.random()*8).toFixed(2));
-        const betAmt = [10,20,50,100,200,500,1000][rand(0,6)];
-        botPlayers.push({id:'p'+Date.now()+'_'+i,name,cashout,bet:betAmt,state:'waiting'});
-    });
-    renderBots();
-}
-function renderBots(){
-    const body = document.getElementById('playersBody');
-    body.innerHTML = '';
-    botPlayers.forEach(p=>{
-        const row = document.createElement('div');
-        row.className='players-row';row.dataset.pid=p.id;
-        row.innerHTML = `<div class="col-user">${p.name}</div><div class="col-odds">-</div><div class="col-bet">${p.bet} ج.م</div><div class="col-win">-</div>`;
-        body.appendChild(row);
-    });
-}
-function updateBotRow(pid,isWin,fair,win){
-    const row = document.querySelector(`.players-row[data-pid="${pid}"]`);if(!row)return;
-    const oddsEl = row.querySelector('.col-odds');
-    const winEl = row.querySelector('.col-win');
-    if(isWin){oddsEl.textContent=fair.toFixed(2)+'x';oddsEl.classList.add('win');winEl.textContent=win.toFixed(1);}
-    else{oddsEl.textContent='LOST';oddsEl.classList.add('lose');winEl.textContent='0';}
-}
-function addUserRow(isWin,fair,betAmt,winAmt){
-    const body = document.getElementById('playersBody');
-    const old = document.querySelector('.players-row.me');if(old)old.remove();
-    const row = document.createElement('div');
-    row.className='players-row me';row.dataset.pid='me';
-    const oddsHtml = isWin ? `<div class="col-odds win">${fair.toFixed(2)}x</div>` : `<div class="col-odds lose">LOST</div>`;
-    row.innerHTML = `<div class="col-user" style="color:#f0c419">${user||'أنت'}</div>${oddsHtml}<div class="col-bet">${betAmt} ج.م</div><div class="col-win" style="color:#f0c419">${winAmt?winAmt.toFixed(1):'0'}</div>`;
-    body.insertBefore(row,body.firstChild);
-}
-function generateCrashPoint(){
-    const presets=[4.10,4.50,5.00,5.50,6.00,6.50,7.20,8.00,8.89,9.50,10.00,11.00,12.00,13.50,14.50,15.00,16.00];
-    let p = presets[Math.floor(Math.random()*presets.length)];
-    if(Math.random()<.30) p += Number((Math.random()*.6).toFixed(2));
-    return Number(Math.min(16, p).toFixed(2));
-}
-function startCountdown(){
-    clearInterval(roundTimer);clearInterval(countdownTimer);
-    roundState='countdown';multiplier=1;bet={amount:0,active:false,cashed:false};
-    crashPoint = generateCrashPoint();
-    const crashScreen = document.getElementById('crashScreen');
-    crashScreen.classList.remove('won');
-    document.getElementById('crashLabel').textContent='انتظار الجولة...';
-    document.getElementById('crashLabel').className='label-top';
-    document.getElementById('bigText').style.display='none';
-    document.getElementById('bigText').className='big-text';
-    document.getElementById('plane').style.display='none';
-    document.getElementById('trail').style.display='none';
-    document.getElementById('winBanner').className='win-banner';
-    const sc = document.getElementById('startCount');
-    sc.style.display='block';sc.classList.add('show');
-    const pb = document.getElementById('placeBtn');
-    pb.textContent='PLACE A BET';
-    pb.classList.remove('cashout','accepted');
-    createBots();
-    let sec=6;
-    sc.textContent='تبدأ خلال: '+sec;
-    countdownTimer = setInterval(()=>{
-        sec--;
-        if(sec>0){sc.textContent='تبدأ خلال: '+sec;}
-        else{clearInterval(countdownTimer);sc.style.display='none';sc.classList.remove('show');startRound();}
-    },1000);
-}
-function startRound(){
-    clearInterval(roundTimer);
-    roundState='running';multiplier=1;
-    document.getElementById('crashLabel').textContent='ستنفجر عند: '+crashPoint.toFixed(2)+'x';
-    document.getElementById('plane').style.display='block';
-    document.getElementById('trail').style.display='block';
-    document.getElementById('bigText').style.display='block';
-    document.getElementById('bigText').className='big-text';
-    document.getElementById('bigText').textContent='1.00x';
-    botPlayers.forEach(p=>p.state='playing');
-    if(bet.active && !bet.cashed){
-        const pb = document.getElementById('placeBtn');
-        pb.classList.add('cashout');updateCashoutBtn();
-    }
-    const START = Date.now();
-    const arena = document.getElementById('crashArena');
-    const W = arena.clientWidth, H = arena.clientHeight;
-    const PLANE = 70;
-    const startX = 30, startY = 30;
-    const maxX = W - PLANE - 20;
-    const maxY = H - PLANE - 60;
-    roundTimer = setInterval(()=>{
-        const el = (Date.now()-START)/1000;
-        multiplier = 1 + el*0.75;
-        if(multiplier >= crashPoint){
-            multiplier = crashPoint;
-            document.getElementById('bigText').textContent = multiplier.toFixed(2)+'x';
-            crashNow();return;
-        }
-        const progress = Math.min(1, (multiplier - 1) / 15);
-        const px = startX + (maxX - startX)*progress;
-        const py = startY + (maxY - startY)*progress;
-        const plane = document.getElementById('plane');
-        plane.style.left = px + 'px';
-        plane.style.bottom = py + 'px';
-        plane.style.transform = 'none';
-        const pcX = px + PLANE/2, pcY = py + PLANE/2;
-        const dx = pcX - startX, dy = pcY - startY;
-        const len = Math.sqrt(dx*dx + dy*dy);
-        const aRad = Math.atan2(dy, dx);
-        const aDeg = -aRad * 180 / Math.PI;
-        const trail = document.getElementById('trail');
-        trail.style.left = startX + 'px';
-        trail.style.bottom = startY + 'px';
-        trail.style.width = len + 'px';
-        trail.style.transform = `rotate(${aDeg}deg)`;
-        document.getElementById('bigText').textContent = multiplier.toFixed(2)+'x';
-        botPlayers.forEach(p=>{
-            if(p.state==='playing' && multiplier >= p.cashout){
-                p.state='won';updateBotRow(p.id,true,p.cashout,p.bet*p.cashout);
-            }
-        });
-        if(bet.active && !bet.cashed){updateCashoutBtn();}
-    },50);
-}
-function updateCashoutBtn(){
-    const pb = document.getElementById('placeBtn');
-    const win = (bet.amount * multiplier);
-    pb.innerHTML = `سحب<br><small>${win.toFixed(2)} ج.م</small>`;
-}
-function placeBet(){
-    if(roundState==='running' && bet.active && !bet.cashed){cashOut();return;}
-    if(roundState!=='countdown'){toast('انتظر الجولة القادمة');return;}
-    if(bet.active){toast('أنت داخل الجولة بالفعل');return;}
-    const amt = Number(document.getElementById('betInput').value)||0;
-    if(amt<1){toast('أقل رهان 1 ج.م');return;}
-    if(amt>balance){toast('الرصيد غير كافٍ');return;}
-    bet.amount=amt;bet.active=true;bet.cashed=false;
-    balance -= amt;updateBalanceUI();saveBalance();
-    const pb = document.getElementById('placeBtn');
-    pb.textContent='تم الرهان';pb.classList.add('accepted');
-    addUserRow(false,0,amt,0);
-}
-function cashOut(){
-    if(!bet.active || bet.cashed)return;
-    const win = bet.amount * multiplier;
-    balance += win;updateBalanceUI();saveBalance();
-    bet.cashed=true;
-    const pb = document.getElementById('placeBtn');
-    pb.classList.remove('cashout');
-    pb.innerHTML = 'PLACE A BET';
-    const crashScreen = document.getElementById('crashScreen');
-    crashScreen.classList.add('won');
-    const wb = document.getElementById('winBanner');
-    wb.textContent = `فزت بـ ${win.toFixed(2)} ج.م`;
-    wb.classList.add('show');
-    setTimeout(()=>{wb.classList.remove('show');},3500);
-    addUserRow(true,multiplier,bet.amount,win);
-}
-function crashNow(){
-    clearInterval(roundTimer);roundState='crashed';
-    document.getElementById('crashLabel').textContent='CRASHED!';
-    document.getElementById('crashLabel').className='label-top crashed';
-    document.getElementById('bigText').className='big-text crashed';
-    document.getElementById('bigText').textContent='CRASHED!';
-    document.getElementById('plane').style.display='none';
-    document.getElementById('trail').style.display='none';
-    const crashScreen = document.getElementById('crashScreen');
-    crashScreen.classList.remove('won');
-    document.getElementById('winBanner').className='win-banner';
-    botPlayers.forEach(p=>{if(p.state==='playing'){p.state='lost';updateBotRow(p.id,false,0,0);}});
-    if(bet.active && !bet.cashed){
-        addUserRow(false,0,bet.amount,0);
-    }
-    bet.active=false;bet.cashed=false;
-    const pb = document.getElementById('placeBtn');
-    pb.classList.remove('cashout','accepted');
-    pb.innerHTML='PLACE A BET';
-    setTimeout(()=>{document.getElementById('bigText').className='big-text';startCountdown();},2500);
-}
-
-/* ===== APPLE OF FORTUNE ===== */
-const APPLE_MULTS = [1.00, 1.23, 1.54, 1.93, 2.41, 4.33, 8.66, 17.30, 34.60, 69.30];
-const APPLE_ROWS = 10;
-const APPLE_COLS = 5;
-
-const APPLE_COVER_BOTTOM = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/efc0e4cb-1559-4172-8df1-389128bf9fa7.png';
-const APPLE_COVER_TOP = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_2.png';
-const APPLE_SAFE = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_3.png';
-const APPLE_ROTTEN = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_1.png';
-
-let appleState = {
-    active:false, finished:false, revealAll:false,
-    stake:20, stakePlaced:false, currentRow:0,
-    picks:{}, rottenAt:[], cashoutMult:1.00
-};
-
-function openApple(){
-    appleState.active = true;
-    appleState.finished = false;
-    appleState.revealAll = false;
-    appleState.stakePlaced = false;
-    appleState.currentRow = 0;
-    appleState.picks = {};
-    appleState.rottenAt = [];
-    appleState.cashoutMult = 1.00;
-    appleState.stake = 20;
-    document.getElementById('appleStakeVal').textContent = '20';
-    document.getElementById('appleBalance').textContent = balance.toFixed(2);
-    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
-        const el = document.getElementById(id); if(el) el.disabled = false;
-    });
-    renderApple();
-    updateAppleActionBtn();
-    document.getElementById('appleScreen').classList.add('active');
-}
-function closeApple(){
-    document.getElementById('appleScreen').classList.remove('active');
-    appleState.active = false;
-}
-function fmtMult(n){
-    let s = n.toFixed(2);
-    if(s.endsWith('0')) s = s.slice(0, -1);
-    return s;
-}
-function getCoverForRow(gameRow){
-    return (gameRow === 0) ? APPLE_COVER_BOTTOM : APPLE_COVER_TOP;
-}
-function renderApple(){
-    const grid = document.getElementById('appleGrid');
-    grid.innerHTML = '';
-    for(let vr = 0; vr < APPLE_ROWS; vr++){
-        const gameRow = APPLE_ROWS - 1 - vr;
-        for(let c = 0; c < APPLE_COLS; c++){
-            const cell = document.createElement('div');
-            cell.className = 'apple-cell';
-            let src;
-            if(appleState.revealAll){
-                src = (appleState.rottenAt[gameRow] === c) ? APPLE_ROTTEN : APPLE_SAFE;
-            } else if(appleState.picks[gameRow] !== undefined && appleState.picks[gameRow] === c){
-                src = (appleState.rottenAt[gameRow] === c) ? APPLE_ROTTEN : APPLE_SAFE;
-            } else {
-                src = getCoverForRow(gameRow);
-            }
-            cell.innerHTML = `<img src="${src}" alt="">`;
-            const canClick = appleState.active && !appleState.finished && appleState.stakePlaced
-                && gameRow === appleState.currentRow && appleState.picks[gameRow] === undefined;
-            if(canClick){
-                cell.classList.add('clickable');
-                cell.onclick = () => appleClick(gameRow, c);
-            }
-            grid.appendChild(cell);
-        }
-    }
-    const mults = document.getElementById('appleMults');
-    mults.innerHTML = '';
-    for(let vr = 0; vr < APPLE_ROWS; vr++){
-        const gameRow = APPLE_ROWS - 1 - vr;
-        const m = document.createElement('div');
-        m.className = 'apple-mult';
-        const val = APPLE_MULTS[gameRow];
-        m.textContent = (gameRow === 0) ? val.toFixed(2) : 'x' + fmtMult(val);
-        if(gameRow === appleState.currentRow && appleState.active && !appleState.finished && appleState.stakePlaced){
-            m.classList.add('current');
-        } else if(gameRow < appleState.currentRow && appleState.active && !appleState.finished && appleState.stakePlaced){
-            m.classList.add('done');
-        }
-        mults.appendChild(m);
-    }
-}
-function appleClick(gameRow, col){
-    if(!appleState.active || appleState.finished) return;
-    if(!appleState.stakePlaced) return;
-    if(gameRow !== appleState.currentRow) return;
-    if(appleState.picks[gameRow] !== undefined) return;
-
-    appleState.picks[gameRow] = col;
-    const isRotten = appleState.rottenAt[gameRow] === col;
-
-    if(isRotten){
-        appleState.finished = true;
-        appleState.cashoutMult = 0;
-        renderApple();
-        updateAppleActionBtn();
-        setTimeout(()=>{
-            appleState.revealAll = true;
-            renderApple();
-        }, 600);
-        return;
-    }
-
-    if(gameRow === APPLE_ROWS - 1){
-        appleState.finished = true;
-        appleState.cashoutMult = APPLE_MULTS[APPLE_ROWS - 1];
-        const win = appleState.stake * appleState.cashoutMult;
-        balance += win;
-        updateBalanceUI();saveBalance();
-        document.getElementById('appleBalance').textContent = balance.toFixed(2);
-        appleState.revealAll = true;
-        renderApple();
-        updateAppleActionBtn();
-        return;
-    }
-
-    appleState.currentRow = gameRow + 1;
-    appleState.cashoutMult = APPLE_MULTS[gameRow + 1];
-    renderApple();
-    updateAppleActionBtn();
-}
-function updateAppleActionBtn(){
-    const btn = document.getElementById('appleActionBtn');
-    if(!btn) return;
-    if(!appleState.stakePlaced || appleState.finished){
-        btn.textContent = 'STAKE';
-        btn.classList.remove('cashout');
-        btn.disabled = false;
-    } else {
-        const win = appleState.stake * appleState.cashoutMult;
-        btn.innerHTML = `CASHOUT<br><small>${win.toFixed(2)} ج.م</small>`;
-        btn.classList.add('cashout');
-        btn.disabled = false;
-    }
-}
-function appleAction(){
-    if(!appleState.active) return;
-
-    if(appleState.finished){
-        resetApple();
-        return;
-    }
-
-    if(!appleState.stakePlaced){
-        const stakeVal = Number(document.getElementById('appleStakeVal').textContent) || 20;
-        if(stakeVal < 10){toast('أقل رهان 10 ج.م');return;}
-        if(stakeVal > balance){toast('الرصيد غير كافٍ');return;}
-        appleState.stake = stakeVal;
-        balance -= appleState.stake;
-        updateBalanceUI();saveBalance();
-        document.getElementById('appleBalance').textContent = balance.toFixed(2);
-        appleState.stakePlaced = true;
-        appleState.currentRow = 0;
-        appleState.picks = {};
-        appleState.rottenAt = [];
-        for(let r = 0; r < APPLE_ROWS; r++){
-            appleState.rottenAt.push(Math.floor(Math.random() * APPLE_COLS));
-        }
-        ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
-            const el = document.getElementById(id); if(el) el.disabled = true;
-        });
-        renderApple();
-        updateAppleActionBtn();
-        return;
-    }
-
-    const win = appleState.stake * appleState.cashoutMult;
-    balance += win;
-    updateBalanceUI();saveBalance();
-    document.getElementById('appleBalance').textContent = balance.toFixed(2);
-    appleState.finished = true;
-    appleState.revealAll = true;
-    renderApple();
-    updateAppleActionBtn();
-    setTimeout(resetApple, 2000);
-}
-function resetApple(){
-    if(!appleState.active) return;
-    appleState.finished = false;
-    appleState.revealAll = false;
-    appleState.stakePlaced = false;
-    appleState.currentRow = 0;
-    appleState.picks = {};
-    appleState.rottenAt = [];
-    appleState.cashoutMult = 1.00;
-    const curStake = Number(document.getElementById('appleStakeVal').textContent) || 20;
-    appleState.stake = curStake;
-    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
-        const el = document.getElementById(id); if(el) el.disabled = false;
-    });
-    renderApple();
-    updateAppleActionBtn();
-}
-function appleCtrl(mode){
-    if(appleState.stakePlaced) return;
-    let stake = Number(document.getElementById('appleStakeVal').textContent) || 20;
-    if(mode === 'min') stake = 10;
-    else if(mode === 'double') stake = stake * 2;
-    else if(mode === 'half') stake = Math.max(10, Math.floor(stake / 2));
-    else if(mode === 'max') stake = Math.floor(balance);
-    if(stake < 10) stake = 10;
-    if(stake > balance) stake = Math.floor(balance);
-    document.getElementById('appleStakeVal').textContent = stake;
-}
-
-/* ===== Window Bindings ===== */
-window.showScreen=showScreen;
-window.toggleEye=toggleEye;
-window.doLogin=doLogin;
-window.doSignup=doSignup;
-window.openDeposit=openDeposit;
-window.openWithdraw=openWithdraw;
-window.openCrash=openCrash;
-window.closeCrash=closeCrash;
-window.openApple=openApple;
-window.closeApple=closeApple;
-window.selectMethod=selectMethod;
-window.copyNum=copyNum;
-window.previewDepositImage=previewDepositImage;
-window.sendDeposit=sendDeposit;
-window.sendWithdraw=sendWithdraw;
-window.closeAlert=closeAlert;
-window.closeModal=closeModal;
-window.placeBet=placeBet;
-window.appleAction=appleAction;
-window.appleCtrl=appleCtrl;
-</script>
 </body>
-</html>
+    </html>
