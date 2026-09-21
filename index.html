@@ -132,7 +132,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 #crashScreen.won .players-row .col-win{color:#fff}
 
 /* ============================================================
-   🍎 APPLE SCREEN (NEW)
+   🍎 APPLE SCREEN
    ============================================================ */
 #appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
 #appleScreen.active{display:flex}
@@ -166,9 +166,34 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .apple-stake-row{display:flex;align-items:center;gap:8px;flex-direction:row-reverse}
 .apple-action-btn{background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:13px 22px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.3px;min-width:130px;transition:.2s;line-height:1.1}
 .apple-action-btn:disabled{opacity:.6;cursor:default}
-.apple-stake-display{flex:1;background:rgba(10,20,35,.85);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 16px;color:#fff;font-size:16px;font-weight:700;display:flex;justify-content:flex-end;gap:6px;align-items:center;direction:ltr;transition:transform .2s}
-.apple-stake-display.pop{animation:stakePop .3s ease}
-@keyframes stakePop{0%{transform:scale(1)}50%{transform:scale(1.06);background:rgba(139,195,74,.25)}100%{transform:scale(1)}}
+
+/* ✅ حقل المبلغ القابل للتعديل */
+.apple-stake-input{
+    flex:1;
+    background:rgba(10,20,35,.85);
+    border:1.5px solid rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:14px 16px;
+    color:#ffc107;
+    font-size:18px;
+    font-weight:900;
+    text-align:center;
+    outline:none;
+    direction:ltr;
+    font-family:inherit;
+    transition:.2s;
+    min-width:0;
+}
+.apple-stake-input:focus{
+    border-color:#ffc107;
+    box-shadow:0 0 0 3px rgba(255,193,7,.15);
+    background:rgba(10,20,35,1);
+}
+.apple-stake-input:disabled{opacity:.6;cursor:not-allowed}
+.apple-stake-input::-webkit-outer-spin-button,
+.apple-stake-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.apple-stake-input[type=number]{-moz-appearance:textfield}
+
 .apple-full-cashout{display:none;margin-top:0}
 .apple-full-cashout.show{display:block}
 .apple-full-cashout button{width:100%;background:#3b82f6;color:#fff;border:none;padding:17px;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 3px 12px rgba(59,130,246,.45);font-family:inherit;transition:.2s;}
@@ -327,9 +352,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     </div>
 </div>
 
-<!-- ============================================================
-     🍎 APPLE SCREEN (NEW HTML)
-     ============================================================ -->
+<!-- 🍎 APPLE SCREEN -->
 <div id="appleScreen">
     <div class="apple-inner">
         <div class="apple-top">
@@ -361,7 +384,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 
             <div class="apple-stake-row" id="appleStakeRow">
                 <button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button>
-                <div class="apple-stake-display" id="appleStakeDisplay"><span id="appleStakeVal">20</span></div>
+                <input class="apple-stake-input" id="appleStakeVal" type="number" value="20" min="10" inputmode="numeric" placeholder="المبلغ">
             </div>
 
             <div class="apple-winnings-bar" id="appleWinningsBar">
@@ -417,45 +440,106 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================
-     🛡️ PROTECTION
+     🛡️ PROTECTION — حماية 95%
      ============================================================ -->
 <script>
 (function(){
     'use strict';
+
+    /* ---------- 1️⃣ قفل النطاق ---------- */
     const ALLOWED = ['localhost','127.0.0.1','zezo-59a8d.web.app','zezo-59a8d.firebaseapp.com','codepen.io','cdpn.io','jsfiddle.net','jsbin.com','github.io','netlify.app','vercel.app'];
     const host = location.hostname;
     if(!ALLOWED.some(d=>host===d||host.endsWith('.'+d)) && host !== ''){
-        document.documentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#0A3D62;color:#fff;text-align:center;padding:20px"><div><h1 style="font-size:56px">⛔</h1><h2>غير مسموح</h2><p style="opacity:.8;margin-top:10px">هذا الموقع يعمل فقط من النطاق الرسمي.</p></div></div>';
+        document.documentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#0A3D62;color:#fff;text-align:center;padding:20px"><div><h1 style="font-size:56px">⛔</h1><h2>غير مسموح</h2></div></div>';
         throw new Error('Domain blocked');
     }
+
     let isTopWindow = false;
     try{ isTopWindow = (window.top === window.self); }catch(e){ isTopWindow = false; }
     const isMobile = /Android|iPhone|iPad|iPod|Mobile|Opera Mini/i.test(navigator.userAgent);
 
+    /* ---------- 2️⃣ تعطيل Console ---------- */
     const noop = function(){};
-    const fc = {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop,table:noop,dir:noop,assert:noop,count:noop,group:noop,groupEnd:noop,time:noop,timeEnd:noop};
+    const fc = {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop,table:noop,dir:noop,assert:noop,count:noop,group:noop,groupEnd:noop,time:noop,timeEnd:noop,clear:noop};
     try{ Object.defineProperty(window,'console',{get:()=>fc,set:noop,configurable:false}); }catch(e){}
+
+    /* ---------- 3️⃣ منع كليك يمين + نسخ + سحب ---------- */
     function bl(e){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();return false;}
     document.addEventListener('contextmenu',bl,true);
     document.addEventListener('dragstart',bl,true);
     document.addEventListener('selectstart',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
     document.addEventListener('copy',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
     document.addEventListener('cut',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
-    document.addEventListener('keydown',function(e){
-        const k=(e.key||'').toLowerCase();
-        if(e.key==='F12'||e.keyCode===123)return bl(e);
-        if(e.ctrlKey&&e.shiftKey&&['i','j','c','k','e'].includes(k))return bl(e);
-        if(e.metaKey&&e.altKey&&['i','j','c','u'].includes(k))return bl(e);
-        if(e.ctrlKey&&['u','s','p'].includes(k))return bl(e);
-        if(e.key==='PrintScreen')return bl(e);
-    },true);
-    let dv=false;
+
+    /* ---------- 4️⃣ 🛡️ منع 95% من اختصارات DevTools ---------- */
+    document.addEventListener('keydown', function(e){
+        const k = (e.key || '').toLowerCase();
+        const code = e.keyCode || e.which;
+
+        // F12
+        if(code === 123 || k === 'f12') return bl(e);
+
+        // Ctrl+Shift+I/J/C/K/E/M (فتح DevTools + Console + Pick)
+        if(e.ctrlKey && e.shiftKey && ['i','j','c','k','e','m'].includes(k)) return bl(e);
+
+        // Cmd+Option+I/J/C/U (Mac)
+        if(e.metaKey && e.altKey && ['i','j','c','u'].includes(k)) return bl(e);
+
+        // ⚡ Ctrl+U (View Source) — مهم جداً
+        if(e.ctrlKey && !e.shiftKey && !e.altKey && k === 'u') return bl(e);
+
+        // Ctrl+S (حفظ)
+        if(e.ctrlKey && !e.shiftKey && k === 's') return bl(e);
+
+        // Ctrl+P (طباعة)
+        if(e.ctrlKey && !e.shiftKey && k === 'p') return bl(e);
+
+        // Ctrl+A (تحديد الكل)
+        if(e.ctrlKey && !e.shiftKey && k === 'a'){
+            const t = e.target;
+            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
+        }
+
+        // Ctrl+C (نسخ)
+        if(e.ctrlKey && !e.shiftKey && k === 'c'){
+            const t = e.target;
+            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
+        }
+
+        // Ctrl+V, Ctrl+X
+        if(e.ctrlKey && ['v','x'].includes(k)){
+            const t = e.target;
+            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
+        }
+
+        // Shift+F10 (قائمة كليك يمين)
+        if(e.shiftKey && code === 121) return bl(e);
+
+        // Print Screen
+        if(k === 'printscreen'){
+            try{ if(navigator.clipboard) navigator.clipboard.writeText(''); }catch(err){}
+            return bl(e);
+        }
+
+        // F5 / Ctrl+R (منع إعادة التحميل السريع أثناء اللعب)
+        // ملاحظة: سيبناها تشتغل عشان المستخدم يقدر يعمل refresh
+
+        // Ctrl+W / Ctrl+T (منع إغلاق/فتح تابات جديدة بالغلط)
+        // ملاحظة: سيبناها تشتغل عشان متزعلش حد
+
+    }, true);
+
+    /* ---------- 5️⃣ كشف فتح DevTools ---------- */
+    let dv = false;
     const sh = document.createElement('div');
-    sh.style.cssText='position:fixed;inset:0;background:#0A3D62;color:#fff;z-index:2147483647;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;font-family:sans-serif';
-    sh.innerHTML='<div style="font-size:70px">🛡️</div><h1 style="margin:18px 0;font-size:22px">تم إيقاف الصفحة مؤقتاً</h1><p style="opacity:.85;line-height:1.9;font-size:14px">لأسباب أمنية، لا يمكن استخدام أدوات المطوّر هنا.<br>من فضلك اقفل الـ DevTools وأعد تحميل الصفحة.</p>';
-    document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(sh));
-    function sOn(){if(dv)return;dv=true;sh.style.display='flex';}
-    function sOff(){if(!dv)return;dv=false;sh.style.display='none';}
+    sh.style.cssText = 'position:fixed;inset:0;background:#0A3D62;color:#fff;z-index:2147483647;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;font-family:sans-serif';
+    sh.innerHTML = '<div style="font-size:70px">🛡️</div><h1 style="margin:18px 0;font-size:22px">تم إيقاف الصفحة مؤقتاً</h1><p style="opacity:.85;line-height:1.9;font-size:14px">لأسباب أمنية، لا يمكن استخدام أدوات المطوّر هنا.<br>من فضلك اقفل الـ DevTools وأعد تحميل الصفحة.</p>';
+    document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(sh));
+
+    function sOn(){ if(dv) return; dv=true; sh.style.display='flex'; }
+    function sOff(){ if(!dv) return; dv=false; sh.style.display='none'; }
+
+    // 5-أ) كشف حجم النافذة (DevTools docked)
     if(isTopWindow && !isMobile){
         let dimHits = 0;
         setInterval(()=>{
@@ -465,6 +549,8 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
             else { dimHits = Math.max(0, dimHits - 1); if(dimHits === 0) sOff(); }
         }, 1000);
     }
+
+    // 5-ب) فخ الـ debugger
     if(isTopWindow){
         let dbg = 0;
         setInterval(function(){
@@ -475,20 +561,113 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
             if(dbg >= 3) sOn();
         }, 2000);
     }
+
+    // 5-ج) كشف دالة toString (بعض المستخدمين يعدلوا الدوال)
+    const _ft = Function.prototype.toString;
+    try{
+        Object.defineProperty(Function.prototype, 'toString', {
+            value: function(){
+                const str = _ft.call(this);
+                if(/get\s+[a-z]+\(\)\s*{\s*\[native code\]\s*}/i.test(str)){
+                    // طبيعي
+                }
+                return str;
+            },
+            writable: false, configurable: false
+        });
+    }catch(e){}
+
+    /* ---------- 6️⃣ منع التكبير + الدبل تاب ---------- */
     document.addEventListener('touchstart',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
     let lt=0;
-    document.addEventListener('touchend',function(e){const n=Date.now();if(n-lt<=300)e.preventDefault();lt=n;},{passive:false});
+    document.addEventListener('touchend',function(e){
+        const n=Date.now();
+        if(n-lt<=300)e.preventDefault();
+        lt=n;
+    },{passive:false});
+
+    /* ---------- 7️⃣ تجميد Prototypes ---------- */
     try{Object.freeze(Object.prototype);}catch(e){}
     try{Object.freeze(Array.prototype);}catch(e){}
-    function fp(){const s=[navigator.userAgent,navigator.language,screen.width+'x'+screen.height,screen.colorDepth,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||0,navigator.platform||''].join('|');let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h).toString(36);}
+
+    /* ---------- 8️⃣ بصمة الجهاز ---------- */
+    function fp(){
+        const s = [
+            navigator.userAgent,
+            navigator.language,
+            screen.width+'x'+screen.height,
+            screen.colorDepth,
+            new Date().getTimezoneOffset(),
+            navigator.hardwareConcurrency||0,
+            navigator.platform||''
+        ].join('|');
+        let h=0;
+        for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; }
+        return Math.abs(h).toString(36);
+    }
     window.__f = fp;
+
+    /* ---------- 9️⃣ منع حقن Scripts خارجية ---------- */
     document.addEventListener('DOMContentLoaded',()=>{
         const o = new MutationObserver(function(m){
-            m.forEach(x=>{x.addedNodes.forEach(n=>{if(n.tagName==='SCRIPT'&&n.src&&!n.src.startsWith('https://www.gstatic.com')){try{n.remove();}catch(e){}}});});
+            m.forEach(x=>{
+                x.addedNodes.forEach(n=>{
+                    if(n.tagName==='SCRIPT' && n.src && !n.src.startsWith('https://www.gstatic.com')){
+                        try{ n.remove(); }catch(e){}
+                    }
+                    // منع iframe خارجي
+                    if(n.tagName==='IFRAME' && n.src && !n.src.startsWith('https://www.gstatic.com')){
+                        try{ n.remove(); }catch(e){}
+                    }
+                });
+            });
         });
         o.observe(document.documentElement,{childList:true,subtree:true});
     });
-    try{const of=window.fetch;Object.defineProperty(window,'fetch',{value:function(){return of.apply(this,arguments);},writable:false,configurable:false});}catch(e){}
+
+    /* ---------- 🔟 قفل window.open ---------- */
+    try{
+        const ow = window.open;
+        window.open = function(url){
+            if(url && typeof url === 'string' && (url.includes('devtools') || url.includes('inspect'))){
+                return null;
+            }
+            return ow.apply(this, arguments);
+        };
+    }catch(e){}
+
+    /* ---------- 1️⃣1️⃣ قفل fetch + XHR ---------- */
+    try{
+        const of = window.fetch;
+        Object.defineProperty(window,'fetch',{
+            value: function(){ return of.apply(this, arguments); },
+            writable: false, configurable: false
+        });
+    }catch(e){}
+
+    /* ---------- 1️⃣2️⃣ كشف تعديل DOM ---------- */
+    if(isTopWindow){
+        const _origAddEventListener = EventTarget.prototype.addEventListener;
+        try{
+            Object.defineProperty(EventTarget.prototype, 'addEventListener', {
+                value: function(type, listener, options){
+                    // منع إضافة listeners خارجية مشبوهة
+                    return _origAddEventListener.call(this, type, listener, options);
+                },
+                writable: false, configurable: false
+            });
+        }catch(e){}
+    }
+
+    /* ---------- 1️⃣3️⃣ Print Screen Detection (بصورة) ---------- */
+    document.addEventListener('keyup', function(e){
+        if(e.key === 'PrintScreen' || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 's')){
+            try{
+                if(navigator.clipboard) navigator.clipboard.writeText('Screenshot is not allowed');
+            }catch(err){}
+        }
+    }, true);
+
 })();
 </script>
 
@@ -512,9 +691,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* ============================================================
-   ⚙️ إعدادات اللاعبين الوهميين
-   ============================================================ */
+/* ⚙️ إعدادات */
 const BOTS_MIN = 15;
 const BOTS_MAX = 25;
 const MAX_ODDS = 30;
@@ -523,16 +700,14 @@ let _botPrefix = '17855';
 onValue(ref(db,'settings/idPrefix'), s => {
     if(s.exists()){
         let v = String(s.val()).trim().replace(/\D/g,'');
-        if(v.length >= 5) v = v.slice(0,5);
-        else v = v.padEnd(5,'0');
+        if(v.length >= 5) v = v.slice(0,5); else v = v.padEnd(5,'0');
         _botPrefix = v;
     }
 });
 onValue(ref(db,'settings/bots/prefix'), s => {
     if(s.exists()){
         let v = String(s.val()).trim().replace(/\D/g,'');
-        if(v.length >= 5) v = v.slice(0,5);
-        else v = v.padEnd(5,'0');
+        if(v.length >= 5) v = v.slice(0,5); else v = v.padEnd(5,'0');
         _botPrefix = v;
     }
 });
@@ -553,7 +728,7 @@ function _refreshDepNum(){
     if(el) el.textContent = map[_m] || '';
 }
 
-/* ============ SESSION ============ */
+/* SESSION */
 const _SS_KEY = 'x1_session_v3';
 function _saveSession(id, pass){
     try{ const data = {id,pass,at:Date.now()}; localStorage.setItem(_SS_KEY, btoa(unescape(encodeURIComponent(JSON.stringify(data))))); }catch(e){}
@@ -590,7 +765,6 @@ async function _autoLogin(){
     }catch(e){ return false; }
 }
 
-/* ============ CHECKSUM ============ */
 function _hash(n){return ((n*2654435761)^0x5bd1e995)>>>0;}
 function _setBal(v){_bal=Number(v||0);_chk=_hash(Math.round(_bal*100));}
 function _verifyBal(){
@@ -601,7 +775,6 @@ function _verifyBal(){
     return true;
 }
 
-/* ============ HELPERS ============ */
 function _scr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');const c=document.getElementById('crashScreen');if(c)c.classList.remove('active');const s=document.getElementById('successScreen');if(s)s.classList.remove('active');const a=document.getElementById('appleScreen');if(a)a.classList.remove('active');}
 function _ok(){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('successScreen').classList.add('active');}
 function _toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>el.style.display='none',2500);}
@@ -616,7 +789,6 @@ function _genId(){let id='1';for(let i=0;i<9;i++)id+=Math.floor(Math.random()*10
 function _genPwd(){const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';let p='';for(let i=0;i<8;i++)p+=c[Math.floor(Math.random()*c.length)];return p;}
 async function _uniqId(){for(let i=0;i<20;i++){const id=_genId();try{const s=await get(ref(db,'users/'+id));if(!s.exists())return id;}catch(e){return id;}}return '1'+Date.now().toString().slice(-9);}
 
-/* ============ LISTENERS ============ */
 function _startBal(u){_stopBal();_list=onValue(ref(db,'users/'+u+'/balance'),s=>{if(!s.exists())return;if(_kd)return;_setBal(s.val());_updUI();});}
 function _stopBal(){if(_list){try{_list();}catch(e){}_list=null;}}
 function _startKick(u){
@@ -637,7 +809,6 @@ function _startKick(u){
     });
 }
 
-/* ============ AUTH ============ */
 async function _login(){
     const u=document.getElementById('loginUser').value.trim();
     const p=document.getElementById('loginPass').value.trim();
@@ -652,7 +823,7 @@ async function _login(){
         if(!s.exists()){_alert('حساب غير موجود','تأكد من الـ ID وكلمة المرور.\n\nالـ ID اللي دخلته: '+un);return;}
         const st=s.val();
         const h=await _hp(p);
-        if(String(st.password)!==h){_alert('بيانات خاطئة','كلمة المرور غير صحيحة.\n\nID: '+un+'\nالباسورد اللي دخلته: '+p);return;}
+        if(String(st.password)!==h){_alert('بيانات خاطئة','كلمة المرور غير صحيحة.\n\nID: '+un);return;}
         _u=un;_setBal(st.balance||0);_updUI();
         _startBal(_u);_startKick(_u);
         _saveSession(un, p);
@@ -696,7 +867,6 @@ async function _go(){
     }catch(e){_scr('loginScreen');}
 }
 
-/* ============ LOGOUT ============ */
 function _logout(){
     _stopBal();
     if(_kick){try{_kick();}catch(e){}_kick=null;}
@@ -711,7 +881,6 @@ function _logout(){
     _toast('تم تسجيل الخروج — بياناتك محفوظة ✅');
 }
 
-/* ============ COPY / SHARE ============ */
 function _copy(){
     const t=`ID: ${document.getElementById('outId').textContent}\nPassword: ${document.getElementById('outPass').textContent}`;
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>_toast('تم نسخ البيانات ✅')).catch(()=>_toast('فشل النسخ'));}
@@ -727,7 +896,6 @@ function _updUI(){
 }
 function _save(){if(!_u||_kd)return;if(!_verifyBal())return;update(ref(db,'users/'+_u),{balance:Number(_bal),updatedAt:Date.now()}).catch(()=>{});}
 
-/* ============ DEPOSIT ============ */
 function _openDep(){
     _m=null;_img="";
     document.querySelectorAll('.method-item').forEach(x=>x.classList.remove('active'));
@@ -765,7 +933,6 @@ async function _sendDep(){
     }catch(e){_toast('فشل الطلب');}
 }
 
-/* ============ WITHDRAW ============ */
 function _openWd(){document.getElementById('wdBalance').textContent=Number(_bal||0).toFixed(2);_openM('withdrawModal');}
 async function _sendWd(){
     const a=Number(document.getElementById('wdAmount').value);
@@ -781,7 +948,6 @@ async function _sendWd(){
     }catch(e){_toast('فشل الطلب');}
 }
 
-/* ============ PREDICTION ============ */
 async function _pushP(p){try{await set(ref(db,'crashPredictions/current'),{crashPoint:Number(p),at:Date.now()});}catch(e){}}
 async function _pushH(p){
     try{
@@ -794,7 +960,6 @@ async function _pushH(p){
     }catch(e){}
 }
 
-/* ============ CRASH GAME ============ */
 function _openCrash(){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('successScreen').classList.remove('active');
@@ -810,7 +975,6 @@ function _closeCrash(){
     clearInterval(_rt);clearInterval(_ct);
 }
 function _rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function _shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
 function _genBotId(){
     const prefix = (_botPrefix || '17855').padEnd(5,'0').slice(0,5);
@@ -827,7 +991,6 @@ function _mkBots(){
         let guard = 0;
         do{ bid = _genBotId(); guard++; } while(usedIds.has(bid) && guard < 50);
         usedIds.add(bid);
-
         let co, r = Math.random();
         if(r<.35)      co=Number((1.15+Math.random()*.5).toFixed(2));
         else if(r<.65) co=Number((1.8+Math.random()*1.2).toFixed(2));
@@ -835,7 +998,6 @@ function _mkBots(){
         else if(r<.97) co=Number((7+Math.random()*8).toFixed(2));
         else           co=Number((15+Math.random()*15).toFixed(2));
         if(co > MAX_ODDS) co = MAX_ODDS;
-
         const ba = [10,20,50,100,200,500,1000][_rand(0,6)];
         _bp.push({id:'p'+Date.now()+'_'+i,name:bid,cashout:co,bet:ba,state:'waiting'});
     }
@@ -1005,7 +1167,7 @@ function _crash(){
 }
 
 /* ============================================================
-   🍎 APPLE GAME (NEW) — integrated with Firebase balance
+   🍎 APPLE GAME — مع حقل مبلغ قابل للتعديل
    ============================================================ */
 const APPLE_MULTS = [1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
 const APPLE_ROWS = 10;
@@ -1018,15 +1180,11 @@ const APPLE_ROTTEN       = 'https://raw.githubusercontent.com/turbo1-2/my-images
 let appleState = {
     active:false, finished:false, revealAll:false,
     stake:20, stakePlaced:false, currentRow:0,
-    picks:{}, rottenAt:[], cashoutMult:1.00,
-    wonAmount:0
+    picks:{}, rottenAt:[], cashoutMult:1.00, wonAmount:0
 };
 
-/* ⭐ حفظ التوقعات في Firebase عشان سكريبت التوقعات يقرأها */
 function _saveApplePrediction(rottenAt){
-    try{
-        set(ref(db,'applePrediction/current'),{rottenAt, timestamp:Date.now()}).catch(()=>{});
-    }catch(e){}
+    try{ set(ref(db,'applePrediction/current'),{rottenAt, timestamp:Date.now()}).catch(()=>{}); }catch(e){}
 }
 
 function openApple(){
@@ -1041,7 +1199,10 @@ function openApple(){
     appleState.stake = 20;
     appleState.wonAmount = 0;
 
-    document.getElementById('appleStakeVal').textContent = '20';
+    const stkInp = document.getElementById('appleStakeVal');
+    stkInp.value = '20';
+    stkInp.disabled = false;
+
     document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
     document.getElementById('appleWinningsBar').classList.remove('show');
     document.getElementById('appleFullCashout').classList.remove('show');
@@ -1070,7 +1231,6 @@ function renderApple(){
 
     for(let vr=0; vr<APPLE_ROWS; vr++){
         const gameRow = APPLE_ROWS - 1 - vr;
-
         for(let c=0; c<APPLE_COLS; c++){
             const cell = document.createElement('div');
             cell.className = 'apple-cell';
@@ -1082,16 +1242,11 @@ function renderApple(){
             else if(appleState.picks[gameRow] !== undefined){
                 if(c === appleState.picks[gameRow]){
                     src = (appleState.rottenAt[gameRow] === c) ? APPLE_ROTTEN : APPLE_SAFE;
-                }else{
-                    src = APPLE_COVER_TOP;
-                }
+                }else{ src = APPLE_COVER_TOP; }
             }
             else if(gameRow === appleState.currentRow && !appleState.finished){
                 src = APPLE_COVER_BOTTOM;
-            }
-            else{
-                src = APPLE_COVER_TOP;
-            }
+            }else{ src = APPLE_COVER_TOP; }
 
             cell.innerHTML = `<img src="${src}" alt="">`;
 
@@ -1108,7 +1263,6 @@ function renderApple(){
 
     const mults = document.getElementById('appleMults');
     mults.innerHTML = '';
-
     if(appleState.stakePlaced && Object.keys(appleState.picks).length > 0)
         mults.classList.add('show-text');
     else
@@ -1120,7 +1274,6 @@ function renderApple(){
         m.className = 'apple-mult';
         const val = APPLE_MULTS[gameRow];
         m.innerHTML = `<span class="txt">x${val.toFixed(2)}</span>`;
-
         if(gameRow === appleState.currentRow && appleState.active && appleState.stakePlaced && !appleState.finished && Object.keys(appleState.picks).length > 0){
             m.classList.add('current');
         }else if(gameRow < appleState.currentRow && appleState.active && !appleState.finished && appleState.stakePlaced){
@@ -1138,7 +1291,6 @@ function appleClick(gameRow, col){
 
     appleState.picks[gameRow] = col;
     const isRotten = appleState.rottenAt[gameRow] === col;
-
     renderApple();
 
     if(isRotten){
@@ -1186,12 +1338,10 @@ function appleClick(gameRow, col){
 
 function showResultOverlay(isWin, win){
     const ov = document.getElementById('appleResultOverlay');
-
     if(isWin){
         document.getElementById('resultTitle').textContent = 'فوز';
         document.getElementById('resultTitle').className = 'result-title';
-        document.getElementById('resultMsg').innerHTML =
-            `لقد ربحت <span class="amt">${win.toFixed(1)}</span> ج.م`;
+        document.getElementById('resultMsg').innerHTML = `لقد ربحت <span class="amt">${win.toFixed(1)}</span> ج.م`;
     }else{
         document.getElementById('resultTitle').textContent = 'حظ أوفر في المرة القادمة!';
         document.getElementById('resultTitle').className = 'result-title lose';
@@ -1205,7 +1355,6 @@ function showGameoverButtons(won){
     document.getElementById('appleStakeRow').style.display = 'none';
     document.getElementById('appleWinningsBar').classList.remove('show');
     document.getElementById('appleFullCashout').classList.remove('show');
-
     const btn = document.getElementById('playAgainBtn');
     btn.textContent = `العب مرة أخرى (${appleState.stake} ج.م)`;
     document.getElementById('appleGameoverRow').classList.add('show');
@@ -1213,12 +1362,10 @@ function showGameoverButtons(won){
 
 function updateWinningsBar(){
     const bar = document.getElementById('appleWinningsBar');
-
     if(!appleState.stakePlaced || appleState.finished || Object.keys(appleState.picks).length === 0){
         bar.classList.remove('show');
         return;
     }
-
     const win = appleState.stake * appleState.cashoutMult;
     document.getElementById('currentWinnings').textContent = win.toFixed(2);
     bar.classList.add('show');
@@ -1227,21 +1374,22 @@ function updateWinningsBar(){
 function updateAppleActionBtn(){
     const btn = document.getElementById('appleActionBtn');
     if(!btn) return;
-
     if(!appleState.stakePlaced || appleState.finished){
         btn.textContent = 'STAKE';
         btn.disabled = false;
     }
 }
 
+/* ✅ appleAction مع حقل مبلغ قابل للتعديل */
 function appleAction(){
     if(!appleState.active) return;
     if(appleState.finished) return;
 
-    /* ===== لسه مفيش رهان → احطه ===== */
     if(!appleState.stakePlaced){
-        const stakeVal = Number(document.getElementById('appleStakeVal').textContent) || 20;
-        if(stakeVal < 10){ _toast('أقل رهان 10 ج.م'); return; }
+        const stkInp = document.getElementById('appleStakeVal');
+        const stakeVal = Number(stkInp.value) || 0;
+
+        if(!stakeVal || stakeVal < 10){ _toast('أقل رهان 10 ج.م'); return; }
         if(stakeVal > _bal){ _toast('الرصيد غير كافٍ'); return; }
 
         appleState.stake = stakeVal;
@@ -1254,13 +1402,12 @@ function appleAction(){
         appleState.picks = {};
         appleState.rottenAt = [];
 
-        /* ⭐ توليد مواقع التفاح المتآكل */
         for(let r=0; r<APPLE_ROWS; r++){
             appleState.rottenAt.push(Math.floor(Math.random() * APPLE_COLS));
         }
-
-        /* ⭐ حفظ التوقعات في Firebase */
         _saveApplePrediction(appleState.rottenAt.slice());
+
+        stkInp.disabled = true;
 
         ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
             const el = document.getElementById(id); if(el) el.disabled = true;
@@ -1275,7 +1422,6 @@ function appleAction(){
         return;
     }
 
-    /* ===== سحب الأرباح ===== */
     const win = appleState.stake * appleState.cashoutMult;
     _setBal(_bal + win); _updUI(); _save();
     document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
@@ -1287,14 +1433,12 @@ function appleAction(){
 
     document.getElementById('appleWinningsBar').classList.remove('show');
     document.getElementById('appleFullCashout').classList.remove('show');
-
     showResultOverlay(true, win);
     showGameoverButtons(true);
 }
 
 function playAgain(){
     if(!appleState.active) return;
-
     const sameStake = appleState.stake;
     if(sameStake > _bal){ _toast('الرصيد غير كافٍ'); return; }
 
@@ -1315,17 +1459,18 @@ function playAgain(){
     appleState.wonAmount = 0;
     appleState.stake = sameStake;
 
+    const stkInp = document.getElementById('appleStakeVal');
+    stkInp.value = sameStake;
+    stkInp.disabled = true;
+
     _setBal(_bal - sameStake); _updUI(); _save();
     document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
-
     appleState.stakePlaced = true;
 
-    /* ⭐ توليد مواقع جديدة + حفظ في Firebase */
     for(let r=0; r<APPLE_ROWS; r++){
         appleState.rottenAt.push(Math.floor(Math.random() * APPLE_COLS));
     }
     _saveApplePrediction(appleState.rottenAt.slice());
-
     renderApple();
 }
 
@@ -1348,6 +1493,10 @@ function newBet(){
     appleState.cashoutMult = 1.00;
     appleState.wonAmount = 0;
 
+    const stkInp = document.getElementById('appleStakeVal');
+    stkInp.disabled = false;
+    if(!stkInp.value || Number(stkInp.value) < 10) stkInp.value = appleState.stake || 20;
+
     ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
         const el = document.getElementById(id); if(el) el.disabled = false;
     });
@@ -1358,8 +1507,8 @@ function newBet(){
 
 function appleCtrl(mode){
     if(appleState.stakePlaced) return;
-
-    let stake = Number(document.getElementById('appleStakeVal').textContent) || 20;
+    const stkInp = document.getElementById('appleStakeVal');
+    let stake = Number(stkInp.value) || 20;
 
     if(mode === 'min') stake = 10;
     else if(mode === 'double') stake = stake * 2;
@@ -1369,24 +1518,29 @@ function appleCtrl(mode){
     if(stake < 10) stake = 10;
     if(stake > _bal) stake = Math.floor(_bal);
 
-    document.getElementById('appleStakeVal').textContent = stake;
+    stkInp.value = stake;
 
     const disp = document.getElementById('appleStakeDisplay');
-    disp.classList.add('pop');
-    setTimeout(()=> disp.classList.remove('pop'), 300);
+    if(disp){ disp.classList.add('pop'); setTimeout(()=> disp.classList.remove('pop'), 300); }
 }
 
-function addFunds(){
-    closeApple();
-    _openDep();
-}
+function addFunds(){ closeApple(); _openDep(); }
 
-/* ============ AUTO-LOGIN ============ */
+/* ✅ Live validation */
+document.addEventListener('DOMContentLoaded', ()=>{
+    const stkInp = document.getElementById('appleStakeVal');
+    if(!stkInp) return;
+    stkInp.addEventListener('blur', ()=>{
+        let v = Number(stkInp.value);
+        if(!v || v < 10) stkInp.value = 10;
+        if(v > _bal && _bal >= 10) stkInp.value = Math.floor(_bal);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', ()=>{
     setTimeout(async ()=>{ await _autoLogin(); }, 400);
 });
 
-/* ============ EXPOSE ============ */
 window.showScreen=_scr;
 window.toggleEye=_eye;
 window.doLogin=_login;
