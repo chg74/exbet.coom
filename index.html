@@ -440,233 +440,250 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================
-     🛡️ PROTECTION — حماية 95%
+     🛡️ PROTECTION SYSTEM v2.0 — حماية شاملة 95%+
      ============================================================ -->
 <script>
 (function(){
     'use strict';
 
-    /* ---------- 1️⃣ قفل النطاق ---------- */
-    const ALLOWED = ['localhost','127.0.0.1','zezo-59a8d.web.app','zezo-59a8d.firebaseapp.com','codepen.io','cdpn.io','jsfiddle.net','jsbin.com','github.io','netlify.app','vercel.app'];
-    const host = location.hostname;
-    if(!ALLOWED.some(d=>host===d||host.endsWith('.'+d)) && host !== ''){
-        document.documentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;background:#0A3D62;color:#fff;text-align:center;padding:20px"><div><h1 style="font-size:56px">⛔</h1><h2>غير مسموح</h2></div></div>';
-        throw new Error('Domain blocked');
+    // ---------- Helper: هل العنصر قابل للكتابة؟ ----------
+    function isEditable(t){
+        if(!t) return false;
+        const tag = (t.tagName || '').toUpperCase();
+        return tag === 'INPUT' || tag === 'TEXTAREA' || t.isContentEditable === true;
     }
 
-    let isTopWindow = false;
-    try{ isTopWindow = (window.top === window.self); }catch(e){ isTopWindow = false; }
-    const isMobile = /Android|iPhone|iPad|iPod|Mobile|Opera Mini/i.test(navigator.userAgent);
-
-    /* ---------- 2️⃣ تعطيل Console ---------- */
-    const noop = function(){};
-    const fc = {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop,table:noop,dir:noop,assert:noop,count:noop,group:noop,groupEnd:noop,time:noop,timeEnd:noop,clear:noop};
-    try{ Object.defineProperty(window,'console',{get:()=>fc,set:noop,configurable:false}); }catch(e){}
-
-    /* ---------- 3️⃣ منع كليك يمين + نسخ + سحب ---------- */
-    function bl(e){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();return false;}
-    document.addEventListener('contextmenu',bl,true);
-    document.addEventListener('dragstart',bl,true);
-    document.addEventListener('selectstart',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
-    document.addEventListener('copy',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
-    document.addEventListener('cut',e=>{const t=e.target;if(t&&t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA')e.preventDefault();},true);
-
-    /* ---------- 4️⃣ 🛡️ منع 95% من اختصارات DevTools ---------- */
-    document.addEventListener('keydown', function(e){
-        const k = (e.key || '').toLowerCase();
-        const code = e.keyCode || e.which;
-
-        // F12
-        if(code === 123 || k === 'f12') return bl(e);
-
-        // Ctrl+Shift+I/J/C/K/E/M (فتح DevTools + Console + Pick)
-        if(e.ctrlKey && e.shiftKey && ['i','j','c','k','e','m'].includes(k)) return bl(e);
-
-        // Cmd+Option+I/J/C/U (Mac)
-        if(e.metaKey && e.altKey && ['i','j','c','u'].includes(k)) return bl(e);
-
-        // ⚡ Ctrl+U (View Source) — مهم جداً
-        if(e.ctrlKey && !e.shiftKey && !e.altKey && k === 'u') return bl(e);
-
-        // Ctrl+S (حفظ)
-        if(e.ctrlKey && !e.shiftKey && k === 's') return bl(e);
-
-        // Ctrl+P (طباعة)
-        if(e.ctrlKey && !e.shiftKey && k === 'p') return bl(e);
-
-        // Ctrl+A (تحديد الكل)
-        if(e.ctrlKey && !e.shiftKey && k === 'a'){
-            const t = e.target;
-            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
-        }
-
-        // Ctrl+C (نسخ)
-        if(e.ctrlKey && !e.shiftKey && k === 'c'){
-            const t = e.target;
-            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
-        }
-
-        // Ctrl+V, Ctrl+X
-        if(e.ctrlKey && ['v','x'].includes(k)){
-            const t = e.target;
-            if(t && t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return bl(e);
-        }
-
-        // Shift+F10 (قائمة كليك يمين)
-        if(e.shiftKey && code === 121) return bl(e);
-
-        // Print Screen
-        if(k === 'printscreen'){
-            try{ if(navigator.clipboard) navigator.clipboard.writeText(''); }catch(err){}
-            return bl(e);
-        }
-
-        // F5 / Ctrl+R (منع إعادة التحميل السريع أثناء اللعب)
-        // ملاحظة: سيبناها تشتغل عشان المستخدم يقدر يعمل refresh
-
-        // Ctrl+W / Ctrl+T (منع إغلاق/فتح تابات جديدة بالغلط)
-        // ملاحظة: سيبناها تشتغل عشان متزعلش حد
-
-    }, true);
-
-    /* ---------- 5️⃣ كشف فتح DevTools ---------- */
-    let dv = false;
-    const sh = document.createElement('div');
-    sh.style.cssText = 'position:fixed;inset:0;background:#0A3D62;color:#fff;z-index:2147483647;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;font-family:sans-serif';
-    sh.innerHTML = '<div style="font-size:70px">🛡️</div><h1 style="margin:18px 0;font-size:22px">تم إيقاف الصفحة مؤقتاً</h1><p style="opacity:.85;line-height:1.9;font-size:14px">لأسباب أمنية، لا يمكن استخدام أدوات المطوّر هنا.<br>من فضلك اقفل الـ DevTools وأعد تحميل الصفحة.</p>';
-    document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(sh));
-
-    function sOn(){ if(dv) return; dv=true; sh.style.display='flex'; }
-    function sOff(){ if(!dv) return; dv=false; sh.style.display='none'; }
-
-    // 5-أ) كشف حجم النافذة (DevTools docked)
-    if(isTopWindow && !isMobile){
-        let dimHits = 0;
-        setInterval(()=>{
-            const w = window.outerWidth - window.innerWidth;
-            const h = window.outerHeight - window.innerHeight;
-            if(w > 260 || h > 260){ dimHits++; if(dimHits >= 2) sOn(); }
-            else { dimHits = Math.max(0, dimHits - 1); if(dimHits === 0) sOff(); }
-        }, 1000);
+    // ---------- Helper: إلغاء الحدث بكل الطرق الممكنة ----------
+    function killEvent(e){
+        try{
+            e.preventDefault();
+            e.stopPropagation();
+            if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }catch(err){}
+        return false;
     }
 
-    // 5-ب) فخ الـ debugger
-    if(isTopWindow){
-        let dbg = 0;
-        setInterval(function(){
-            const t0 = performance.now();
-            (function(){ debugger; })();
-            const t1 = performance.now();
-            if(t1 - t0 > 150) dbg++; else dbg = Math.max(0, dbg - 1);
-            if(dbg >= 3) sOn();
-        }, 2000);
+    // ============================================================
+    // 1️⃣ منع كليك يمين + السحب + التحديد + النسخ (خارج الحقول)
+    // ============================================================
+    function blockIfNotEditable(e){
+        if(!isEditable(e.target)) return killEvent(e);
     }
-
-    // 5-ج) كشف دالة toString (بعض المستخدمين يعدلوا الدوال)
-    const _ft = Function.prototype.toString;
-    try{
-        Object.defineProperty(Function.prototype, 'toString', {
-            value: function(){
-                const str = _ft.call(this);
-                if(/get\s+[a-z]+\(\)\s*{\s*\[native code\]\s*}/i.test(str)){
-                    // طبيعي
-                }
-                return str;
-            },
-            writable: false, configurable: false
-        });
-    }catch(e){}
-
-    /* ---------- 6️⃣ منع التكبير + الدبل تاب ---------- */
-    document.addEventListener('touchstart',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
-    let lt=0;
-    document.addEventListener('touchend',function(e){
-        const n=Date.now();
-        if(n-lt<=300)e.preventDefault();
-        lt=n;
-    },{passive:false});
-
-    /* ---------- 7️⃣ تجميد Prototypes ---------- */
-    try{Object.freeze(Object.prototype);}catch(e){}
-    try{Object.freeze(Array.prototype);}catch(e){}
-
-    /* ---------- 8️⃣ بصمة الجهاز ---------- */
-    function fp(){
-        const s = [
-            navigator.userAgent,
-            navigator.language,
-            screen.width+'x'+screen.height,
-            screen.colorDepth,
-            new Date().getTimezoneOffset(),
-            navigator.hardwareConcurrency||0,
-            navigator.platform||''
-        ].join('|');
-        let h=0;
-        for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; }
-        return Math.abs(h).toString(36);
-    }
-    window.__f = fp;
-
-    /* ---------- 9️⃣ منع حقن Scripts خارجية ---------- */
-    document.addEventListener('DOMContentLoaded',()=>{
-        const o = new MutationObserver(function(m){
-            m.forEach(x=>{
-                x.addedNodes.forEach(n=>{
-                    if(n.tagName==='SCRIPT' && n.src && !n.src.startsWith('https://www.gstatic.com')){
-                        try{ n.remove(); }catch(e){}
-                    }
-                    // منع iframe خارجي
-                    if(n.tagName==='IFRAME' && n.src && !n.src.startsWith('https://www.gstatic.com')){
-                        try{ n.remove(); }catch(e){}
-                    }
-                });
-            });
-        });
-        o.observe(document.documentElement,{childList:true,subtree:true});
+    ['contextmenu','dragstart','selectstart','copy','cut'].forEach(function(ev){
+        window.addEventListener(ev, blockIfNotEditable, true);
+        document.addEventListener(ev, blockIfNotEditable, true);
     });
 
-    /* ---------- 🔟 قفل window.open ---------- */
-    try{
-        const ow = window.open;
-        window.open = function(url){
-            if(url && typeof url === 'string' && (url.includes('devtools') || url.includes('inspect'))){
-                return null;
-            }
-            return ow.apply(this, arguments);
-        };
-    }catch(e){}
+    // ============================================================
+    // 2️⃣ منع اختصارات DevTools (القلب الرئيسي للحماية)
+    // ============================================================
+    function blockKey(e){
+        const k = (e.key || '').toLowerCase();
+        const code = e.keyCode || e.which || 0;
+        const ctrl = e.ctrlKey === true;
+        const meta = e.metaKey === true;
+        const shift = e.shiftKey === true;
+        const alt = e.altKey === true;
+        const mod = ctrl || meta;
+        const editable = isEditable(e.target);
 
-    /* ---------- 1️⃣1️⃣ قفل fetch + XHR ---------- */
-    try{
-        const of = window.fetch;
-        Object.defineProperty(window,'fetch',{
-            value: function(){ return of.apply(this, arguments); },
-            writable: false, configurable: false
-        });
-    }catch(e){}
+        let block = false;
 
-    /* ---------- 1️⃣2️⃣ كشف تعديل DOM ---------- */
-    if(isTopWindow){
-        const _origAddEventListener = EventTarget.prototype.addEventListener;
+        // 🔴 F12
+        if(code === 123 || k === 'f12') block = true;
+
+        // 🔴 Ctrl+Shift+I / J / C / K / E / M
+        if(mod && shift && ['i','j','c','k','e','m'].indexOf(k) !== -1) block = true;
+
+        // 🔴 Mac: Cmd+Option+I / J / C / U
+        if(meta && alt && ['i','j','c','u'].indexOf(k) !== -1) block = true;
+
+        // 🔴 Ctrl+U (View Source)
+        if(mod && !shift && !alt && k === 'u') block = true;
+
+        // 🔴 Ctrl+S
+        if(mod && !shift && k === 's') block = true;
+
+        // 🔴 Ctrl+P
+        if(mod && !shift && k === 'p') block = true;
+
+        // 🔴 Ctrl+A / C / V / X خارج الحقول
+        if(mod && !shift && ['a','c','v','x'].indexOf(k) !== -1 && !editable) block = true;
+
+        // 🔴 Shift+F10
+        if(shift && code === 121) block = true;
+
+        // 🔴 Print Screen
+        if(k === 'printscreen'){
+            try{ if(navigator.clipboard) navigator.clipboard.writeText(''); }catch(err){}
+            block = true;
+        }
+
+        // 🔴 Ctrl+Shift+Delete
+        if(mod && shift && k === 'delete') block = true;
+
+        if(block) return killEvent(e);
+    }
+
+    window.addEventListener('keydown',   blockKey, true);
+    window.addEventListener('keyup',     blockKey, true);
+    document.addEventListener('keydown', blockKey, true);
+    document.addEventListener('keyup',   blockKey, true);
+    document.addEventListener('keypress', function(e){
+        if(e.keyCode === 123 || (e.ctrlKey && (e.key||'').toLowerCase() === 'u')) return killEvent(e);
+    }, true);
+
+    // ============================================================
+    // 3️⃣ كشف فتح DevTools
+    // ============================================================
+    let shieldEl = null;
+    let shieldOn = false;
+
+    function makeShield(){
+        if(shieldEl) return;
+        shieldEl = document.createElement('div');
+        shieldEl.id = '__shield';
+        shieldEl.style.cssText = 'position:fixed;inset:0;background:#0A3D62;color:#fff;z-index:2147483647;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;font-family:sans-serif';
+        shieldEl.innerHTML = '<div style="font-size:70px">🛡️</div><h1 style="margin:18px 0;font-size:22px">تم إيقاف الصفحة مؤقتاً</h1><p style="opacity:.85;line-height:1.9;font-size:14px">لأسباب أمنية، لا يمكن استخدام أدوات المطوّر هنا.<br>من فضلك اقفل الـ DevTools وأعد تحميل الصفحة.</p>';
+        (document.body || document.documentElement).appendChild(shieldEl);
+    }
+    function showShield(){ if(!shieldOn){ shieldOn = true; makeShield(); shieldEl.style.display = 'flex'; } }
+    function hideShield(){ if(shieldOn){ shieldOn = false; if(shieldEl) shieldEl.style.display = 'none'; } }
+
+    // --- 3أ) كشف حجم الشاشة ---
+    let dimHits = 0;
+    setInterval(function(){
+        const wDiff = window.outerWidth  - window.innerWidth;
+        const hDiff = window.outerHeight - window.innerHeight;
+        if(wDiff > 200 || hDiff > 200){
+            dimHits++;
+            if(dimHits >= 2) showShield();
+        } else {
+            if(dimHits > 0) dimHits--;
+            if(dimHits === 0) hideShield();
+        }
+    }, 1000);
+
+    // --- 3ب) فخ الـ debugger ---
+    let dbgHits = 0;
+    setInterval(function(){
+        const t0 = performance.now();
+        (function(){ debugger; })();
+        const t1 = performance.now();
+        if(t1 - t0 > 150){
+            dbgHits++;
+            if(dbgHits >= 3) showShield();
+        } else {
+            if(dbgHits > 0) dbgHits--;
+        }
+    }, 2000);
+
+    // ============================================================
+    // 4️⃣ منع التكبير (Pinch Zoom) + الدبل تاب
+    // ============================================================
+    document.addEventListener('touchstart', function(e){
+        if(e.touches.length > 1) killEvent(e);
+    }, {passive:false});
+
+    let lastTap = 0;
+    document.addEventListener('touchend', function(e){
+        const now = Date.now();
+        if(now - lastTap <= 300) killEvent(e);
+        lastTap = now;
+    }, {passive:false});
+
+    ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+        document.addEventListener(ev, killEvent, true);
+    });
+
+    // ============================================================
+    // 5️⃣ بصمة الجهاز
+    // ============================================================
+    window.__f = function(){
         try{
-            Object.defineProperty(EventTarget.prototype, 'addEventListener', {
-                value: function(type, listener, options){
-                    // منع إضافة listeners خارجية مشبوهة
-                    return _origAddEventListener.call(this, type, listener, options);
-                },
-                writable: false, configurable: false
+            const s = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                screen.colorDepth,
+                new Date().getTimezoneOffset(),
+                navigator.hardwareConcurrency || 0,
+                navigator.platform || ''
+            ].join('|');
+            let h = 0;
+            for(let i=0;i<s.length;i++){ h = ((h<<5) - h) + s.charCodeAt(i); h |= 0; }
+            return Math.abs(h).toString(36);
+        }catch(e){ return 'unknown'; }
+    };
+
+    // ============================================================
+    // 6️⃣ منع حقن Scripts / iframes خارجية
+    // ============================================================
+    if(document.documentElement && window.MutationObserver){
+        try{
+            const obs = new MutationObserver(function(muts){
+                muts.forEach(function(m){
+                    m.addedNodes.forEach(function(n){
+                        if(!n || !n.tagName) return;
+                        if(n.tagName === 'SCRIPT' && n.src && n.src.indexOf('gstatic.com') === -1){
+                            try{ n.remove(); }catch(e){}
+                        }
+                        if(n.tagName === 'IFRAME' && n.src && n.src.indexOf('gstatic.com') === -1){
+                            try{ n.remove(); }catch(e){}
+                        }
+                    });
+                });
             });
+            obs.observe(document.documentElement, {childList:true, subtree:true});
         }catch(e){}
     }
 
-    /* ---------- 1️⃣3️⃣ Print Screen Detection (بصورة) ---------- */
-    document.addEventListener('keyup', function(e){
-        if(e.key === 'PrintScreen' || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 's')){
-            try{
-                if(navigator.clipboard) navigator.clipboard.writeText('Screenshot is not allowed');
-            }catch(err){}
-        }
-    }, true);
+    // ============================================================
+    // 7️⃣ قفل window.open للروابط المشبوهة
+    // ============================================================
+    try{
+        const _open = window.open;
+        window.open = function(url){
+            if(url && typeof url === 'string' &&
+               (url.indexOf('devtools') !== -1 || url.indexOf('inspect') !== -1)){
+                return null;
+            }
+            return _open.apply(this, arguments);
+        };
+    }catch(e){}
+
+    // ============================================================
+    // 8️⃣ تقليل قوة console
+    // ============================================================
+    try{
+        const noop = function(){};
+        const silent = {
+            log:noop, warn:noop, error:noop, info:noop, debug:noop,
+            trace:noop, table:noop, dir:noop, assert:noop, count:noop,
+            group:noop, groupEnd:noop, time:noop, timeEnd:noop,
+            profile:noop, profileEnd:noop, timeStamp:noop, clear:noop
+        };
+        Object.defineProperty(window, 'console', {
+            get: function(){ return silent; },
+            set: function(){},
+            configurable: true
+        });
+    }catch(e){
+        try{
+            ['log','warn','error','info','debug','trace'].forEach(function(m){
+                if(window.console && window.console[m]) window.console[m] = function(){};
+            });
+        }catch(e2){}
+    }
+
+    // ============================================================
+    // 9️⃣ مراقبة resize
+    // ============================================================
+    window.addEventListener('resize', function(){
+        const wDiff = window.outerWidth  - window.innerWidth;
+        const hDiff = window.outerHeight - window.innerHeight;
+        if(wDiff > 200 || hDiff > 200) showShield();
+    });
 
 })();
 </script>
@@ -1167,7 +1184,7 @@ function _crash(){
 }
 
 /* ============================================================
-   🍎 APPLE GAME — مع حقل مبلغ قابل للتعديل
+   🍎 APPLE GAME
    ============================================================ */
 const APPLE_MULTS = [1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
 const APPLE_ROWS = 10;
@@ -1380,7 +1397,6 @@ function updateAppleActionBtn(){
     }
 }
 
-/* ✅ appleAction مع حقل مبلغ قابل للتعديل */
 function appleAction(){
     if(!appleState.active) return;
     if(appleState.finished) return;
@@ -1519,14 +1535,10 @@ function appleCtrl(mode){
     if(stake > _bal) stake = Math.floor(_bal);
 
     stkInp.value = stake;
-
-    const disp = document.getElementById('appleStakeDisplay');
-    if(disp){ disp.classList.add('pop'); setTimeout(()=> disp.classList.remove('pop'), 300); }
 }
 
 function addFunds(){ closeApple(); _openDep(); }
 
-/* ✅ Live validation */
 document.addEventListener('DOMContentLoaded', ()=>{
     const stkInp = document.getElementById('appleStakeVal');
     if(!stkInp) return;
