@@ -130,33 +130,62 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .players-row .col-odds.lose{color:#e74c3c;font-weight:700}
 .players-row .col-win{color:#f0c419;font-weight:700}
 #crashScreen.won .players-row .col-win{color:#fff}
+
+/* ============================================================
+   🍎 APPLE SCREEN (NEW)
+   ============================================================ */
 #appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
 #appleScreen.active{display:flex}
-.apple-inner{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(0,20,10,.3) 0%,rgba(0,20,10,.1) 40%,rgba(0,20,10,.5) 100%)}
-.apple-top{padding:10px 12px 6px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative}
-.apple-balance-box{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(30,40,60,.9);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:400;display:flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.12);direction:rtl}
-.apple-balance-box .cur{font-size:12px;color:#fff;font-weight:400}
-.apple-back-btn{background:rgba(20,30,50,.8);border:none;color:#fff;font-size:16px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:auto}
-.apple-main{flex:1;display:flex;justify-content:center;align-items:center;padding:6px 14px;min-height:0;overflow:hidden}
-.apple-grid-wrap{display:flex;flex-direction:row;gap:6px;height:100%;max-height:100%}
-.apple-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(10,1fr);gap:3px;aspect-ratio:5/10;height:100%;max-height:100%}
-.apple-cell{position:relative;display:flex;align-items:center;justify-content:center}
+.apple-inner{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(0,20,10,.3) 0%,rgba(0,20,10,.1) 40%,rgba(0,20,10,.5) 100%);position:relative;overflow:hidden}
+.apple-top{padding:10px 12px 6px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;min-height:50px}
+.apple-back-btn{background:rgba(20,30,50,.8);border:none;color:#fff;font-size:16px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.apple-balance-wrap{position:absolute;left:50%;top:8px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;direction:ltr}
+.apple-plus-btn{width:36px;height:36px;background:linear-gradient(180deg,#3ddc7a,#2eb863);color:#fff;border:none;border-radius:12px;font-size:22px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 8px rgba(46,204,113,.55)}
+.apple-balance-val{background:#0e1520;color:#fff;font-size:14px;font-weight:700;padding:9px 16px;border-radius:12px;display:flex;align-items:center;gap:5px;direction:rtl;min-width:90px;justify-content:center;border:1px solid rgba(255,255,255,.06)}
+.apple-balance-val .cur{font-size:11px;font-weight:500;opacity:.9}
+.apple-main{flex:1;display:flex;justify-content:center;align-items:center;padding:6px 14px;min-height:0;overflow:hidden;position:relative}
+.apple-grid-wrap{display:flex;flex-direction:row;gap:4px;height:100%;max-height:100%}
+.apple-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(10,1fr);gap:2px;aspect-ratio:5/10;height:100%;max-height:100%}
+.apple-cell{position:relative;display:flex;align-items:center;justify-content:center;overflow:visible}
 .apple-cell img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
 .apple-cell.clickable{cursor:pointer}
-.apple-cell.clickable:active img{transform:scale(.88);transition:.1s}
-.apple-mults{display:grid;grid-template-rows:repeat(10,1fr);gap:3px;width:56px;flex-shrink:0}
-.apple-mult{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);color:#c8d0e0;font-size:10px;font-weight:700;border-radius:8px;direction:ltr;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(3px)}
-.apple-mult.current{background:#8bc34a;color:#fff;font-weight:900;box-shadow:0 0 12px rgba(139,195,74,.8);border-color:rgba(255,255,255,.3)}
-.apple-mult.done{background:rgba(255,255,255,.04);opacity:.4}
-.apple-bottom{padding:10px 14px 14px;flex-shrink:0}
-.apple-ctrl-row{display:flex;gap:8px;margin-bottom:10px}
-.apple-ctrl-row button{flex:1;background:rgba(100,140,220,.7);color:#fff;border:none;padding:11px;border-radius:22px;font-weight:800;font-size:13px;cursor:pointer;letter-spacing:.5px;backdrop-filter:blur(4px)}
-.apple-ctrl-row button:disabled{opacity:.35;cursor:default}
-.apple-stake-row{display:flex;align-items:center;gap:10px;flex-direction:row-reverse}
-.apple-action-btn{background:#5a78e5;color:#fff;border:none;border-radius:26px;padding:14px 28px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.5px;min-width:110px;transition:.2s;line-height:1.1}
-.apple-action-btn.cashout{background:#2ecc71;display:flex;flex-direction:column;align-items:center;font-size:16px}
-.apple-action-btn.cashout small{font-size:11px;font-weight:700;opacity:.95}
-.apple-stake-display{flex:1;background:rgba(20,30,50,.7);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 18px;color:#fff;font-size:17px;font-weight:700;display:flex;justify-content:flex-end;gap:6px;align-items:center;direction:ltr}
+.apple-mults{display:grid;grid-template-rows:repeat(10,1fr);gap:2px;width:46px;flex-shrink:0;padding:4px 0}
+.apple-mult{display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);color:#fff;font-size:8.5px;font-weight:700;border-radius:6px;direction:ltr;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(3px);height:100%;max-height:26px;align-self:center;transition:.3s;letter-spacing:.2px}
+.apple-mult .txt{opacity:0;transition:opacity .35s ease}
+.apple-mults.show-text .apple-mult .txt{opacity:1}
+.apple-mult.current{background:#8bc34a;color:#fff;font-weight:900;box-shadow:0 0 10px rgba(139,195,74,.7);border-color:rgba(255,255,255,.3)}
+.apple-mult.current .txt{opacity:1}
+.apple-mult.done{background:rgba(255,255,255,.04);opacity:.35}
+.apple-bottom{padding:8px 12px 12px;flex-shrink:0;min-height:1px}
+.apple-ctrl-row{display:flex;gap:6px;margin-bottom:8px}
+.apple-ctrl-row button{flex:1;background:rgba(100,140,220,.65);color:#fff;border:none;padding:10px;border-radius:20px;font-weight:800;font-size:12px;cursor:pointer;letter-spacing:.5px;backdrop-filter:blur(4px);transition:.2s}
+.apple-ctrl-row button:disabled{opacity:.3;cursor:default}
+.apple-winnings-bar{background:rgba(0,0,0,.55);color:#fff;text-align:center;font-size:14px;font-weight:700;padding:11px 12px;border-radius:8px;margin-bottom:8px;display:none;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08)}
+.apple-winnings-bar.show{display:block}
+.apple-winnings-bar .val{color:#8bc34a;font-weight:900;font-size:16px}
+.apple-stake-row{display:flex;align-items:center;gap:8px;flex-direction:row-reverse}
+.apple-action-btn{background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:13px 22px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.3px;min-width:130px;transition:.2s;line-height:1.1}
+.apple-action-btn:disabled{opacity:.6;cursor:default}
+.apple-stake-display{flex:1;background:rgba(10,20,35,.85);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 16px;color:#fff;font-size:16px;font-weight:700;display:flex;justify-content:flex-end;gap:6px;align-items:center;direction:ltr;transition:transform .2s}
+.apple-stake-display.pop{animation:stakePop .3s ease}
+@keyframes stakePop{0%{transform:scale(1)}50%{transform:scale(1.06);background:rgba(139,195,74,.25)}100%{transform:scale(1)}}
+.apple-full-cashout{display:none;margin-top:0}
+.apple-full-cashout.show{display:block}
+.apple-full-cashout button{width:100%;background:#3b82f6;color:#fff;border:none;padding:17px;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 3px 12px rgba(59,130,246,.45);font-family:inherit;transition:.2s;}
+.apple-full-cashout button:active{transform:scale(.98)}
+.apple-gameover-row{display:none;flex-direction:column;gap:8px;margin-top:8px}
+.apple-gameover-row.show{display:flex}
+.play-again-btn{background:#3b82f6;color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.3px;box-shadow:0 3px 12px rgba(59,130,246,.4);}
+.new-bet-btn{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:13px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px;}
+.apple-result-overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:200;pointer-events:none;background:rgba(0,0,0,.42);}
+.apple-result-overlay.show{display:flex}
+.result-content{text-align:center;padding:20px}
+.result-title{font-size:52px;font-weight:900;color:#8bc34a;text-shadow:0 4px 22px rgba(139,195,74,.75),0 0 50px rgba(139,195,74,.5),0 2px 6px rgba(0,0,0,.9);margin-bottom:6px;animation:resultPop .4s cubic-bezier(.2,.9,.3,1.4);letter-spacing:1px;}
+.result-title.lose{font-size:26px;color:#eaffea;text-shadow:0 4px 22px rgba(139,195,74,.55),0 0 40px rgba(139,195,74,.35),0 2px 6px rgba(0,0,0,.95);line-height:1.5;font-weight:900;max-width:340px;margin:0 auto 10px;letter-spacing:.5px;}
+.result-msg{font-size:20px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.95);margin-top:4px;}
+.result-msg .amt{color:#fff;font-weight:900;font-size:22px}
+@keyframes resultPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+
 .modal{display:none;position:fixed;inset:0;background:#fff;z-index:200;flex-direction:column;overflow-y:auto}
 .modal.show{display:flex}
 .modal-head{padding:18px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;background:#fff}
@@ -298,13 +327,55 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     </div>
 </div>
 
+<!-- ============================================================
+     🍎 APPLE SCREEN (NEW HTML)
+     ============================================================ -->
 <div id="appleScreen">
     <div class="apple-inner">
-        <div class="apple-top"><button class="apple-back-btn" onclick="closeApple()">→</button><div class="apple-balance-box"><span id="appleBalance">0.00</span> <span class="cur">ج.م</span></div></div>
-        <div class="apple-main"><div class="apple-grid-wrap"><div class="apple-mults" id="appleMults"></div><div class="apple-grid" id="appleGrid"></div></div></div>
+        <div class="apple-top">
+            <button class="apple-back-btn" onclick="closeApple()">→</button>
+            <div class="apple-balance-wrap">
+                <button class="apple-plus-btn" onclick="addFunds()">+</button>
+                <div class="apple-balance-val"><span id="appleBalance">0.00</span> <span class="cur">ج.م</span></div>
+            </div>
+        </div>
+        <div class="apple-main">
+            <div class="apple-grid-wrap">
+                <div class="apple-grid" id="appleGrid"></div>
+                <div class="apple-mults" id="appleMults"></div>
+            </div>
+            <div class="apple-result-overlay" id="appleResultOverlay">
+                <div class="result-content">
+                    <div class="result-title" id="resultTitle">فوز</div>
+                    <div class="result-msg" id="resultMsg">لقد ربحت <span class="amt">0</span> ج.م</div>
+                </div>
+            </div>
+        </div>
         <div class="apple-bottom">
-            <div class="apple-ctrl-row"><button id="ctrlMin" onclick="appleCtrl('min')">MIN</button><button id="ctrlDouble" onclick="appleCtrl('double')">X2</button><button id="ctrlHalf" onclick="appleCtrl('half')">X/2</button><button id="ctrlMax" onclick="appleCtrl('max')">MAX</button></div>
-            <div class="apple-stake-row"><button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button><div class="apple-stake-display"><span id="appleStakeVal">20</span></div></div>
+            <div class="apple-ctrl-row" id="appleCtrlRow">
+                <button id="ctrlMin" onclick="appleCtrl('min')">MIN</button>
+                <button id="ctrlDouble" onclick="appleCtrl('double')">X2</button>
+                <button id="ctrlHalf" onclick="appleCtrl('half')">X/2</button>
+                <button id="ctrlMax" onclick="appleCtrl('max')">MAX</button>
+            </div>
+
+            <div class="apple-stake-row" id="appleStakeRow">
+                <button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button>
+                <div class="apple-stake-display" id="appleStakeDisplay"><span id="appleStakeVal">20</span></div>
+            </div>
+
+            <div class="apple-winnings-bar" id="appleWinningsBar">
+                الأرباح الحالية: <span class="val" id="currentWinnings">0.00</span> ج.م
+            </div>
+
+            <div class="apple-full-cashout" id="appleFullCashout">
+                <button onclick="appleAction()">خذ الأرباح</button>
+            </div>
+
+            <div class="apple-gameover-row" id="appleGameoverRow">
+                <button class="play-again-btn" id="playAgainBtn" onclick="playAgain()">العب مرة أخرى (20 ج.م)</button>
+                <button class="new-bet-btn" onclick="newBet()">رهان جديد</button>
+            </div>
         </div>
     </div>
 </div>
@@ -443,16 +514,12 @@ const db = getDatabase(app);
 
 /* ============================================================
    ⚙️ إعدادات اللاعبين الوهميين
-   - العدد عشوائي بين BOTS_MIN و BOTS_MAX كل جولة
-   - أقصى ODDS = 30x (للّاعبين والطيارة)
-   - الأدمن يتحكم في بادئة الـ ID فقط لايف من settings/idPrefix
    ============================================================ */
-const BOTS_MIN = 15;                // ✅ أقل عدد لاعبين في الجولة
-const BOTS_MAX = 25;                // ✅ أقصى عدد لاعبين
-const MAX_ODDS = 30;                // ✅ أقصى أودز مسموح (30x)
-let _botPrefix = '17855';           // البادئة الافتراضية (أول 5 أرقام)
+const BOTS_MIN = 15;
+const BOTS_MAX = 25;
+const MAX_ODDS = 30;
+let _botPrefix = '17855';
 
-/* Live: لما الأدمن يغير البادئة من Firebase تتحدث فوراً */
 onValue(ref(db,'settings/idPrefix'), s => {
     if(s.exists()){
         let v = String(s.val()).trim().replace(/\D/g,'');
@@ -461,8 +528,6 @@ onValue(ref(db,'settings/idPrefix'), s => {
         _botPrefix = v;
     }
 });
-
-/* دعم قديم: settings/bots/prefix */
 onValue(ref(db,'settings/bots/prefix'), s => {
     if(s.exists()){
         let v = String(s.val()).trim().replace(/\D/g,'');
@@ -477,16 +542,9 @@ let _dep={v:"01286028671",e:"01186028671",o:"01086028671"}, _m=null, _img="", _p
 let _rs="idle", _rt=null, _ct=null, _mult=1, _cp=0, _bet={a:0,act:false,cash:false};
 let _bp=[];
 
-/* ============ ☎️ أرقام الإيداع Live ============ */
-onValue(ref(db,'settings/vodafoneNumber'), s => {
-    if(s.exists()){ _dep.v = s.val(); _refreshDepNum(); }
-});
-onValue(ref(db,'settings/etisalatNumber'), s => {
-    if(s.exists()){ _dep.e = s.val(); _refreshDepNum(); }
-});
-onValue(ref(db,'settings/orangeNumber'), s => {
-    if(s.exists()){ _dep.o = s.val(); _refreshDepNum(); }
-});
+onValue(ref(db,'settings/vodafoneNumber'), s => { if(s.exists()){ _dep.v = s.val(); _refreshDepNum(); } });
+onValue(ref(db,'settings/etisalatNumber'), s => { if(s.exists()){ _dep.e = s.val(); _refreshDepNum(); } });
+onValue(ref(db,'settings/orangeNumber'), s => { if(s.exists()){ _dep.o = s.val(); _refreshDepNum(); } });
 
 function _refreshDepNum(){
     if(!_m) return;
@@ -544,7 +602,7 @@ function _verifyBal(){
 }
 
 /* ============ HELPERS ============ */
-function _scr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');const c=document.getElementById('crashScreen');if(c)c.classList.remove('active');const s=document.getElementById('successScreen');if(s)s.classList.remove('active');}
+function _scr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');const c=document.getElementById('crashScreen');if(c)c.classList.remove('active');const s=document.getElementById('successScreen');if(s)s.classList.remove('active');const a=document.getElementById('appleScreen');if(a)a.classList.remove('active');}
 function _ok(){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('successScreen').classList.add('active');}
 function _toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>el.style.display='none',2500);}
 function _eye(id,b){const i=document.getElementById(id);if(i.type==='password'){i.type='text';b.textContent='🙈';}else{i.type='password';b.textContent='👁';}}
@@ -660,7 +718,13 @@ function _copy(){
     else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');_toast('تم نسخ البيانات ✅');}catch(e){_toast('فشل النسخ');}document.body.removeChild(a);}
 }
 function _share(){const i=document.getElementById('outId').textContent;const p=document.getElementById('outPass').textContent;const t=`حسابي في 1xBet\nID: ${i}\nPassword: ${p}`;if(navigator.share){navigator.share({title:'حساب 1xBet',text:t}).catch(()=>{});}else{_copy();}}
-function _updUI(){const f=Number(_bal||0).toFixed(2);const b=document.getElementById('balance');if(b)b.textContent=f;const c=document.getElementById('crashBalance');if(c)c.textContent=f;const w=document.getElementById('wdBalance');if(w)w.textContent=f;const a=document.getElementById('appleBalance');if(a)a.textContent=f;}
+function _updUI(){
+    const f=Number(_bal||0).toFixed(2);
+    const b=document.getElementById('balance');if(b)b.textContent=f;
+    const c=document.getElementById('crashBalance');if(c)c.textContent=f;
+    const w=document.getElementById('wdBalance');if(w)w.textContent=f;
+    const a=document.getElementById('appleBalance');if(a)a.textContent=f;
+}
 function _save(){if(!_u||_kd)return;if(!_verifyBal())return;update(ref(db,'users/'+_u),{balance:Number(_bal),updatedAt:Date.now()}).catch(()=>{});}
 
 /* ============ DEPOSIT ============ */
@@ -734,6 +798,7 @@ async function _pushH(p){
 function _openCrash(){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('successScreen').classList.remove('active');
+    document.getElementById('appleScreen').classList.remove('active');
     document.getElementById('crashScreen').classList.add('active');
     _updUI();
     setTimeout(_cdown,150);
@@ -747,20 +812,12 @@ function _closeCrash(){
 function _rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function _shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
-/* ============================================================
-   ✅ توليد ID اللاعب: بادئة (5) + رقم عشوائي + 4 نجوم ∗
-   النتيجة: 17855X∗∗∗∗  (10 خانات — النجوم على نفس السطر)
-   ============================================================ */
 function _genBotId(){
     const prefix = (_botPrefix || '17855').padEnd(5,'0').slice(0,5);
     const d = Math.floor(Math.random()*10);
     return prefix + d + '\u2217\u2217\u2217\u2217';
 }
 
-/* ============================================================
-   ✅ عدد اللاعبين عشوائي كل جولة بين BOTS_MIN و BOTS_MAX
-   ✅ أقصى أودز للاعب = MAX_ODDS (30x)
-   ============================================================ */
 function _mkBots(){
     _bp=[];
     const c = _rand(BOTS_MIN, BOTS_MAX);
@@ -772,21 +829,15 @@ function _mkBots(){
         usedIds.add(bid);
 
         let co, r = Math.random();
-        if(r<.35)      co=Number((1.15+Math.random()*.5).toFixed(2));   // 1.15 - 1.65
-        else if(r<.65) co=Number((1.8+Math.random()*1.2).toFixed(2));   // 1.8  - 3.0
-        else if(r<.88) co=Number((3+Math.random()*4).toFixed(2));       // 3    - 7
-        else if(r<.97) co=Number((7+Math.random()*8).toFixed(2));       // 7    - 15
-        else           co=Number((15+Math.random()*15).toFixed(2));     // 15   - 30
-        if(co > MAX_ODDS) co = MAX_ODDS;   // ✅ أقصى حاجة 30x
+        if(r<.35)      co=Number((1.15+Math.random()*.5).toFixed(2));
+        else if(r<.65) co=Number((1.8+Math.random()*1.2).toFixed(2));
+        else if(r<.88) co=Number((3+Math.random()*4).toFixed(2));
+        else if(r<.97) co=Number((7+Math.random()*8).toFixed(2));
+        else           co=Number((15+Math.random()*15).toFixed(2));
+        if(co > MAX_ODDS) co = MAX_ODDS;
 
         const ba = [10,20,50,100,200,500,1000][_rand(0,6)];
-        _bp.push({
-            id:'p'+Date.now()+'_'+i,
-            name:bid,
-            cashout:co,
-            bet:ba,
-            state:'waiting'
-        });
+        _bp.push({id:'p'+Date.now()+'_'+i,name:bid,cashout:co,bet:ba,state:'waiting'});
     }
     _rBots();
 }
@@ -804,26 +855,22 @@ function _rBots(){
 function _upBot(pid,w,f,wi){const r=document.querySelector(`.players-row[data-pid="${pid}"]`);if(!r)return;const o=r.querySelector('.col-odds');const wn=r.querySelector('.col-win');if(w){o.textContent=f.toFixed(2)+'x';o.classList.add('win');wn.textContent=wi.toFixed(1);}else{o.textContent='LOST';o.classList.add('lose');wn.textContent='0';}}
 function _addMe(w,f,ba,wa){const b=document.getElementById('playersBody');const o=document.querySelector('.players-row.me');if(o)o.remove();const r=document.createElement('div');r.className='players-row me';r.dataset.pid='me';const oh=w?`<div class="col-odds win">${f.toFixed(2)}x</div>`:`<div class="col-odds lose">LOST</div>`;r.innerHTML=`<div class="col-user" style="color:#f0c419">${_u||'أنت'}</div>${oh}<div class="col-bet">${ba} ج.م</div><div class="col-win" style="color:#f0c419">${wa?wa.toFixed(1):'0'}</div>`;b.insertBefore(r,b.firstChild);}
 
-/* ============================================================
-   ✅ Crash Point — أقصى حاجة 30x
-   ============================================================ */
 function _genCP(){
     const dice = Math.random();
     let p;
-    if(dice < 0.08)       p = 1.00 + Math.random() * 0.15;   // 1.00 - 1.15
-    else if(dice < 0.30)  p = 1.15 + Math.random() * 0.85;   // 1.15 - 2.00
-    else if(dice < 0.55)  p = 2.00 + Math.random() * 2.00;   // 2.00 - 4.00
-    else if(dice < 0.75)  p = 4.00 + Math.random() * 3.00;   // 4.00 - 7.00
-    else if(dice < 0.90)  p = 7.00 + Math.random() * 8.00;   // 7.00 - 15.00
-    else if(dice < 0.98)  p = 15.00 + Math.random() * 10.00; // 15.00 - 25.00
-    else                  p = 25.00 + Math.random() * 5.00;  // 25.00 - 30.00
+    if(dice < 0.08)       p = 1.00 + Math.random() * 0.15;
+    else if(dice < 0.30)  p = 1.15 + Math.random() * 0.85;
+    else if(dice < 0.55)  p = 2.00 + Math.random() * 2.00;
+    else if(dice < 0.75)  p = 4.00 + Math.random() * 3.00;
+    else if(dice < 0.90)  p = 7.00 + Math.random() * 8.00;
+    else if(dice < 0.98)  p = 15.00 + Math.random() * 10.00;
+    else                  p = 25.00 + Math.random() * 5.00;
     p += (Math.random() - 0.5) * 0.1;
     if(p < 1) p = 1.00;
-    if(p > MAX_ODDS) p = MAX_ODDS;   // ✅ أقصى حاجة 30x
+    if(p > MAX_ODDS) p = MAX_ODDS;
     return Number(p.toFixed(2));
 }
 
-/* ✅ عدّاد 6 ثواني */
 function _cdown(){
     clearInterval(_rt);clearInterval(_ct);
     _rs='countdown';_mult=1;_bet={a:0,act:false,cash:false};
@@ -853,7 +900,6 @@ function _cdown(){
     },1000);
 }
 
-/* ✅ سرعة ثابتة: 1.25x كل ثانية */
 function _startR(){
     clearInterval(_rt);
     _rs='running';_mult=1;
@@ -958,103 +1004,381 @@ function _crash(){
     setTimeout(()=>{document.getElementById('bigText').className='big-text';_cdown();},1800);
 }
 
-/* ============ APPLE ============ */
-const _AM=[1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
-const _AR=10, _AC=5;
-const _CB='https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/efc0e4cb-1559-4172-8df1-389128bf9fa7.png';
-const _CT='https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_2.png';
-const _CS='https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_3.png';
-const _CR='https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_1.png';
-let _as={act:false,fin:false,rev:false,stk:20,sp:false,cr:0,pk:{},rt:[],cm:1.00};
+/* ============================================================
+   🍎 APPLE GAME (NEW) — integrated with Firebase balance
+   ============================================================ */
+const APPLE_MULTS = [1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
+const APPLE_ROWS = 10;
+const APPLE_COLS = 5;
+const APPLE_COVER_BOTTOM = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/efc0e4cb-1559-4172-8df1-389128bf9fa7.png';
+const APPLE_COVER_TOP    = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_5.png';
+const APPLE_SAFE         = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_3.png';
+const APPLE_ROTTEN       = 'https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/new_version_1.png';
 
-function _openAp(){
-    _as={act:true,fin:false,rev:false,stk:20,sp:false,cr:0,pk:{},rt:[],cm:1.00};
-    document.getElementById('appleStakeVal').textContent='20';
-    document.getElementById('appleBalance').textContent=_bal.toFixed(2);
-    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=false;});
-    _rAp();_updApBtn();
+let appleState = {
+    active:false, finished:false, revealAll:false,
+    stake:20, stakePlaced:false, currentRow:0,
+    picks:{}, rottenAt:[], cashoutMult:1.00,
+    wonAmount:0
+};
+
+/* ⭐ حفظ التوقعات في Firebase عشان سكريبت التوقعات يقرأها */
+function _saveApplePrediction(rottenAt){
+    try{
+        set(ref(db,'applePrediction/current'),{rottenAt, timestamp:Date.now()}).catch(()=>{});
+    }catch(e){}
+}
+
+function openApple(){
+    appleState.active = true;
+    appleState.finished = false;
+    appleState.revealAll = false;
+    appleState.stakePlaced = false;
+    appleState.currentRow = 0;
+    appleState.picks = {};
+    appleState.rottenAt = [];
+    appleState.cashoutMult = 1.00;
+    appleState.stake = 20;
+    appleState.wonAmount = 0;
+
+    document.getElementById('appleStakeVal').textContent = '20';
+    document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
+    document.getElementById('appleWinningsBar').classList.remove('show');
+    document.getElementById('appleFullCashout').classList.remove('show');
+    document.getElementById('appleResultOverlay').classList.remove('show');
+    document.getElementById('appleGameoverRow').classList.remove('show');
+    document.getElementById('appleStakeRow').style.display = 'flex';
+    document.getElementById('appleCtrlRow').style.display = 'flex';
+
+    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
+        const el = document.getElementById(id); if(el) el.disabled = false;
+    });
+
+    renderApple();
+    updateAppleActionBtn();
     document.getElementById('appleScreen').classList.add('active');
 }
-function _closeAp(){document.getElementById('appleScreen').classList.remove('active');_as.act=false;}
-function _fmt(n){let s=n.toFixed(2);if(s.endsWith('0'))s=s.slice(0,-1);return s;}
-function _cvr(r){return (r===0)?_CB:_CT;}
-function _rAp(){
-    const g=document.getElementById('appleGrid');g.innerHTML='';
-    for(let vr=0;vr<_AR;vr++){
-        const gr=_AR-1-vr;
-        for(let c=0;c<_AC;c++){
-            const cell=document.createElement('div');cell.className='apple-cell';
-            let src;
-            if(_as.rev)src=(_as.rt[gr]===c)?_CR:_CS;
-            else if(_as.pk[gr]!==undefined && _as.pk[gr]===c)src=(_as.rt[gr]===c)?_CR:_CS;
-            else src=_cvr(gr);
-            cell.innerHTML=`<img src="${src}" alt="">`;
-            const cc=_as.act&&!_as.fin&&_as.sp&&gr===_as.cr&&_as.pk[gr]===undefined;
-            if(cc){cell.classList.add('clickable');cell.onclick=()=>_apClick(gr,c);}
-            g.appendChild(cell);
+
+function closeApple(){
+    document.getElementById('appleScreen').classList.remove('active');
+    newBet();
+}
+
+function renderApple(){
+    const grid = document.getElementById('appleGrid');
+    grid.innerHTML = '';
+
+    for(let vr=0; vr<APPLE_ROWS; vr++){
+        const gameRow = APPLE_ROWS - 1 - vr;
+
+        for(let c=0; c<APPLE_COLS; c++){
+            const cell = document.createElement('div');
+            cell.className = 'apple-cell';
+            let src = '';
+
+            if(appleState.revealAll){
+                src = (appleState.rottenAt[gameRow] === c) ? APPLE_ROTTEN : APPLE_SAFE;
+            }
+            else if(appleState.picks[gameRow] !== undefined){
+                if(c === appleState.picks[gameRow]){
+                    src = (appleState.rottenAt[gameRow] === c) ? APPLE_ROTTEN : APPLE_SAFE;
+                }else{
+                    src = APPLE_COVER_TOP;
+                }
+            }
+            else if(gameRow === appleState.currentRow && !appleState.finished){
+                src = APPLE_COVER_BOTTOM;
+            }
+            else{
+                src = APPLE_COVER_TOP;
+            }
+
+            cell.innerHTML = `<img src="${src}" alt="">`;
+
+            const canClick = appleState.active && !appleState.finished && appleState.stakePlaced
+                && gameRow === appleState.currentRow && appleState.picks[gameRow] === undefined;
+
+            if(canClick){
+                cell.classList.add('clickable');
+                cell.onclick = () => appleClick(gameRow, c);
+            }
+            grid.appendChild(cell);
         }
     }
-    const m=document.getElementById('appleMults');m.innerHTML='';
-    for(let vr=0;vr<_AR;vr++){
-        const gr=_AR-1-vr;
-        const el=document.createElement('div');el.className='apple-mult';
-        const v=_AM[gr];
-        el.textContent=(gr===0)?v.toFixed(2):'x'+_fmt(v);
-        if(gr===_as.cr && _as.act && !_as.fin && _as.sp)el.classList.add('current');
-        else if(gr<_as.cr && _as.act && !_as.fin && _as.sp)el.classList.add('done');
-        m.appendChild(el);
+
+    const mults = document.getElementById('appleMults');
+    mults.innerHTML = '';
+
+    if(appleState.stakePlaced && Object.keys(appleState.picks).length > 0)
+        mults.classList.add('show-text');
+    else
+        mults.classList.remove('show-text');
+
+    for(let vr=0; vr<APPLE_ROWS; vr++){
+        const gameRow = APPLE_ROWS - 1 - vr;
+        const m = document.createElement('div');
+        m.className = 'apple-mult';
+        const val = APPLE_MULTS[gameRow];
+        m.innerHTML = `<span class="txt">x${val.toFixed(2)}</span>`;
+
+        if(gameRow === appleState.currentRow && appleState.active && appleState.stakePlaced && !appleState.finished && Object.keys(appleState.picks).length > 0){
+            m.classList.add('current');
+        }else if(gameRow < appleState.currentRow && appleState.active && !appleState.finished && appleState.stakePlaced){
+            m.classList.add('done');
+        }
+        mults.appendChild(m);
     }
 }
-function _apClick(gr,c){
-    if(!_as.act||_as.fin)return;
-    if(!_as.sp)return;
-    if(gr!==_as.cr)return;
-    if(_as.pk[gr]!==undefined)return;
-    _as.pk[gr]=c;
-    const rot=_as.rt[gr]===c;
-    if(rot){_as.fin=true;_as.cm=0;_rAp();_updApBtn();setTimeout(()=>{_as.rev=true;_rAp();},600);return;}
-    if(gr===_AR-1){_as.fin=true;_as.cm=_AM[_AR-1];const w=_as.stk*_as.cm;_setBal(_bal+w);_updUI();_save();document.getElementById('appleBalance').textContent=_bal.toFixed(2);_as.rev=true;_rAp();_updApBtn();return;}
-    _as.cr=gr+1;_as.cm=_AM[gr+1];_rAp();_updApBtn();
-}
-function _updApBtn(){const b=document.getElementById('appleActionBtn');if(!b)return;if(!_as.sp||_as.fin){b.textContent='STAKE';b.classList.remove('cashout');b.disabled=false;}else{const w=_as.stk*_as.cm;b.innerHTML=`CASHOUT<br><small>${w.toFixed(2)} ج.م</small>`;b.classList.add('cashout');b.disabled=false;}}
-function _apAction(){
-    if(!_as.act)return;
-    if(_as.fin){_rstAp();return;}
-    if(!_as.sp){
-        const sv=Number(document.getElementById('appleStakeVal').textContent)||20;
-        if(sv<10){_toast('أقل رهان 10 ج.م');return;}
-        if(sv>_bal){_toast('الرصيد غير كافٍ');return;}
-        _as.stk=sv;_setBal(_bal-_as.stk);_updUI();_save();
-        document.getElementById('appleBalance').textContent=_bal.toFixed(2);
-        _as.sp=true;_as.cr=0;_as.pk={};_as.rt=[];
-        for(let r=0;r<_AR;r++)_as.rt.push(Math.floor(Math.random()*_AC));
-        ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=true;});
-        _rAp();_updApBtn();return;
+
+function appleClick(gameRow, col){
+    if(!appleState.active || appleState.finished) return;
+    if(!appleState.stakePlaced) return;
+    if(gameRow !== appleState.currentRow) return;
+    if(appleState.picks[gameRow] !== undefined) return;
+
+    appleState.picks[gameRow] = col;
+    const isRotten = appleState.rottenAt[gameRow] === col;
+
+    renderApple();
+
+    if(isRotten){
+        setTimeout(()=>{
+            appleState.finished = true;
+            appleState.cashoutMult = 0;
+            appleState.revealAll = true;
+            renderApple();
+            document.getElementById('appleWinningsBar').classList.remove('show');
+            document.getElementById('appleFullCashout').classList.remove('show');
+            showResultOverlay(false, 0);
+            showGameoverButtons(false);
+        }, 500);
+        return;
     }
-    const w=_as.stk*_as.cm;
-    _setBal(_bal+w);_updUI();_save();
-    document.getElementById('appleBalance').textContent=_bal.toFixed(2);
-    _as.fin=true;_as.rev=true;_rAp();_updApBtn();
-    setTimeout(_rstAp,2000);
+
+    document.getElementById('appleFullCashout').classList.add('show');
+    updateWinningsBar();
+
+    if(gameRow === APPLE_ROWS - 1){
+        setTimeout(()=>{
+            appleState.finished = true;
+            appleState.cashoutMult = APPLE_MULTS[APPLE_ROWS - 1];
+            const win = appleState.stake * appleState.cashoutMult;
+            _setBal(_bal + win); _updUI(); _save();
+            document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
+            appleState.revealAll = true;
+            appleState.wonAmount = win;
+            renderApple();
+            document.getElementById('appleWinningsBar').classList.remove('show');
+            document.getElementById('appleFullCashout').classList.remove('show');
+            showResultOverlay(true, win);
+            showGameoverButtons(true);
+        }, 500);
+        return;
+    }
+
+    setTimeout(()=>{
+        appleState.currentRow = gameRow + 1;
+        appleState.cashoutMult = APPLE_MULTS[gameRow + 1];
+        renderApple();
+        updateWinningsBar();
+    }, 500);
 }
-function _rstAp(){
-    if(!_as.act)return;
-    _as.fin=false;_as.rev=false;_as.sp=false;_as.cr=0;_as.pk={};_as.rt=[];_as.cm=1.00;
-    const s=Number(document.getElementById('appleStakeVal').textContent)||20;
-    _as.stk=s;
-    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=false;});
-    _rAp();_updApBtn();
+
+function showResultOverlay(isWin, win){
+    const ov = document.getElementById('appleResultOverlay');
+
+    if(isWin){
+        document.getElementById('resultTitle').textContent = 'فوز';
+        document.getElementById('resultTitle').className = 'result-title';
+        document.getElementById('resultMsg').innerHTML =
+            `لقد ربحت <span class="amt">${win.toFixed(1)}</span> ج.م`;
+    }else{
+        document.getElementById('resultTitle').textContent = 'حظ أوفر في المرة القادمة!';
+        document.getElementById('resultTitle').className = 'result-title lose';
+        document.getElementById('resultMsg').innerHTML = 'حاول مرة أخرى';
+    }
+    ov.classList.add('show');
 }
-function _apCtrl(m){
-    if(_as.sp)return;
-    let s=Number(document.getElementById('appleStakeVal').textContent)||20;
-    if(m==='min')s=10;
-    else if(m==='double')s=s*2;
-    else if(m==='half')s=Math.max(10,Math.floor(s/2));
-    else if(m==='max')s=Math.floor(_bal);
-    if(s<10)s=10;
-    if(s>_bal)s=Math.floor(_bal);
-    document.getElementById('appleStakeVal').textContent=s;
+
+function showGameoverButtons(won){
+    document.getElementById('appleCtrlRow').style.display = 'none';
+    document.getElementById('appleStakeRow').style.display = 'none';
+    document.getElementById('appleWinningsBar').classList.remove('show');
+    document.getElementById('appleFullCashout').classList.remove('show');
+
+    const btn = document.getElementById('playAgainBtn');
+    btn.textContent = `العب مرة أخرى (${appleState.stake} ج.م)`;
+    document.getElementById('appleGameoverRow').classList.add('show');
+}
+
+function updateWinningsBar(){
+    const bar = document.getElementById('appleWinningsBar');
+
+    if(!appleState.stakePlaced || appleState.finished || Object.keys(appleState.picks).length === 0){
+        bar.classList.remove('show');
+        return;
+    }
+
+    const win = appleState.stake * appleState.cashoutMult;
+    document.getElementById('currentWinnings').textContent = win.toFixed(2);
+    bar.classList.add('show');
+}
+
+function updateAppleActionBtn(){
+    const btn = document.getElementById('appleActionBtn');
+    if(!btn) return;
+
+    if(!appleState.stakePlaced || appleState.finished){
+        btn.textContent = 'STAKE';
+        btn.disabled = false;
+    }
+}
+
+function appleAction(){
+    if(!appleState.active) return;
+    if(appleState.finished) return;
+
+    /* ===== لسه مفيش رهان → احطه ===== */
+    if(!appleState.stakePlaced){
+        const stakeVal = Number(document.getElementById('appleStakeVal').textContent) || 20;
+        if(stakeVal < 10){ _toast('أقل رهان 10 ج.م'); return; }
+        if(stakeVal > _bal){ _toast('الرصيد غير كافٍ'); return; }
+
+        appleState.stake = stakeVal;
+        _setBal(_bal - appleState.stake);
+        _updUI(); _save();
+        document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
+
+        appleState.stakePlaced = true;
+        appleState.currentRow = 0;
+        appleState.picks = {};
+        appleState.rottenAt = [];
+
+        /* ⭐ توليد مواقع التفاح المتآكل */
+        for(let r=0; r<APPLE_ROWS; r++){
+            appleState.rottenAt.push(Math.floor(Math.random() * APPLE_COLS));
+        }
+
+        /* ⭐ حفظ التوقعات في Firebase */
+        _saveApplePrediction(appleState.rottenAt.slice());
+
+        ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
+            const el = document.getElementById(id); if(el) el.disabled = true;
+        });
+
+        document.getElementById('appleCtrlRow').style.display = 'none';
+        document.getElementById('appleStakeRow').style.display = 'none';
+        document.getElementById('appleFullCashout').classList.remove('show');
+        document.getElementById('appleWinningsBar').classList.remove('show');
+
+        renderApple();
+        return;
+    }
+
+    /* ===== سحب الأرباح ===== */
+    const win = appleState.stake * appleState.cashoutMult;
+    _setBal(_bal + win); _updUI(); _save();
+    document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
+
+    appleState.finished = true;
+    appleState.revealAll = true;
+    appleState.wonAmount = win;
+    renderApple();
+
+    document.getElementById('appleWinningsBar').classList.remove('show');
+    document.getElementById('appleFullCashout').classList.remove('show');
+
+    showResultOverlay(true, win);
+    showGameoverButtons(true);
+}
+
+function playAgain(){
+    if(!appleState.active) return;
+
+    const sameStake = appleState.stake;
+    if(sameStake > _bal){ _toast('الرصيد غير كافٍ'); return; }
+
+    document.getElementById('appleGameoverRow').classList.remove('show');
+    document.getElementById('appleResultOverlay').classList.remove('show');
+    document.getElementById('appleCtrlRow').style.display = 'none';
+    document.getElementById('appleStakeRow').style.display = 'none';
+    document.getElementById('appleFullCashout').classList.remove('show');
+    document.getElementById('appleWinningsBar').classList.remove('show');
+
+    appleState.finished = false;
+    appleState.revealAll = false;
+    appleState.stakePlaced = false;
+    appleState.currentRow = 0;
+    appleState.picks = {};
+    appleState.rottenAt = [];
+    appleState.cashoutMult = 1.00;
+    appleState.wonAmount = 0;
+    appleState.stake = sameStake;
+
+    _setBal(_bal - sameStake); _updUI(); _save();
+    document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
+
+    appleState.stakePlaced = true;
+
+    /* ⭐ توليد مواقع جديدة + حفظ في Firebase */
+    for(let r=0; r<APPLE_ROWS; r++){
+        appleState.rottenAt.push(Math.floor(Math.random() * APPLE_COLS));
+    }
+    _saveApplePrediction(appleState.rottenAt.slice());
+
+    renderApple();
+}
+
+function newBet(){
+    if(!appleState.active) return;
+
+    document.getElementById('appleGameoverRow').classList.remove('show');
+    document.getElementById('appleResultOverlay').classList.remove('show');
+    document.getElementById('appleFullCashout').classList.remove('show');
+    document.getElementById('appleWinningsBar').classList.remove('show');
+    document.getElementById('appleCtrlRow').style.display = 'flex';
+    document.getElementById('appleStakeRow').style.display = 'flex';
+
+    appleState.finished = false;
+    appleState.revealAll = false;
+    appleState.stakePlaced = false;
+    appleState.currentRow = 0;
+    appleState.picks = {};
+    appleState.rottenAt = [];
+    appleState.cashoutMult = 1.00;
+    appleState.wonAmount = 0;
+
+    ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
+        const el = document.getElementById(id); if(el) el.disabled = false;
+    });
+
+    renderApple();
+    updateAppleActionBtn();
+}
+
+function appleCtrl(mode){
+    if(appleState.stakePlaced) return;
+
+    let stake = Number(document.getElementById('appleStakeVal').textContent) || 20;
+
+    if(mode === 'min') stake = 10;
+    else if(mode === 'double') stake = stake * 2;
+    else if(mode === 'half') stake = Math.max(10, Math.floor(stake / 2));
+    else if(mode === 'max') stake = Math.floor(_bal);
+
+    if(stake < 10) stake = 10;
+    if(stake > _bal) stake = Math.floor(_bal);
+
+    document.getElementById('appleStakeVal').textContent = stake;
+
+    const disp = document.getElementById('appleStakeDisplay');
+    disp.classList.add('pop');
+    setTimeout(()=> disp.classList.remove('pop'), 300);
+}
+
+function addFunds(){
+    closeApple();
+    _openDep();
 }
 
 /* ============ AUTO-LOGIN ============ */
@@ -1075,8 +1399,13 @@ window.openDeposit=_openDep;
 window.openWithdraw=_openWd;
 window.openCrash=_openCrash;
 window.closeCrash=_closeCrash;
-window.openApple=_openAp;
-window.closeApple=_closeAp;
+window.openApple=openApple;
+window.closeApple=closeApple;
+window.appleAction=appleAction;
+window.appleCtrl=appleCtrl;
+window.playAgain=playAgain;
+window.newBet=newBet;
+window.addFunds=addFunds;
 window.selectMethod=_selM;
 window.copyNum=_copyNum;
 window.previewDepositImage=_prevImg;
@@ -1085,8 +1414,6 @@ window.sendWithdraw=_sendWd;
 window.closeAlert=_closeA;
 window.closeModal=_closeM;
 window.placeBet=_place;
-window.appleAction=_apAction;
-window.appleCtrl=_apCtrl;
 </script>
 </body>
 </html>
