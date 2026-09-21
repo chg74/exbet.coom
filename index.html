@@ -4,6 +4,122 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>1xBet</title>
+
+<!-- ============================================================
+     🛡️ ULTRA-EARLY PROTECTION — لازم يكون أول حاجة في <head>
+     ============================================================ -->
+<script>
+(function(){
+    'use strict';
+
+    // ---------- دالة الحجب القوية ----------
+    function hardBlock(e){
+        var code = e.keyCode || e.which || 0;
+        var k = (e.key || '').toLowerCase();
+        var ctrl = e.ctrlKey === true;
+        var meta = e.metaKey === true;
+        var shift = e.shiftKey === true;
+        var alt = e.altKey === true;
+        var mod = ctrl || meta;
+
+        var t = e.target || {};
+        var tag = (t.tagName || '').toUpperCase();
+        var editable = (tag === 'INPUT' || tag === 'TEXTAREA' || t.isContentEditable === true);
+
+        // 🔴 F12
+        if(code === 123) return _block(e);
+
+        // 🔴 Ctrl+U  (View Source) — أهم واحد
+        if(mod && !shift && !alt && (code === 85 || k === 'u')) return _block(e);
+
+        // 🔴 Ctrl+Shift+I / J / C / K / E / M  (DevTools)
+        if(mod && shift && (code === 73 || code === 74 || code === 67 || code === 75 || code === 69 || code === 77)) return _block(e);
+
+        // 🔴 Mac Cmd+Option+I/J/C/U
+        if(meta && alt && (code === 73 || code === 74 || code === 67 || code === 85)) return _block(e);
+
+        // 🔴 Ctrl+S  (Save page)
+        if(mod && !shift && !alt && code === 83) return _block(e);
+
+        // 🔴 Ctrl+P  (Print)
+        if(mod && !shift && !alt && code === 80) return _block(e);
+
+        // 🔴 Ctrl+A/C/V/X خارج الحقول
+        if(mod && !shift && !alt && (code === 65 || code === 67 || code === 86 || code === 88) && !editable) return _block(e);
+
+        // 🔴 Shift+F10
+        if(shift && code === 121) return _block(e);
+
+        // 🔴 Print Screen
+        if(code === 44 || k === 'printscreen'){
+            try{ if(navigator.clipboard) navigator.clipboard.writeText(''); }catch(err){}
+            return _block(e);
+        }
+
+        // 🔴 Ctrl+Shift+Delete
+        if(mod && shift && code === 46) return _block(e);
+    }
+
+    function _block(e){
+        try{
+            e.preventDefault();
+            e.stopPropagation();
+            if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+            e.returnValue = false;
+            e.cancelBubble = true;
+        }catch(err){}
+        return false;
+    }
+
+    // ---------- ربط على كل المستويات ----------
+    window.addEventListener('keydown',   hardBlock, true);
+    window.addEventListener('keyup',     hardBlock, true);
+    window.addEventListener('keypress',  hardBlock, true);
+    document.addEventListener('keydown', hardBlock, true);
+    document.addEventListener('keyup',   hardBlock, true);
+    document.addEventListener('keypress',hardBlock, true);
+
+    // Fallbacks قديمة (بتشتغل في كل المتصفحات)
+    window.onkeydown = hardBlock;
+    window.onkeyup   = hardBlock;
+    document.onkeydown = hardBlock;
+    document.onkeyup   = hardBlock;
+
+    // ---------- منع كليك يمين + سحب + نسخ ----------
+    function blkEvt(e){
+        var t = e.target || {};
+        var tag = (t.tagName || '').toUpperCase();
+        if(tag === 'INPUT' || tag === 'TEXTAREA' || t.isContentEditable) return;
+        return _block(e);
+    }
+    ['contextmenu','dragstart','selectstart','copy','cut','paste'].forEach(function(ev){
+        window.addEventListener(ev, blkEvt, true);
+        document.addEventListener(ev, blkEvt, true);
+    });
+    document.oncontextmenu = function(e){ return _block(e); };
+
+    // ---------- منع التكبير + الدبل تاب ----------
+    document.addEventListener('touchstart', function(e){
+        if(e.touches && e.touches.length > 1) _block(e);
+    }, {passive:false});
+
+    var _lt = 0;
+    document.addEventListener('touchend', function(e){
+        var n = Date.now();
+        if(n - _lt <= 300) _block(e);
+        _lt = n;
+    }, {passive:false});
+
+    ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+        document.addEventListener(ev, _block, true);
+    });
+
+    // ---------- منع قائمة المتصفح من الكيبورد ----------
+    document.addEventListener('contextmenu', function(e){ return _block(e); }, true);
+
+})();
+</script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
@@ -131,9 +247,6 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .players-row .col-win{color:#f0c419;font-weight:700}
 #crashScreen.won .players-row .col-win{color:#fff}
 
-/* ============================================================
-   🍎 APPLE SCREEN
-   ============================================================ */
 #appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
 #appleScreen.active{display:flex}
 .apple-inner{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(0,20,10,.3) 0%,rgba(0,20,10,.1) 40%,rgba(0,20,10,.5) 100%);position:relative;overflow:hidden}
@@ -166,51 +279,27 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .apple-stake-row{display:flex;align-items:center;gap:8px;flex-direction:row-reverse}
 .apple-action-btn{background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:13px 22px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.3px;min-width:130px;transition:.2s;line-height:1.1}
 .apple-action-btn:disabled{opacity:.6;cursor:default}
-
-/* ✅ حقل المبلغ القابل للتعديل */
-.apple-stake-input{
-    flex:1;
-    background:rgba(10,20,35,.85);
-    border:1.5px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:14px 16px;
-    color:#ffc107;
-    font-size:18px;
-    font-weight:900;
-    text-align:center;
-    outline:none;
-    direction:ltr;
-    font-family:inherit;
-    transition:.2s;
-    min-width:0;
-}
-.apple-stake-input:focus{
-    border-color:#ffc107;
-    box-shadow:0 0 0 3px rgba(255,193,7,.15);
-    background:rgba(10,20,35,1);
-}
+.apple-stake-input{flex:1;background:rgba(10,20,35,.85);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;color:#ffc107;font-size:18px;font-weight:900;text-align:center;outline:none;direction:ltr;font-family:inherit;transition:.2s;min-width:0}
+.apple-stake-input:focus{border-color:#ffc107;box-shadow:0 0 0 3px rgba(255,193,7,.15);background:rgba(10,20,35,1)}
 .apple-stake-input:disabled{opacity:.6;cursor:not-allowed}
-.apple-stake-input::-webkit-outer-spin-button,
-.apple-stake-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.apple-stake-input::-webkit-outer-spin-button,.apple-stake-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .apple-stake-input[type=number]{-moz-appearance:textfield}
-
 .apple-full-cashout{display:none;margin-top:0}
 .apple-full-cashout.show{display:block}
-.apple-full-cashout button{width:100%;background:#3b82f6;color:#fff;border:none;padding:17px;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 3px 12px rgba(59,130,246,.45);font-family:inherit;transition:.2s;}
+.apple-full-cashout button{width:100%;background:#3b82f6;color:#fff;border:none;padding:17px;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 3px 12px rgba(59,130,246,.45);font-family:inherit;transition:.2s}
 .apple-full-cashout button:active{transform:scale(.98)}
 .apple-gameover-row{display:none;flex-direction:column;gap:8px;margin-top:8px}
 .apple-gameover-row.show{display:flex}
-.play-again-btn{background:#3b82f6;color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.3px;box-shadow:0 3px 12px rgba(59,130,246,.4);}
-.new-bet-btn{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:13px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px;}
-.apple-result-overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:200;pointer-events:none;background:rgba(0,0,0,.42);}
+.play-again-btn{background:#3b82f6;color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.3px;box-shadow:0 3px 12px rgba(59,130,246,.4)}
+.new-bet-btn{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:13px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px}
+.apple-result-overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:200;pointer-events:none;background:rgba(0,0,0,.42)}
 .apple-result-overlay.show{display:flex}
 .result-content{text-align:center;padding:20px}
-.result-title{font-size:52px;font-weight:900;color:#8bc34a;text-shadow:0 4px 22px rgba(139,195,74,.75),0 0 50px rgba(139,195,74,.5),0 2px 6px rgba(0,0,0,.9);margin-bottom:6px;animation:resultPop .4s cubic-bezier(.2,.9,.3,1.4);letter-spacing:1px;}
-.result-title.lose{font-size:26px;color:#eaffea;text-shadow:0 4px 22px rgba(139,195,74,.55),0 0 40px rgba(139,195,74,.35),0 2px 6px rgba(0,0,0,.95);line-height:1.5;font-weight:900;max-width:340px;margin:0 auto 10px;letter-spacing:.5px;}
-.result-msg{font-size:20px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.95);margin-top:4px;}
+.result-title{font-size:52px;font-weight:900;color:#8bc34a;text-shadow:0 4px 22px rgba(139,195,74,.75),0 0 50px rgba(139,195,74,.5),0 2px 6px rgba(0,0,0,.9);margin-bottom:6px;animation:resultPop .4s cubic-bezier(.2,.9,.3,1.4);letter-spacing:1px}
+.result-title.lose{font-size:26px;color:#eaffea;text-shadow:0 4px 22px rgba(139,195,74,.55),0 0 40px rgba(139,195,74,.35),0 2px 6px rgba(0,0,0,.95);line-height:1.5;font-weight:900;max-width:340px;margin:0 auto 10px;letter-spacing:.5px}
+.result-msg{font-size:20px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.95);margin-top:4px}
 .result-msg .amt{color:#fff;font-weight:900;font-size:22px}
 @keyframes resultPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-
 .modal{display:none;position:fixed;inset:0;background:#fff;z-index:200;flex-direction:column;overflow-y:auto}
 .modal.show{display:flex}
 .modal-head{padding:18px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;background:#fff}
@@ -255,7 +344,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .toast{display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#0A3D62;color:#fff;padding:13px 24px;border-radius:10px;z-index:9000;font-size:13px;max-width:90%;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 </style>
 </head>
-<body>
+<body oncontextmenu="return false" onkeydown="if(event.ctrlKey&&(event.keyCode===85||event.keyCode===83||event.keyCode===80))return false;if(event.keyCode===123)return false;if(event.ctrlKey&&event.shiftKey&&[73,74,67,75,69,77].indexOf(event.keyCode)!==-1)return false;">
 
 <div id="loginScreen" class="screen active">
     <div class="login-hero"><div class="ball"></div><div class="hero-title">1XBET</div></div>
@@ -352,7 +441,6 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     </div>
 </div>
 
-<!-- 🍎 APPLE SCREEN -->
 <div id="appleScreen">
     <div class="apple-inner">
         <div class="apple-top">
@@ -381,20 +469,16 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
                 <button id="ctrlHalf" onclick="appleCtrl('half')">X/2</button>
                 <button id="ctrlMax" onclick="appleCtrl('max')">MAX</button>
             </div>
-
             <div class="apple-stake-row" id="appleStakeRow">
                 <button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button>
                 <input class="apple-stake-input" id="appleStakeVal" type="number" value="20" min="10" inputmode="numeric" placeholder="المبلغ">
             </div>
-
             <div class="apple-winnings-bar" id="appleWinningsBar">
                 الأرباح الحالية: <span class="val" id="currentWinnings">0.00</span> ج.م
             </div>
-
             <div class="apple-full-cashout" id="appleFullCashout">
                 <button onclick="appleAction()">خذ الأرباح</button>
             </div>
-
             <div class="apple-gameover-row" id="appleGameoverRow">
                 <button class="play-again-btn" id="playAgainBtn" onclick="playAgain()">العب مرة أخرى (20 ج.م)</button>
                 <button class="new-bet-btn" onclick="newBet()">رهان جديد</button>
@@ -440,104 +524,13 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 <div id="toast" class="toast"></div>
 
 <!-- ============================================================
-     🛡️ PROTECTION SYSTEM v2.0 — حماية شاملة 95%+
+     🛡️ PROTECTION LAYER 2 — كشف DevTools
      ============================================================ -->
 <script>
 (function(){
     'use strict';
 
-    // ---------- Helper: هل العنصر قابل للكتابة؟ ----------
-    function isEditable(t){
-        if(!t) return false;
-        const tag = (t.tagName || '').toUpperCase();
-        return tag === 'INPUT' || tag === 'TEXTAREA' || t.isContentEditable === true;
-    }
-
-    // ---------- Helper: إلغاء الحدث بكل الطرق الممكنة ----------
-    function killEvent(e){
-        try{
-            e.preventDefault();
-            e.stopPropagation();
-            if(e.stopImmediatePropagation) e.stopImmediatePropagation();
-        }catch(err){}
-        return false;
-    }
-
-    // ============================================================
-    // 1️⃣ منع كليك يمين + السحب + التحديد + النسخ (خارج الحقول)
-    // ============================================================
-    function blockIfNotEditable(e){
-        if(!isEditable(e.target)) return killEvent(e);
-    }
-    ['contextmenu','dragstart','selectstart','copy','cut'].forEach(function(ev){
-        window.addEventListener(ev, blockIfNotEditable, true);
-        document.addEventListener(ev, blockIfNotEditable, true);
-    });
-
-    // ============================================================
-    // 2️⃣ منع اختصارات DevTools (القلب الرئيسي للحماية)
-    // ============================================================
-    function blockKey(e){
-        const k = (e.key || '').toLowerCase();
-        const code = e.keyCode || e.which || 0;
-        const ctrl = e.ctrlKey === true;
-        const meta = e.metaKey === true;
-        const shift = e.shiftKey === true;
-        const alt = e.altKey === true;
-        const mod = ctrl || meta;
-        const editable = isEditable(e.target);
-
-        let block = false;
-
-        // 🔴 F12
-        if(code === 123 || k === 'f12') block = true;
-
-        // 🔴 Ctrl+Shift+I / J / C / K / E / M
-        if(mod && shift && ['i','j','c','k','e','m'].indexOf(k) !== -1) block = true;
-
-        // 🔴 Mac: Cmd+Option+I / J / C / U
-        if(meta && alt && ['i','j','c','u'].indexOf(k) !== -1) block = true;
-
-        // 🔴 Ctrl+U (View Source)
-        if(mod && !shift && !alt && k === 'u') block = true;
-
-        // 🔴 Ctrl+S
-        if(mod && !shift && k === 's') block = true;
-
-        // 🔴 Ctrl+P
-        if(mod && !shift && k === 'p') block = true;
-
-        // 🔴 Ctrl+A / C / V / X خارج الحقول
-        if(mod && !shift && ['a','c','v','x'].indexOf(k) !== -1 && !editable) block = true;
-
-        // 🔴 Shift+F10
-        if(shift && code === 121) block = true;
-
-        // 🔴 Print Screen
-        if(k === 'printscreen'){
-            try{ if(navigator.clipboard) navigator.clipboard.writeText(''); }catch(err){}
-            block = true;
-        }
-
-        // 🔴 Ctrl+Shift+Delete
-        if(mod && shift && k === 'delete') block = true;
-
-        if(block) return killEvent(e);
-    }
-
-    window.addEventListener('keydown',   blockKey, true);
-    window.addEventListener('keyup',     blockKey, true);
-    document.addEventListener('keydown', blockKey, true);
-    document.addEventListener('keyup',   blockKey, true);
-    document.addEventListener('keypress', function(e){
-        if(e.keyCode === 123 || (e.ctrlKey && (e.key||'').toLowerCase() === 'u')) return killEvent(e);
-    }, true);
-
-    // ============================================================
-    // 3️⃣ كشف فتح DevTools
-    // ============================================================
-    let shieldEl = null;
-    let shieldOn = false;
+    var shieldEl = null, shieldOn = false;
 
     function makeShield(){
         if(shieldEl) return;
@@ -550,87 +543,50 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     function showShield(){ if(!shieldOn){ shieldOn = true; makeShield(); shieldEl.style.display = 'flex'; } }
     function hideShield(){ if(shieldOn){ shieldOn = false; if(shieldEl) shieldEl.style.display = 'none'; } }
 
-    // --- 3أ) كشف حجم الشاشة ---
-    let dimHits = 0;
+    // 1) كشف حجم الشاشة
+    var dimHits = 0;
     setInterval(function(){
-        const wDiff = window.outerWidth  - window.innerWidth;
-        const hDiff = window.outerHeight - window.innerHeight;
-        if(wDiff > 200 || hDiff > 200){
-            dimHits++;
-            if(dimHits >= 2) showShield();
-        } else {
-            if(dimHits > 0) dimHits--;
-            if(dimHits === 0) hideShield();
-        }
+        var wDiff = window.outerWidth  - window.innerWidth;
+        var hDiff = window.outerHeight - window.innerHeight;
+        if(wDiff > 200 || hDiff > 200){ dimHits++; if(dimHits >= 2) showShield(); }
+        else { if(dimHits > 0) dimHits--; if(dimHits === 0) hideShield(); }
     }, 1000);
 
-    // --- 3ب) فخ الـ debugger ---
-    let dbgHits = 0;
+    // 2) فخ الـ debugger
+    var dbgHits = 0;
     setInterval(function(){
-        const t0 = performance.now();
+        var t0 = performance.now();
         (function(){ debugger; })();
-        const t1 = performance.now();
-        if(t1 - t0 > 150){
-            dbgHits++;
-            if(dbgHits >= 3) showShield();
-        } else {
-            if(dbgHits > 0) dbgHits--;
-        }
+        var t1 = performance.now();
+        if(t1 - t0 > 150){ dbgHits++; if(dbgHits >= 3) showShield(); }
+        else { if(dbgHits > 0) dbgHits--; }
     }, 2000);
 
-    // ============================================================
-    // 4️⃣ منع التكبير (Pinch Zoom) + الدبل تاب
-    // ============================================================
-    document.addEventListener('touchstart', function(e){
-        if(e.touches.length > 1) killEvent(e);
-    }, {passive:false});
-
-    let lastTap = 0;
-    document.addEventListener('touchend', function(e){
-        const now = Date.now();
-        if(now - lastTap <= 300) killEvent(e);
-        lastTap = now;
-    }, {passive:false});
-
-    ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
-        document.addEventListener(ev, killEvent, true);
+    // 3) مراقبة resize
+    window.addEventListener('resize', function(){
+        var wDiff = window.outerWidth  - window.innerWidth;
+        var hDiff = window.outerHeight - window.innerHeight;
+        if(wDiff > 200 || hDiff > 200) showShield();
     });
 
-    // ============================================================
-    // 5️⃣ بصمة الجهاز
-    // ============================================================
-    window.__f = function(){
-        try{
-            const s = [
-                navigator.userAgent,
-                navigator.language,
-                screen.width + 'x' + screen.height,
-                screen.colorDepth,
-                new Date().getTimezoneOffset(),
-                navigator.hardwareConcurrency || 0,
-                navigator.platform || ''
-            ].join('|');
-            let h = 0;
-            for(let i=0;i<s.length;i++){ h = ((h<<5) - h) + s.charCodeAt(i); h |= 0; }
-            return Math.abs(h).toString(36);
-        }catch(e){ return 'unknown'; }
-    };
+    // 4) تقليل console
+    try{
+        var noop = function(){};
+        var silent = {log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop,table:noop,dir:noop,assert:noop,count:noop,group:noop,groupEnd:noop,time:noop,timeEnd:noop,profile:noop,profileEnd:noop,timeStamp:noop,clear:noop};
+        Object.defineProperty(window, 'console', { get: function(){ return silent; }, set: function(){}, configurable: true });
+    }catch(e){
+        try{ ['log','warn','error','info','debug','trace'].forEach(function(m){ if(window.console && window.console[m]) window.console[m] = function(){}; }); }catch(e2){}
+    }
 
-    // ============================================================
-    // 6️⃣ منع حقن Scripts / iframes خارجية
-    // ============================================================
+    // 5) منع حقن Scripts خارجية
     if(document.documentElement && window.MutationObserver){
         try{
-            const obs = new MutationObserver(function(muts){
+            var obs = new MutationObserver(function(muts){
                 muts.forEach(function(m){
                     m.addedNodes.forEach(function(n){
                         if(!n || !n.tagName) return;
-                        if(n.tagName === 'SCRIPT' && n.src && n.src.indexOf('gstatic.com') === -1){
-                            try{ n.remove(); }catch(e){}
-                        }
-                        if(n.tagName === 'IFRAME' && n.src && n.src.indexOf('gstatic.com') === -1){
-                            try{ n.remove(); }catch(e){}
-                        }
+                        if(n.tagName === 'SCRIPT' && n.src && n.src.indexOf('gstatic.com') === -1){ try{ n.remove(); }catch(e){} }
+                        if(n.tagName === 'IFRAME' && n.src && n.src.indexOf('gstatic.com') === -1){ try{ n.remove(); }catch(e){} }
                     });
                 });
             });
@@ -638,52 +594,24 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
         }catch(e){}
     }
 
-    // ============================================================
-    // 7️⃣ قفل window.open للروابط المشبوهة
-    // ============================================================
+    // 6) قفل window.open
     try{
-        const _open = window.open;
+        var _open = window.open;
         window.open = function(url){
-            if(url && typeof url === 'string' &&
-               (url.indexOf('devtools') !== -1 || url.indexOf('inspect') !== -1)){
-                return null;
-            }
+            if(url && typeof url === 'string' && (url.indexOf('devtools') !== -1 || url.indexOf('inspect') !== -1)) return null;
             return _open.apply(this, arguments);
         };
     }catch(e){}
 
-    // ============================================================
-    // 8️⃣ تقليل قوة console
-    // ============================================================
-    try{
-        const noop = function(){};
-        const silent = {
-            log:noop, warn:noop, error:noop, info:noop, debug:noop,
-            trace:noop, table:noop, dir:noop, assert:noop, count:noop,
-            group:noop, groupEnd:noop, time:noop, timeEnd:noop,
-            profile:noop, profileEnd:noop, timeStamp:noop, clear:noop
-        };
-        Object.defineProperty(window, 'console', {
-            get: function(){ return silent; },
-            set: function(){},
-            configurable: true
-        });
-    }catch(e){
+    // 7) بصمة الجهاز
+    window.__f = function(){
         try{
-            ['log','warn','error','info','debug','trace'].forEach(function(m){
-                if(window.console && window.console[m]) window.console[m] = function(){};
-            });
-        }catch(e2){}
-    }
-
-    // ============================================================
-    // 9️⃣ مراقبة resize
-    // ============================================================
-    window.addEventListener('resize', function(){
-        const wDiff = window.outerWidth  - window.innerWidth;
-        const hDiff = window.outerHeight - window.innerHeight;
-        if(wDiff > 200 || hDiff > 200) showShield();
-    });
+            var s = [navigator.userAgent, navigator.language, screen.width+'x'+screen.height, screen.colorDepth, new Date().getTimezoneOffset(), navigator.hardwareConcurrency||0, navigator.platform||''].join('|');
+            var h = 0;
+            for(var i=0;i<s.length;i++){ h = ((h<<5) - h) + s.charCodeAt(i); h |= 0; }
+            return Math.abs(h).toString(36);
+        }catch(e){ return 'unknown'; }
+    };
 
 })();
 </script>
@@ -708,7 +636,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* ⚙️ إعدادات */
 const BOTS_MIN = 15;
 const BOTS_MAX = 25;
 const MAX_ODDS = 30;
@@ -745,7 +672,6 @@ function _refreshDepNum(){
     if(el) el.textContent = map[_m] || '';
 }
 
-/* SESSION */
 const _SS_KEY = 'x1_session_v3';
 function _saveSession(id, pass){
     try{ const data = {id,pass,at:Date.now()}; localStorage.setItem(_SS_KEY, btoa(unescape(encodeURIComponent(JSON.stringify(data))))); }catch(e){}
@@ -1183,9 +1109,6 @@ function _crash(){
     setTimeout(()=>{document.getElementById('bigText').className='big-text';_cdown();},1800);
 }
 
-/* ============================================================
-   🍎 APPLE GAME
-   ============================================================ */
 const APPLE_MULTS = [1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
 const APPLE_ROWS = 10;
 const APPLE_COLS = 5;
@@ -1582,4 +1505,4 @@ window.closeModal=_closeM;
 window.placeBet=_place;
 </script>
 </body>
-</html>
+</html>t
