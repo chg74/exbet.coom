@@ -132,7 +132,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 #crashScreen.won .players-row .col-win{color:#fff}
 
 /* ============================================================
-   🍎 APPLE SCREEN
+   🍎 APPLE SCREEN (NEW)
    ============================================================ */
 #appleScreen{position:fixed;inset:0;z-index:150;display:none;background:url('https://raw.githubusercontent.com/turbo1-2/my-images/refs/heads/main/ab488ed6-75a0-4fc5-899c-d1b16caadb06.jpeg') center/cover no-repeat}
 #appleScreen.active{display:flex}
@@ -166,34 +166,9 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 .apple-stake-row{display:flex;align-items:center;gap:8px;flex-direction:row-reverse}
 .apple-action-btn{background:#3b82f6;color:#fff;border:none;border-radius:24px;padding:13px 22px;font-weight:900;font-size:14px;cursor:pointer;letter-spacing:.3px;min-width:130px;transition:.2s;line-height:1.1}
 .apple-action-btn:disabled{opacity:.6;cursor:default}
-
-/* ✅ حقل المبلغ القابل للتعديل */
-.apple-stake-input{
-    flex:1;
-    background:rgba(10,20,35,.85);
-    border:1.5px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:14px 16px;
-    color:#ffc107;
-    font-size:18px;
-    font-weight:900;
-    text-align:center;
-    outline:none;
-    direction:ltr;
-    font-family:inherit;
-    transition:.2s;
-    min-width:0;
-}
-.apple-stake-input:focus{
-    border-color:#ffc107;
-    box-shadow:0 0 0 3px rgba(255,193,7,.15);
-    background:rgba(10,20,35,1);
-}
-.apple-stake-input:disabled{opacity:.6;cursor:not-allowed}
-.apple-stake-input::-webkit-outer-spin-button,
-.apple-stake-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.apple-stake-input[type=number]{-moz-appearance:textfield}
-
+.apple-stake-display{flex:1;background:rgba(10,20,35,.85);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 16px;color:#fff;font-size:16px;font-weight:700;display:flex;justify-content:flex-end;gap:6px;align-items:center;direction:ltr;transition:transform .2s}
+.apple-stake-display.pop{animation:stakePop .3s ease}
+@keyframes stakePop{0%{transform:scale(1)}50%{transform:scale(1.06);background:rgba(139,195,74,.25)}100%{transform:scale(1)}}
 .apple-full-cashout{display:none;margin-top:0}
 .apple-full-cashout.show{display:block}
 .apple-full-cashout button{width:100%;background:#3b82f6;color:#fff;border:none;padding:17px;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 3px 12px rgba(59,130,246,.45);font-family:inherit;transition:.2s;}
@@ -352,7 +327,9 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
     </div>
 </div>
 
-<!-- 🍎 APPLE SCREEN -->
+<!-- ============================================================
+     🍎 APPLE SCREEN (NEW HTML)
+     ============================================================ -->
 <div id="appleScreen">
     <div class="apple-inner">
         <div class="apple-top">
@@ -384,7 +361,7 @@ body{background:#fff;color:#333;font-family:'Segoe UI',Tahoma,Arial,sans-serif;m
 
             <div class="apple-stake-row" id="appleStakeRow">
                 <button class="apple-action-btn" id="appleActionBtn" onclick="appleAction()">STAKE</button>
-                <input class="apple-stake-input" id="appleStakeVal" type="number" value="20" min="10" inputmode="numeric" placeholder="المبلغ">
+                <div class="apple-stake-display" id="appleStakeDisplay"><span id="appleStakeVal">20</span></div>
             </div>
 
             <div class="apple-winnings-bar" id="appleWinningsBar">
@@ -1028,7 +1005,7 @@ function _crash(){
 }
 
 /* ============================================================
-   🍎 APPLE GAME — مع مبلغ قابل للتعديل
+   🍎 APPLE GAME (NEW) — integrated with Firebase balance
    ============================================================ */
 const APPLE_MULTS = [1.00,1.23,1.54,1.93,2.41,4.33,8.66,17.30,34.60,69.30];
 const APPLE_ROWS = 10;
@@ -1045,6 +1022,7 @@ let appleState = {
     wonAmount:0
 };
 
+/* ⭐ حفظ التوقعات في Firebase عشان سكريبت التوقعات يقرأها */
 function _saveApplePrediction(rottenAt){
     try{
         set(ref(db,'applePrediction/current'),{rottenAt, timestamp:Date.now()}).catch(()=>{});
@@ -1063,10 +1041,7 @@ function openApple(){
     appleState.stake = 20;
     appleState.wonAmount = 0;
 
-    const stkInp = document.getElementById('appleStakeVal');
-    stkInp.value = '20';
-    stkInp.disabled = false;
-
+    document.getElementById('appleStakeVal').textContent = '20';
     document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
     document.getElementById('appleWinningsBar').classList.remove('show');
     document.getElementById('appleFullCashout').classList.remove('show');
@@ -1259,17 +1234,14 @@ function updateAppleActionBtn(){
     }
 }
 
-/* ✅ appleAction مع مبلغ قابل للتعديل */
 function appleAction(){
     if(!appleState.active) return;
     if(appleState.finished) return;
 
     /* ===== لسه مفيش رهان → احطه ===== */
     if(!appleState.stakePlaced){
-        const stkInp = document.getElementById('appleStakeVal');
-        const stakeVal = Number(stkInp.value) || 0;
-
-        if(!stakeVal || stakeVal < 10){ _toast('أقل رهان 10 ج.م'); return; }
+        const stakeVal = Number(document.getElementById('appleStakeVal').textContent) || 20;
+        if(stakeVal < 10){ _toast('أقل رهان 10 ج.م'); return; }
         if(stakeVal > _bal){ _toast('الرصيد غير كافٍ'); return; }
 
         appleState.stake = stakeVal;
@@ -1289,8 +1261,6 @@ function appleAction(){
 
         /* ⭐ حفظ التوقعات في Firebase */
         _saveApplePrediction(appleState.rottenAt.slice());
-
-        stkInp.disabled = true;
 
         ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
             const el = document.getElementById(id); if(el) el.disabled = true;
@@ -1345,11 +1315,6 @@ function playAgain(){
     appleState.wonAmount = 0;
     appleState.stake = sameStake;
 
-    /* قفل الحقل بنفس المبلغ */
-    const stkInp = document.getElementById('appleStakeVal');
-    stkInp.value = sameStake;
-    stkInp.disabled = true;
-
     _setBal(_bal - sameStake); _updUI(); _save();
     document.getElementById('appleBalance').textContent = Number(_bal||0).toFixed(2);
 
@@ -1383,11 +1348,6 @@ function newBet(){
     appleState.cashoutMult = 1.00;
     appleState.wonAmount = 0;
 
-    /* فتح الحقل تاني */
-    const stkInp = document.getElementById('appleStakeVal');
-    stkInp.disabled = false;
-    if(!stkInp.value || Number(stkInp.value) < 10) stkInp.value = appleState.stake || 20;
-
     ['ctrlMax','ctrlHalf','ctrlDouble','ctrlMin'].forEach(id=>{
         const el = document.getElementById(id); if(el) el.disabled = false;
     });
@@ -1396,12 +1356,10 @@ function newBet(){
     updateAppleActionBtn();
 }
 
-/* ✅ appleCtrl مع حقل input */
 function appleCtrl(mode){
     if(appleState.stakePlaced) return;
 
-    const stkInp = document.getElementById('appleStakeVal');
-    let stake = Number(stkInp.value) || 20;
+    let stake = Number(document.getElementById('appleStakeVal').textContent) || 20;
 
     if(mode === 'min') stake = 10;
     else if(mode === 'double') stake = stake * 2;
@@ -1411,30 +1369,17 @@ function appleCtrl(mode){
     if(stake < 10) stake = 10;
     if(stake > _bal) stake = Math.floor(_bal);
 
-    stkInp.value = stake;
+    document.getElementById('appleStakeVal').textContent = stake;
 
     const disp = document.getElementById('appleStakeDisplay');
-    if(disp){
-        disp.classList.add('pop');
-        setTimeout(()=> disp.classList.remove('pop'), 300);
-    }
+    disp.classList.add('pop');
+    setTimeout(()=> disp.classList.remove('pop'), 300);
 }
 
 function addFunds(){
     closeApple();
     _openDep();
 }
-
-/* ✅ Live validation لحقل المبلغ */
-document.addEventListener('DOMContentLoaded', ()=>{
-    const stkInp = document.getElementById('appleStakeVal');
-    if(!stkInp) return;
-    stkInp.addEventListener('blur', ()=>{
-        let v = Number(stkInp.value);
-        if(!v || v < 10) stkInp.value = 10;
-        if(v > _bal && _bal >= 10) stkInp.value = Math.floor(_bal);
-    });
-});
 
 /* ============ AUTO-LOGIN ============ */
 document.addEventListener('DOMContentLoaded', ()=>{
